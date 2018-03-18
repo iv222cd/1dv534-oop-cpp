@@ -1,84 +1,109 @@
-// miserable.cpp
+/**********************************************************************/
+// File: miserable.cpp
+// Summary: Practice file for Lab 1, Step 1, Part A.
+//       The program performes the easy task of reading values from a
+//       file (templog.txt) and make statistical calculations and present
+//       these to the user, according to menu choise.
+// Version: Version 1.1 - 2018-03-18
+// Author:  Ingrid Wiklund/Anne Norling
+// -------------------------------------------
+// Log:  2018-03-18  Version 1.0 by Ingrid
+//                   Copied the file from the homepage of Course 1DV534.
+//                   The file is originally written by Anne Norling as
+//                   an example of badly written code.
+//       2018-03-18  Version 1.1 by Ingrid
+//                   Refactoring the code to follow code standard in  
+//                   Course 1DV534. Note that the functionality of the
+//                   programm should still be the same.
+/**********************************************************************/
 
 #include <iostream>
 #include <fstream>
 #include <iomanip>
+
 using namespace std;
 
 int main()
 {
-int i, a=1;
-double t, s, m;
-char b;
+   int cnt, continueProg = 1;
+   double temperature, sum, average;
+   char menuChoise;
 
-cout << "\n\nTemperature Statistics\n----------------------\n\nReading logged values for processing and presentation...\n\nPress Enter for menu: ";
-cin.get();
+   cout << "\n\nTemperature Statistics\n----------------------\n\nReading logged values for processing and presentation...\n\nPress Enter for menu: ";
+   cin.get();
 
-while(a)
-{
-system("cls");
-cout<<"\n\nMENU\n----\n\n1. Display temperature values\n2. View maximum and minimum temperatures\n3. View average temperature\n4. Quit\n\nMake your choice: ";
-cin.get(b);
-cin.get();
+   while (continueProg)
+   {
+      system("cls");
+      cout << "\n\nMENU\n----\n\n1. Display temperature values\n2. View maximum and minimum temperatures\n3. View average temperature\n4. Quit\n\nMake your choice: ";
+      cin.get(menuChoise);
+      cin.get();
+      
+      if (menuChoise == '1')
+      {
+         // Menu choise 1: Display temperature values
+         cout << "\nDisplaying the latest 24 temperature values:\n\n";
+         ifstream inFile("templog.txt");
 
-if(b=='1')
-{
-cout<<"\nDisplaying the latest 24 temperature values:\n\n";
-ifstream fil("templog.txt"); 	
-for(i=0;i<24;i++)
-{
-if(i%6==0)
-	cout<<endl;
-fil>>t;
-cout<<fixed<<setprecision(2)<<setw(8)<<t;
-}
-fil.close();
-}
+         for (cnt = 0; cnt < 24; cnt++)
+         {
 
-else if(b=='2')
-{
-cout<<"\nCalculating the maximum and minimum temperature...\n";
-double max=0, min=0;
-ifstream fil("templog.txt");	
-fil>>t;
-max=min=t;
-for(i=1;i<24;i++)
-{
-fil>>t;
-if(t>max)
-	max=t;
-if(t<min)
-	min=t;
-}
-fil.close();
-cout<<"\nMaximum temperature: "<<fixed<<setprecision(2)<<max<<" degrees Celcius\n";
-cout<<"\nMinimum temperature: "<<min<<" degrees Celcius\n";
-}
+            if (cnt % 6 == 0)
+               cout << endl;
+            inFile >> temperature;
+            cout << fixed << setprecision(2) << setw(8) << temperature;
+         }
+         inFile.close();
+      }
+      else if (menuChoise == '2')
+      {
+         // Menu choise 2: View maximum and minimum temperatures
+         cout << "\nCalculating the maximum and minimum temperature...\n";
+         double max = 0, min = 0;
+         ifstream inFile("templog.txt");
+         inFile >> temperature;
+         max = min = temperature;
 
-else if(b=='3')
-{
-cout<<"\nCalculating average temperature...\n";
-s=0.0;
-ifstream fil("templog.txt");
-for(i=0;i<24;i++)
-{
-fil>>t;
-s+=t;
-}
-fil.close();
-m=s/24;
-cout<<"\nAverage temperature: ";
-cout<<fixed<<setprecision(2)<<m<<" degrees Celcius\n";
-}
+         for (cnt = 1; cnt < 24; cnt++)
+         {
+            inFile >> temperature;
 
-else
-{
-a=0;
-cout << "\n\nTerminating the program.";
-}
-cout<<"\n\nPress Enter to continue:";
-cin.get();
-}
-return 0;
-}
+            if (temperature > max)
+               max = temperature;
 
+            if (temperature < min)
+               min = temperature;
+         }
+         inFile.close();
+         cout << "\nMaximum temperature: " << fixed << setprecision(2) << max << " degrees Celcius\n";
+         cout << "\nMinimum temperature: " << min << " degrees Celcius\n";
+      }
+      else if (menuChoise == '3')
+      {
+         // Menu choise 3: View average temperature
+         cout << "\nCalculating average temperature...\n";
+         sum = 0.0;
+         ifstream inFile("templog.txt");
+
+         for (cnt = 0; cnt < 24; cnt++)
+         {
+            inFile >> temperature;
+            sum += temperature;
+         }
+         inFile.close();
+         average = sum / 24;
+         cout << "\nAverage temperature: ";
+         cout << fixed << setprecision(2) << average << " degrees Celcius\n";
+      }
+      else
+      {
+         // Menu choise 4: Quit
+         continueProg = 0;
+         cout << "\n\nTerminating the program.";
+      }
+      cout << "\n\nPress Enter to continue:";
+      cin.get();
+   }
+
+   return 0;
+}
