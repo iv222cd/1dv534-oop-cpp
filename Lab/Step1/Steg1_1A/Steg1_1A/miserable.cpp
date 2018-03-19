@@ -21,10 +21,19 @@
 #include <fstream>
 #include <iomanip>
 
-using namespace std;
+using std::cout;
+using std::cin;
+using std::string;
+using std::ifstream;
+using std::fixed;
+using std::setprecision;
+using std::endl;
+using std::setw;
 
 int main()
 {
+   const string FILE_NAME_IN = "templog.txt";
+   const int NUMBER_OF_VAULES = 24;
    int cnt, continueProg = 1;
    double temperature, sum, average;
    char menuChoise;
@@ -43,9 +52,9 @@ int main()
       {
          // Menu choise 1: Display temperature values
          cout << "\nDisplaying the latest 24 temperature values:\n\n";
-         ifstream inFile("templog.txt");
+         ifstream inFile(FILE_NAME_IN);
 
-         for (cnt = 0; cnt < 24; cnt++)
+         for (cnt = 0; cnt < NUMBER_OF_VAULES; cnt++)
          {
 
             if (cnt % 6 == 0)
@@ -60,11 +69,11 @@ int main()
          // Menu choise 2: View maximum and minimum temperatures
          cout << "\nCalculating the maximum and minimum temperature...\n";
          double max = 0, min = 0;
-         ifstream inFile("templog.txt");
+         ifstream inFile(FILE_NAME_IN);
          inFile >> temperature;
          max = min = temperature;
 
-         for (cnt = 1; cnt < 24; cnt++)
+         for (cnt = 1; cnt < NUMBER_OF_VAULES; cnt++)
          {
             inFile >> temperature;
 
@@ -83,15 +92,15 @@ int main()
          // Menu choise 3: View average temperature
          cout << "\nCalculating average temperature...\n";
          sum = 0.0;
-         ifstream inFile("templog.txt");
+         ifstream inFile(FILE_NAME_IN);
 
-         for (cnt = 0; cnt < 24; cnt++)
+         for (cnt = 0; cnt < NUMBER_OF_VAULES; cnt++)
          {
             inFile >> temperature;
             sum += temperature;
          }
          inFile.close();
-         average = sum / 24;
+         average = sum / NUMBER_OF_VAULES;
          cout << "\nAverage temperature: ";
          cout << fixed << setprecision(2) << average << " degrees Celcius\n";
       }
