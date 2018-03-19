@@ -36,9 +36,20 @@ int main()
    const int NUMBER_OF_VAULES = 24;
    int cnt;
    bool continueProg = true;
-   double temperature, sum, average;
+   double temperature[NUMBER_OF_VAULES];
+   double sum, average;
    char menuChoice;
 
+   // Read values from file
+   ifstream inFile(FILE_NAME_IN);
+
+   for (cnt = 0; cnt < NUMBER_OF_VAULES; cnt++)
+   {
+      inFile >> temperature[cnt];
+   }
+   inFile.close();
+
+   // Start output
    cout << "\n\nTemperature Statistics\n----------------------\n\nReading logged values for processing and presentation...\n\nPress Enter for menu: ";
    cin.get();
 
@@ -55,17 +66,14 @@ int main()
       case '1':
       {
          cout << "\nDisplaying the latest 24 temperature values:\n\n";
-         ifstream inFile(FILE_NAME_IN);
 
          for (cnt = 0; cnt < NUMBER_OF_VAULES; cnt++)
          {
 
             if (cnt % 6 == 0)
                cout << endl;
-            inFile >> temperature;
-            cout << fixed << setprecision(2) << setw(8) << temperature;
+            cout << fixed << setprecision(2) << setw(8) << temperature[cnt];
          }
-         inFile.close();
          break;
       }
       // Menu choice 2: View maximum and minimum temperatures
@@ -73,21 +81,16 @@ int main()
       {
          cout << "\nCalculating the maximum and minimum temperature...\n";
          double max = 0, min = 0;
-         ifstream inFile(FILE_NAME_IN);
-         inFile >> temperature;
-         max = min = temperature;
+         max = min = temperature[0];
 
          for (cnt = 1; cnt < NUMBER_OF_VAULES; cnt++)
          {
-            inFile >> temperature;
+            if (temperature[cnt] > max)
+               max = temperature[cnt];
 
-            if (temperature > max)
-               max = temperature;
-
-            if (temperature < min)
-               min = temperature;
+            if (temperature[cnt] < min)
+               min = temperature[cnt];
          }
-         inFile.close();
          cout << "\nMaximum temperature: " << fixed << setprecision(2) << max << " degrees Celcius\n";
          cout << "\nMinimum temperature: " << min << " degrees Celcius\n";
       }
@@ -96,14 +99,11 @@ int main()
       {
          cout << "\nCalculating average temperature...\n";
          sum = 0.0;
-         ifstream inFile(FILE_NAME_IN);
 
          for (cnt = 0; cnt < NUMBER_OF_VAULES; cnt++)
          {
-            inFile >> temperature;
-            sum += temperature;
+            sum += temperature[cnt];
          }
-         inFile.close();
          average = sum / NUMBER_OF_VAULES;
          cout << "\nAverage temperature: ";
          cout << fixed << setprecision(2) << average << " degrees Celcius\n";
