@@ -35,8 +35,9 @@ int main()
    const string FILE_NAME_IN = "templog.txt";
    const int NUMBER_OF_VAULES = 24;
    int cnt, continueProg = 1;
+   bool continueProg = true;
    double temperature, sum, average;
-   char menuChoise;
+   char menuChoice;
 
    cout << "\n\nTemperature Statistics\n----------------------\n\nReading logged values for processing and presentation...\n\nPress Enter for menu: ";
    cin.get();
@@ -45,12 +46,14 @@ int main()
    {
       system("cls");
       cout << "\n\nMENU\n----\n\n1. Display temperature values\n2. View maximum and minimum temperatures\n3. View average temperature\n4. Quit\n\nMake your choice: ";
-      cin.get(menuChoise);
+      cin.get(menuChoice);
       cin.get();
       
-      if (menuChoise == '1')
+      switch (menuChoice)
       {
-         // Menu choise 1: Display temperature values
+      // Menu choice 1: Display temperature values
+      case '1':
+      {
          cout << "\nDisplaying the latest 24 temperature values:\n\n";
          ifstream inFile(FILE_NAME_IN);
 
@@ -63,10 +66,11 @@ int main()
             cout << fixed << setprecision(2) << setw(8) << temperature;
          }
          inFile.close();
+         break;
       }
-      else if (menuChoise == '2')
+      // Menu choice 2: View maximum and minimum temperatures
+      case '2':
       {
-         // Menu choise 2: View maximum and minimum temperatures
          cout << "\nCalculating the maximum and minimum temperature...\n";
          double max = 0, min = 0;
          ifstream inFile(FILE_NAME_IN);
@@ -87,9 +91,9 @@ int main()
          cout << "\nMaximum temperature: " << fixed << setprecision(2) << max << " degrees Celcius\n";
          cout << "\nMinimum temperature: " << min << " degrees Celcius\n";
       }
-      else if (menuChoise == '3')
+      // Menu choice 3: View average temperature
+      case '3':
       {
-         // Menu choise 3: View average temperature
          cout << "\nCalculating average temperature...\n";
          sum = 0.0;
          ifstream inFile(FILE_NAME_IN);
@@ -103,11 +107,13 @@ int main()
          average = sum / NUMBER_OF_VAULES;
          cout << "\nAverage temperature: ";
          cout << fixed << setprecision(2) << average << " degrees Celcius\n";
+         break;
       }
-      else
+      // Menu choice 4: Quit
+      case '4': // Fall through intendeed.
+      default:
       {
-         // Menu choise 4: Quit
-         continueProg = 0;
+         continueProg = false;
          cout << "\n\nTerminating the program.";
       }
       cout << "\n\nPress Enter to continue:";
