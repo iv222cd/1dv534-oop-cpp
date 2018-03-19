@@ -34,7 +34,7 @@ int main()
 {
    const string FILE_NAME_IN = "templog.txt";
    const int NUMBER_OF_VAULES = 24;
-   int cnt, continueProg = 1;
+   int cnt;
    bool continueProg = true;
    double temperature, sum, average;
    char menuChoice;
@@ -115,6 +115,7 @@ int main()
       {
          continueProg = false;
          cout << "\n\nTerminating the program.";
+      }
       }
       cout << "\n\nPress Enter to continue:";
       cin.get();
