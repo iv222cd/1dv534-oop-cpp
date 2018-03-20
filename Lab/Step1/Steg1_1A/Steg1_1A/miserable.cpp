@@ -20,6 +20,7 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
+#include <string>
 
 using std::cout;
 using std::cin;
@@ -41,34 +42,56 @@ int main()
    double max = 0, min = 0;
    char menuChoice;
 
+   // Start output
+   cout << "\n\nTemperature Statistics\n----------------------\n\nReading logged values for processing and presentation...\n";
+
    // Read values from file
    ifstream inFile(FILE_NAME_IN);
 
-   for (cnt = 0; cnt < NUMBER_OF_VAULES; cnt++)
+   if (inFile.is_open())
    {
-      inFile >> temperature[cnt];
+      for (cnt = 0; cnt < NUMBER_OF_VAULES; cnt++)
+      {
+         inFile >> temperature[cnt];
+         if (!inFile)
+         {
+            cout << "Could not read values from file " << FILE_NAME_IN << "\n\nTerminating the program.";
+            cin.get();
+            continueProg = false;
+            break;
+         }
+      }
+      inFile.close();
    }
-   inFile.close();
-
-   // Calculate average and min/max
-   max = min = temperature[0];
-   sum = 0.0;
-
-   for (cnt = 1; cnt < NUMBER_OF_VAULES; cnt++)
+   else
    {
-      sum += temperature[cnt];
-
-      if (temperature[cnt] > max)
-         max = temperature[cnt];
-
-      if (temperature[cnt] < min)
-         min = temperature[cnt];
+      cout << "Could not open file " << FILE_NAME_IN << "\n\nTerminating the program.";
+      cin.get();
+      continueProg = false;
    }
-   average = sum / NUMBER_OF_VAULES;
 
-   // Start output
-   cout << "\n\nTemperature Statistics\n----------------------\n\nReading logged values for processing and presentation...\n\nPress Enter for menu: ";
-   cin.get();
+   if (continueProg)
+   {
+      // Calculate average and min/max
+      max = min = temperature[0];
+      sum = 0.0;
+
+      for (cnt = 1; cnt < NUMBER_OF_VAULES; cnt++)
+      {
+         sum += temperature[cnt];
+
+         if (temperature[cnt] > max)
+            max = temperature[cnt];
+
+         if (temperature[cnt] < min)
+            min = temperature[cnt];
+      }
+      average = sum / NUMBER_OF_VAULES;
+
+
+      cout << "\nPress Enter for menu: ";
+      cin.get();
+   }
 
    while (continueProg)
    {
