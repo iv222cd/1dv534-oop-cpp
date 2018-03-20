@@ -97,7 +97,12 @@ int main()
    while (continueProg)
    {
       system("cls");
-      cout << "\n\nMENU\n----\n\n1. Display temperature values\n2. View maximum and minimum temperatures\n3. View average temperature\n4. Quit\n\nMake your choice: ";
+      cout << "\n\nMENU\n----\n";
+      cout << "\n1.Display temperature values";
+      cout << "\n2.View maximum and minimum temperatures";
+      cout << "\n3.View average temperature";
+      cout << "\n4.Quit";
+      cout << "\n\nMake your choice : ";
       cin.get(menuChoice);
       cin.get();
       
@@ -123,6 +128,7 @@ int main()
          cout << "\nCalculating the maximum and minimum temperature...\n";
          cout << "\nMaximum temperature: " << fixed << setprecision(2) << max << " degrees Celcius\n";
          cout << "\nMinimum temperature: " << min << " degrees Celcius\n";
+         break;
       }
       // Menu choice 3: View average temperature
       case '3':
@@ -133,10 +139,15 @@ int main()
          break;
       }
       // Menu choice 4: Quit
-      case '4': // Fall through intendeed.
-      default:
+      case '4':
       {
          continueProg = false;
+         break;
+      }
+      default:
+      {
+         cout << "\n'" << menuChoice << "' is not a valid manu choice. Please make a choice from the menu.\n";
+         break;
       }
       }
 
