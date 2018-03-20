@@ -43,7 +43,8 @@ int main()
    char menuChoice;
 
    // Start output
-   cout << "\n\nTemperature Statistics\n----------------------\n\nReading logged values for processing and presentation...\n";
+   cout << "\n\nTemperature Statistics\n----------------------\n";
+   cout << "\nReading logged values for processing and presentation...\n";
 
    // Read values from file
    ifstream inFile(FILE_NAME_IN);
@@ -55,7 +56,7 @@ int main()
          inFile >> temperature[cnt];
          if (!inFile)
          {
-            cout << "Could not read values from file " << FILE_NAME_IN << "\n\nTerminating the program.";
+            cout << "Could not read values from file " << FILE_NAME_IN;
             cin.get();
             continueProg = false;
             break;
@@ -65,7 +66,7 @@ int main()
    }
    else
    {
-      cout << "Could not open file " << FILE_NAME_IN << "\n\nTerminating the program.";
+      cout << "Could not open file " << FILE_NAME_IN;
       cin.get();
       continueProg = false;
    }
@@ -136,12 +137,19 @@ int main()
       default:
       {
          continueProg = false;
-         cout << "\n\nTerminating the program.";
       }
       }
-      cout << "\n\nPress Enter to continue:";
-      cin.get();
+
+      if (continueProg)
+      {
+         cout << "\n\nPress Enter to continue:";
+         cin.get();
+      }
    }
+
+   cout << "\n\nTerminating the program.";
+   cout << "\n\nPress Enter to continue:";
+   cin.get();
 
    return 0;
 }
