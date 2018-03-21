@@ -154,13 +154,13 @@ int main()
       if (continueProg)
       {
          cout << "\n\nPress Enter to continue:";
-         cin.get();
+         cin.ignore(INT_MAX, '\n'); // Remove any trailing chars that the user migth have written.
       }
    }
 
    cout << "\n\nTerminating the program.";
    cout << "\n\nPress Enter to continue:";
-   cin.get();
+   cin.ignore(INT_MAX, '\n'); // Remove any trailing chars that the user migth have written.
 
    return 0;
 }
