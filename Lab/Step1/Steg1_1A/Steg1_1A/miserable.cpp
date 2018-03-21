@@ -104,51 +104,51 @@ int main()
       cout << "\n4.Quit";
       cout << "\n\nMake your choice : ";
       cin.get(menuChoice);
-      cin.get();
+      cin.ignore(INT_MAX, '\n'); // Remove any trailing chars that the user migth have written.
       
       switch (menuChoice)
       {
-      // Menu choice 1: Display temperature values
-      case '1':
-      {
-         cout << "\nDisplaying the latest 24 temperature values:\n\n";
-
-         for (cnt = 0; cnt < NUMBER_OF_VAULES; cnt++)
+         // Menu choice 1: Display temperature values
+         case '1':
          {
+            cout << "\nDisplaying the latest 24 temperature values:\n\n";
 
-            if (cnt % 6 == 0)
-               cout << endl;
-            cout << fixed << setprecision(2) << setw(8) << temperature[cnt];
+            for (cnt = 0; cnt < NUMBER_OF_VAULES; cnt++)
+            {
+
+               if (cnt % 6 == 0)
+                  cout << endl;
+               cout << fixed << setprecision(2) << setw(8) << temperature[cnt];
+            }
+            break;
          }
-         break;
-      }
-      // Menu choice 2: View maximum and minimum temperatures
-      case '2':
-      {
-         cout << "\nCalculating the maximum and minimum temperature...\n";
-         cout << "\nMaximum temperature: " << fixed << setprecision(2) << max << " degrees Celcius\n";
-         cout << "\nMinimum temperature: " << min << " degrees Celcius\n";
-         break;
-      }
-      // Menu choice 3: View average temperature
-      case '3':
-      {
-         cout << "\nCalculating average temperature...\n";
-         cout << "\nAverage temperature: ";
-         cout << fixed << setprecision(2) << average << " degrees Celcius\n";
-         break;
-      }
-      // Menu choice 4: Quit
-      case '4':
-      {
-         continueProg = false;
-         break;
-      }
-      default:
-      {
-         cout << "\n'" << menuChoice << "' is not a valid manu choice. Please make a choice from the menu.\n";
-         break;
-      }
+         // Menu choice 2: View maximum and minimum temperatures
+         case '2':
+         {
+            cout << "\nCalculating the maximum and minimum temperature...\n";
+            cout << "\nMaximum temperature: " << fixed << setprecision(2) << max << " degrees Celcius\n";
+            cout << "\nMinimum temperature: " << min << " degrees Celcius\n";
+            break;
+         }
+         // Menu choice 3: View average temperature
+         case '3':
+         {
+            cout << "\nCalculating average temperature...\n";
+            cout << "\nAverage temperature: ";
+            cout << fixed << setprecision(2) << average << " degrees Celcius\n";
+            break;
+         }
+         // Menu choice 4: Quit
+         case '4':
+         {
+            continueProg = false;
+            break;
+         }
+         default:
+         {
+            cout << "\n'" << menuChoice << "' is not a valid menu choice. Please make a choice from the menu.\n";
+            break;
+         }
       }
 
       if (continueProg)
