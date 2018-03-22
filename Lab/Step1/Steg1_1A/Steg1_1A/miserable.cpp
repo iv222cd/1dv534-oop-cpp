@@ -15,6 +15,10 @@
 //                   Refactoring the code to follow code standard in  
 //                   Course 1DV534. Note that the functionality of the
 //                   programm should still be the same.
+//       2018-03-22  Version 1.2 by Ingrid
+//                   Restructured the code to be more clear, flexible and
+//                   safe. Added error handling for file read and user input.
+
 /**********************************************************************/
 
 #include <iostream>
@@ -40,14 +44,13 @@ int main()
 {
    const string FILE_NAME_IN = "templog.txt";
    const int NUMBER_OF_VAULES = 24;
-   int cnt;
    bool continueProg = true;
    double temperature[NUMBER_OF_VAULES];
-   double average;
-   double max = 0, min = 0;
+   double average, max = 0, min = 0;
    char menuChoice = 'i';
 
-   cout << "\n\nTemperature Statistics\n----------------------\n";
+   cout << "\n\nTemperature Statistics";
+   cout << "\n----------------------\n";
 
    while (continueProg)
    {
@@ -73,7 +76,7 @@ int main()
          {
             cout << "\nDisplaying the latest 24 temperature values:\n\n";
 
-            for (cnt = 0; cnt < NUMBER_OF_VAULES; cnt++)
+            for (int cnt = 0; cnt < NUMBER_OF_VAULES; cnt++)
             {
                if (cnt % 6 == 0)
                   cout << endl;
