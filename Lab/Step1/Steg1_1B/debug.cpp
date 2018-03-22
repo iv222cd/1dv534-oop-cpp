@@ -23,7 +23,7 @@ using namespace std;
 int main()
 {
 	char *pStr, str[SIZE] = "", newStr[SIZE] = "", ch;
-	int count, i = 0;
+	int count = 0, i = 0, j;
 
 	cout << "Enter a number of mixed characters: ";
 	cin.getline(str, SIZE);
@@ -31,7 +31,7 @@ int main()
 	
 	while (*pStr != '\0')
 	{
-		if (isalnum(*pStr)
+		if (isalnum(*pStr))
 			ch = toupper(*pStr);
 			newStr[i++] = ch;
 		
@@ -41,7 +41,7 @@ int main()
 	}
 	newStr[i] = '\0';
 
-	cout << strlen(str) - strlen(newStr) << " characters were filtered out,
+	cout << strlen(str) - strlen(newStr) << " characters were filtered out,"
 		<< " out of which " << count << " whitespaces were encountered.\n";
 	
 	int temp;
@@ -58,7 +58,7 @@ int main()
 			}
 		}
 	}
-	cout << "New sorted string: " << newStr << endl
+   cout << "New sorted string: " << newStr << endl;
 	
 	return 0;
 }
