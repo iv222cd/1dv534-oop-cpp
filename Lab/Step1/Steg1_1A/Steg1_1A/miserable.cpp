@@ -75,7 +75,6 @@ int main()
 
             for (cnt = 0; cnt < NUMBER_OF_VAULES; cnt++)
             {
-
                if (cnt % 6 == 0)
                   cout << endl;
                cout << fixed << setprecision(2) << setw(8) << temperature[cnt];
@@ -135,6 +134,9 @@ int main()
    return 0;
 }
 
+/**
+* @brief  Clear consol and print program menu.
+*/
 void showMenu()
 {
    system("cls");
@@ -146,6 +148,13 @@ void showMenu()
    cout << "\n4.Quit\n";
 }
 
+/**
+* @brief  Get the menu choice of the user from consol input.
+* 
+* If an unvalid char is given, the user will be promted again. All other chars until new line will be ignored.
+*
+* @return  Char number between '1' and '4' representing the users choise.
+*/
 char getMenuCoice()
 {
    char menuChoice;
@@ -169,6 +178,14 @@ char getMenuCoice()
    return menuChoice;
 }
 
+/**
+* @brief  Read blank separated double values from a file.
+*
+* @param fileName    Input file with values
+* @param values      Pointer to array where values can be stored. Needs to be of at least size.
+* @param size        Number of values to read. Length of array values.
+* @return            true if the reading suceeded, false otherwise.
+*/
 bool readValuesFromFile(string fileName, double* values, int size)
 {
    bool status = true;
@@ -199,6 +216,15 @@ bool readValuesFromFile(string fileName, double* values, int size)
    return status;
 }
 
+/**
+* @brief  Calculate min, max and average from an double array
+*
+* @param values      Pointer to input array with values.
+* @param size        Length of array values.
+* @param min         Pointer to parameter for min result output.
+* @param max         Pointer to parameter for max result output.
+* @param average     Pointer to parameter for average result output.
+*/
 void doCalulations(double* values, int size, double* min, double* max, double* average)
 {
    // Calculate average and min/max
