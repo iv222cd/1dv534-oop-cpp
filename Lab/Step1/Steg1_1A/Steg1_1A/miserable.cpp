@@ -98,14 +98,10 @@ int main()
             break;
          }
          // Menu choice 4: Quit
-         case '4':
-         {
-            continueProg = false;
-            break;
-         }
+         case '4': /* Fall through intended*/
          default:
          {
-            cout << "\n'" << menuChoice << "' is not a valid menu choice. Please make a choice from the menu.\n";
+            continueProg = false;
             break;
          }
       }
