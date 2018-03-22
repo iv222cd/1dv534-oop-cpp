@@ -22,7 +22,7 @@ using namespace std;
 
 int main()
 {
-	char *pStr, str[SIZE] = "", newStr[SIZE] = "", ch;
+	char *pStr, str[SIZE], newStr[SIZE], ch;
 	int count = 0, i = 0, j;
 
 	cout << "Enter a number of mixed characters: ";
@@ -31,11 +31,13 @@ int main()
 	
 	while (*pStr != '\0')
 	{
-		if (isalnum(*pStr))
+      if (isalnum(*pStr))
+      {
 			ch = toupper(*pStr);
 			newStr[i++] = ch;
+      }
 		
-		if (*pStr = ' ')
+      if (*pStr == ' ')
 			count++;
 		pStr++;
 	}
@@ -50,7 +52,7 @@ int main()
 	{
 		for (j = i + 1; j < strlen(newStr); j++);
 		{
-			if (newStr[j] < newStr[i])	// sorts in alphabetical
+			if (newStr[j] >= newStr[i])	// sorts in alphabetical
 			{						// and numerical order 
 				temp = newStr[i];			
 				newStr[i] = newStr[j];
@@ -59,6 +61,7 @@ int main()
 		}
 	}
    cout << "New sorted string: " << newStr << endl;
+   cin.get();
 	
 	return 0;
 }
