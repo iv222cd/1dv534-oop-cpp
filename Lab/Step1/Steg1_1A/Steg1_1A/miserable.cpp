@@ -31,6 +31,11 @@ using std::setprecision;
 using std::endl;
 using std::setw;
 
+void showMenu();
+char getMenuCoice();
+bool readValuesFromFile(string fileName, double* values, int size);
+void doCalulations(double* values, int size, double* min, double* max, double* average);
+
 int main()
 {
    const string FILE_NAME_IN = "templog.txt";
@@ -38,76 +43,31 @@ int main()
    int cnt;
    bool continueProg = true;
    double temperature[NUMBER_OF_VAULES];
-   double sum, average;
+   double average;
    double max = 0, min = 0;
-   char menuChoice;
+   char menuChoice = 'i';
 
-   // Start output
    cout << "\n\nTemperature Statistics\n----------------------\n";
-   cout << "\nReading logged values for processing and presentation...\n";
-
-   // Read values from file
-   ifstream inFile(FILE_NAME_IN);
-
-   if (inFile.is_open())
-   {
-      for (cnt = 0; cnt < NUMBER_OF_VAULES; cnt++)
-      {
-         inFile >> temperature[cnt];
-         if (!inFile)
-         {
-            cout << "Could not read values from file " << FILE_NAME_IN;
-            cin.get();
-            continueProg = false;
-            break;
-         }
-      }
-      inFile.close();
-   }
-   else
-   {
-      cout << "Could not open file " << FILE_NAME_IN;
-      cin.get();
-      continueProg = false;
-   }
-
-   if (continueProg)
-   {
-      // Calculate average and min/max
-      max = min = temperature[0];
-      sum = 0.0;
-
-      for (cnt = 1; cnt < NUMBER_OF_VAULES; cnt++)
-      {
-         sum += temperature[cnt];
-
-         if (temperature[cnt] > max)
-            max = temperature[cnt];
-
-         if (temperature[cnt] < min)
-            min = temperature[cnt];
-      }
-      average = sum / NUMBER_OF_VAULES;
-
-
-      cout << "\nPress Enter for menu: ";
-      cin.get();
-   }
 
    while (continueProg)
    {
-      system("cls");
-      cout << "\n\nMENU\n----\n";
-      cout << "\n1.Display temperature values";
-      cout << "\n2.View maximum and minimum temperatures";
-      cout << "\n3.View average temperature";
-      cout << "\n4.Quit";
-      cout << "\n\nMake your choice : ";
-      cin.get(menuChoice);
-      cin.ignore(INT_MAX, '\n'); // Remove any trailing chars that the user migth have written.
-      
       switch (menuChoice)
       {
+         // Init: Read values from file and calculate min, max and avg.
+         case 'i':
+         {
+            cout << "\nReading logged values for processing and presentation...\n";
+
+            if (readValuesFromFile(FILE_NAME_IN, temperature, NUMBER_OF_VAULES))
+            {
+               doCalulations(temperature, NUMBER_OF_VAULES, &min, &max, &average);
+            }
+            else
+            {
+               continueProg = false;
+            }
+            break;
+         }
          // Menu choice 1: Display temperature values
          case '1':
          {
@@ -153,8 +113,18 @@ int main()
 
       if (continueProg)
       {
-         cout << "\n\nPress Enter to continue:";
+         if (menuChoice == 'i')
+         {
+            cout << "\nPress Enter for menu: ";
+         }
+         else
+         {
+            cout << "\n\nPress Enter to continue:";
+         }
          cin.ignore(INT_MAX, '\n'); // Remove any trailing chars that the user migth have written.
+
+         showMenu();
+         menuChoice = getMenuCoice();
       }
    }
 
@@ -163,4 +133,87 @@ int main()
    cin.ignore(INT_MAX, '\n'); // Remove any trailing chars that the user migth have written.
 
    return 0;
+}
+
+void showMenu()
+{
+   system("cls");
+   cout << "\n";
+   cout << "\nMENU\n----\n";
+   cout << "\n1.Display temperature values";
+   cout << "\n2.View maximum and minimum temperatures";
+   cout << "\n3.View average temperature";
+   cout << "\n4.Quit\n";
+}
+
+char getMenuCoice()
+{
+   char menuChoice;
+   bool valid = false;
+   
+   cout << "\nMake your choice : ";
+   
+   while (!valid)
+   {
+      cin.get(menuChoice);
+      cin.ignore(INT_MAX, '\n'); // Remove any trailing chars that the user migth have written.
+      if (menuChoice < '1' || menuChoice > '4')
+      {
+         cout << "\n'" << menuChoice << "' is not a valid menu choice. Please make a choice from the menu.\n";
+      }
+      else
+      {
+         valid = true;
+      }
+   }
+   return menuChoice;
+}
+
+bool readValuesFromFile(string fileName, double* values, int size)
+{
+   bool status = true;
+   // Read values from file
+   ifstream inFile(fileName);
+
+   if (inFile.is_open())
+   {
+      for (int cnt = 0; cnt < size; cnt++)
+      {
+         inFile >> values[cnt];
+         if (!inFile)
+         {
+            cout << "Could not read values from file " << fileName;
+            cin.get();
+            status = false;
+            break;
+         }
+      }
+      inFile.close();
+   }
+   else
+   {
+      cout << "Could not open file " << fileName;
+      cin.get();
+      status = false;
+   }
+   return status;
+}
+
+void doCalulations(double* values, int size, double* min, double* max, double* average)
+{
+   // Calculate average and min/max
+   *max = *min = values[0];
+   double sum = 0.0;
+
+   for (int cnt = 1; cnt < size; cnt++)
+   {
+      sum += values[cnt];
+
+      if (values[cnt] > *max)
+         *max = values[cnt];
+
+      if (values[cnt] < *min)
+         *min = values[cnt];
+   }
+   *average = sum / size;
 }
