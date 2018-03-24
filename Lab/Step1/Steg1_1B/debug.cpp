@@ -46,13 +46,13 @@ int main()
 	cout << strlen(str) - strlen(newStr) << " characters were filtered out,"
 		<< " out of which " << count << " whitespaces were encountered.\n";
 	
-	int temp;
+	char temp;
 
-	for (i = 0; i < strlen(newStr) - 1; i++);
+	for (i = 0; i < strlen(newStr) - 1; i++)
 	{
-		for (j = i + 1; j < strlen(newStr); j++);
+		for (j = i + 1; j < strlen(newStr); j++)
 		{
-			if (newStr[j] >= newStr[i])	// sorts in alphabetical
+			if (newStr[j] < newStr[i])	// sorts in alphabetical
 			{						// and numerical order 
 				temp = newStr[i];			
 				newStr[i] = newStr[j];
