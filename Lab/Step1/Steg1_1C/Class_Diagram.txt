@@ -1,0 +1,36 @@
+@startuml
+
+Class Application {
+    int status
+    bool terminate
+    void run()
+}
+
+Class Values {
+    double buffer
+    int numberOfIterms
+    double min
+    double max
+    double average
+    void addValue()
+    void doCalculations()
+    double getMin()
+    double getMax()
+    double getAverage()
+}
+
+Class Menu {
+    void showMenu()
+    char getMenuChoice()
+}
+
+Class File {
+    string fileName
+    bool readValues()
+}
+
+Application *-- Menu
+Application *-- File
+Application *-- Values
+File .. Values
+@enduml
