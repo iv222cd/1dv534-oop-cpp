@@ -1,36 +1,44 @@
 @startuml
 
-participant Application
-participant File
+participant TemperatureApp
 participant Values
+participant File
 participant Menu
 
-activate Application
-Application -> File : Create File Object
-activate File
-Application -> File : Read values from File
-File -> Values : Store values
-deactivate File
+activate TemperatureApp
 activate Values
-Application -> Values : Calculate statistics
+TemperatureApp -> Values : Read Values From File
+Values -> File : Open
+activate File
+
+loop over all values
+
+    Values -> File : Read all values
+    Values -> Values : Store values
+    
+end
+
+Values -> File : Close
+deactivate File
+TemperatureApp -> Values : Calculate statistics
 
 activate Menu
 
 loop until Quit Choice given.
 
-    Application -> Menu : Print Menu
-    Application -> Menu : Read Menu Coice
+    TemperatureApp -> Menu : Print Menu
+    TemperatureApp -> Menu : Read Menu Coice
     
-    Application -> Values : Get values and/or statistics
-    Application -> Application : Print requested values and/or statistics
+    TemperatureApp -> Values : Get values and/or statistics
+    TemperatureApp -> TemperatureApp : Print requested values and/or statistics
 
 end
 
 deactivate Values
 deactivate Menu
 
-Application -> Application : Terminate Program
+TemperatureApp -> TemperatureApp : Terminate Program
 
-deactivate Application
+deactivate TemperatureApp
 
 @enduml

@@ -25,16 +25,16 @@ using std::string;
 /**
 * @brief    Class for running the application miserable.
 */
-class temperatureApp
+class TemperatureApp
 {
    bool quit;            // Set to true if the application should terminate.
    int status;           // Application status. Ok is 0.
    Menu menu;            // Menu object
    Values temperature;   // Object for temperature values
 public:
-   temperatureApp();
-   temperatureApp(string fileName, int numOfValues);
-   ~temperatureApp();
+   TemperatureApp();
+   TemperatureApp(string fileName, int numOfValues);
+   ~TemperatureApp();
    int run();
    void displayAppInfo();
    void displayValues(Values buffer);
@@ -47,21 +47,21 @@ public:
 /**
 * @brief    Constructor
 */
-temperatureApp::temperatureApp()
+TemperatureApp::TemperatureApp()
 {
 }
 
 /**
 * @brief    Parameterized Constructor
 */
-temperatureApp::temperatureApp(string fileNameIn, int numOfValues) : quit(false), status(0), temperature(fileNameIn, numOfValues)
+TemperatureApp::TemperatureApp(string fileNameIn, int numOfValues) : quit(false), status(0), temperature(fileNameIn, numOfValues)
 {
 }
 
 /**
 * @brief    Destructor
 */
-temperatureApp::~temperatureApp()
+TemperatureApp::~TemperatureApp()
 {
 }
 
@@ -70,7 +70,7 @@ temperatureApp::~temperatureApp()
 * 
 * @return   Application termination status. Status ok if 0, error otherwise.
 */
-int temperatureApp::run()
+int TemperatureApp::run()
 {
    bool first_run = true;
    // Display first info.
@@ -121,7 +121,7 @@ int temperatureApp::run()
 /**
 * @brief    Display information about the application to CLI
 */
-void temperatureApp::displayAppInfo()
+void TemperatureApp::displayAppInfo()
 {
    cout << "\n";
    cout << "\nTemperature Statistics";
@@ -132,7 +132,7 @@ void temperatureApp::displayAppInfo()
 /**
 * @brief    Display temperature values in buffer to CLI
 */
-void temperatureApp::displayValues(Values buffer)
+void TemperatureApp::displayValues(Values buffer)
 {
    cout << "\nDisplaying the latest " << buffer.getNumberOfValues() << " temperature values:";
    cout << "\n";
@@ -148,7 +148,7 @@ void temperatureApp::displayValues(Values buffer)
 /**
 * @brief    Display min and max values of buffer to CLI
 */
-void temperatureApp::viewMaxAndMin(double max, double min)
+void TemperatureApp::viewMaxAndMin(double max, double min)
 {
    cout << "\nCalculating the maximum and minimum temperature...";
    cout << "\n";
@@ -161,7 +161,7 @@ void temperatureApp::viewMaxAndMin(double max, double min)
 /**
 * @brief    Display average value of buffer to CLI
 */
-void temperatureApp::viewAverage(double average)
+void TemperatureApp::viewAverage(double average)
 {
    cout << "\nCalculating average temperature...";
    cout << "\n";
@@ -175,7 +175,7 @@ void temperatureApp::viewAverage(double average)
 * @param    waitForMenu    set to true to display menu waiting option.
 *                          set to false otherwise and a more generec message will follow
 */
-void temperatureApp::waitForUser(bool waitForMenu)
+void TemperatureApp::waitForUser(bool waitForMenu)
 {
    cout << "\n";
    if (waitForMenu)
@@ -192,7 +192,7 @@ void temperatureApp::waitForUser(bool waitForMenu)
 /**
 * @brief    Display quit message to CLI
 */
-void temperatureApp::viewQuitMessage()
+void TemperatureApp::viewQuitMessage()
 {
    cout << "\n";
    cout << "\nTerminating the program.";
@@ -202,7 +202,7 @@ int main()
 {
    const string APP_FILE_PATH = "templog.txt";
    const int NUM_OF_VALUES = 24;
-   temperatureApp app(APP_FILE_PATH, NUM_OF_VALUES);
+   TemperatureApp app(APP_FILE_PATH, NUM_OF_VALUES);
 
    return app.run();
 }

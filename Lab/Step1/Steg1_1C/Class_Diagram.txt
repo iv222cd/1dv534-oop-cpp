@@ -1,36 +1,42 @@
 @startuml
 
-Class Application {
-    int status
-    bool terminate
-    void run()
+Class TemperatureApp {
+   bool quit
+   int status
+public:
+   int run()
+   void displayAppInfo()
+   void displayValues(Values buffer)
+   void viewMaxAndMin(double max, double min)
+   void viewAverage(double average)
+   void waitForUser(bool waitForMenu)
+   void viewQuitMessage()
 }
 
 Class Values {
-    double buffer
-    int numberOfIterms
-    double min
-    double max
-    double average
-    void addValue()
-    void doCalculations()
-    double getMin()
-    double getMax()
-    double getAverage()
+   double buffer
+   bool bufferValid
+   int numberOfValues
+   double min
+   double max
+   double average
+   string inFileName
+   
+   bool readValuesFromFile()
+   void doCalulations()
+   double getMin()
+   double getMax()
+   double getAverage()
+   double getNumberOfValues()
+   double getValue(int index)
+   string getInFileName()
 }
 
 Class Menu {
-    void showMenu()
-    char getMenuChoice()
+   void showMenu()
+   menuChoice getMenuChoice()
 }
 
-Class File {
-    string fileName
-    bool readValues()
-}
-
-Application *-- Menu
-Application *-- File
-Application *-- Values
-File .. Values
+TemperatureApp *-- Menu
+TemperatureApp *-- Values
 @enduml
