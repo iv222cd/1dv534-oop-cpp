@@ -1,76 +1,82 @@
 #include "Values.h"
+#include <fstream>
 
 #include <iostream> //TODO remove
 //TODO write function headers
 
-Values::Values() : numberOfValues(0)
+using std::ifstream;
+
+Values::Values() : numberOfValues_(0)
 {
-   std::cout << "\nConstructing Values";
+   std::cout << "\n--Constructing Values";
 }
 
 Values::Values(const Values& old_values)
 {
-   std::cout << "\nCopying Values";
-   numberOfValues = old_values.numberOfValues;
-   max = old_values.max;
-   min = old_values.min;
-   average = old_values.average;
+   std::cout << "\n--Copying Values";
+   numberOfValues_ = old_values.numberOfValues_;
+   max_ = old_values.max_;
+   min_ = old_values.min_;
+   average_ = old_values.average_;
 
-   for (int i = 0; i < numberOfValues; i++)
+   for (int i = 0; i < numberOfValues_; i++)
    {
-      buffer[i] = old_values.buffer[i];
+      buffer_[i] = old_values.buffer_[i];
    }
 }
 
 Values::~Values()
 {
-   std::cout << "\nDestructing Values";
+   std::cout << "\n--Destructing Values";
 }
 
-
-void Values::addValue(double newValue)
+bool Values::readValuesFromFile()
 {
-   if (numberOfValues < MAX)
+   bool status = false;
+
+   if (numberOfValues_ < MAX)
    {
-      buffer[numberOfValues] = newValue;
-      numberOfValues++;
+      ifstream file(inFileName_);
+
+      if (file.is_open())
+      {
+         status = true;
+
+         for (int i = 0; i < numberOfValues_; i++)
+         {
+            file >> buffer_[i];
+
+            if (!file)
+            {
+               status = false;
+               break;
+            }
+         }
+         file.close();
+      }
    }
+   return status;
 }
 
 void Values::doCalulations()
 {
-   average = 0;
-   if (numberOfValues > 0)
+   average_ = 0;
+   if (numberOfValues_ > 0)
    {
-      min = buffer[0];
-      max = buffer[0];
-      for (int i = 0; i < numberOfValues; i++)
+      min_ = buffer_[0];
+      max_ = buffer_[0];
+      for (int i = 0; i < numberOfValues_; i++)
       {
-         average += buffer[i];
-         if (buffer[i] > max)
-            max = buffer[i];
-         if (buffer[i] < min)
-            min = buffer[i];
+         average_ += buffer_[i];
+         if (buffer_[i] > max_)
+            max_ = buffer_[i];
+         if (buffer_[i] < min_)
+            min_ = buffer_[i];
       }
-      average /= numberOfValues;
+      average_ /= numberOfValues_;
    }
    else
    {
-      min = max = 0;
+      min_ = max_ = 0;
    }
 }
-
-//double Values::getMin()
-//{
-//   return 0.0;
-//}
-//
-//double Values::getMax()
-//{
-//   return 0.0;
-//}
-//
-//double Values::getAverage()
-//{
-//   return 0.0;
-//}

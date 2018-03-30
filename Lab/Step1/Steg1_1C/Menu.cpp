@@ -37,7 +37,7 @@ void Menu::showMenu()
 * 
 * @return   A valid menu choice (menuCoice_e enum).
 */
-menuCoice_e Menu::getMenuChoice()
+Menu::menuCoice Menu::getMenuChoice()
 {
    int i = 0;
    char input;
@@ -61,5 +61,5 @@ menuCoice_e Menu::getMenuChoice()
          i = 0;
       }
    }
-   return (menuCoice_e)i;
+   return (menuCoice)i;
 }

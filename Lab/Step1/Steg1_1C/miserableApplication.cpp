@@ -6,10 +6,11 @@
 // -------------------------------------------
 // Log:  2004-08-23  Version 1.0 by Ingrid
 //                   Created the file.
+// Log:  2004-08-30  Version 1.1 by Ingrid
+//                   Implemented mayor part of application.
 /**********************************************************************/
 #include "Menu.h"
 #include "Values.h"
-#include "File.h"
 
 #include <iostream>
 #include <string>
@@ -18,11 +19,6 @@
 using std::cout;
 using std::cin;
 using std::string;
-
-
-string APP_FILE_PATH = "templog.txt";
-int NUM_OF_VALUES = 24;
-
 
 /**
 * @brief    Class for running the application miserable.
@@ -33,8 +29,6 @@ class miserableApplication
    int status;           // Application status. Ok is 0.
    Menu menu;            // Menu object
    Values temperature;   // Object for temperature values
-   File temperatureFile; // Object for reading temperature values
-   int numOfValues;
 public:
    miserableApplication();
    miserableApplication(string fileName, int numOfValues);
@@ -43,6 +37,7 @@ public:
    void displayValues(Values buffer);
    void viewMaxAndMin(double max, double min);
    void viewAverage(double average);
+   void waitForUser();
    int run();
 };
 
@@ -57,9 +52,9 @@ miserableApplication::miserableApplication()
 /**
 * @brief    Constructor
 */
-miserableApplication::miserableApplication(string fileNameIn, int numOfValuesIn) : terminate(false), status(0), numOfValues(numOfValuesIn), temperatureFile(fileNameIn)
+miserableApplication::miserableApplication(string fileNameIn, int numOfValues) : terminate(false), status(0), temperature(fileNameIn, numOfValues)
 {
-   cout << "\nConstruct miserableApplication overloaded";
+   cout << "\n--Construct miserableApplication overloaded";
 }
 
 /**
@@ -67,8 +62,7 @@ miserableApplication::miserableApplication(string fileNameIn, int numOfValuesIn)
 */
 miserableApplication::~miserableApplication()
 {
-   cout << "\nDestruct miserableApplication";
-
+   cout << "\n--Destruct miserableApplication";
 }
 
 /**
@@ -78,53 +72,59 @@ miserableApplication::~miserableApplication()
 */
 int miserableApplication::run()
 {
-
+   bool first_run = true;
    // Display first info.
    displayAppInfo();
-
    // Read values
    cout << "\nReading logged values for processing and presentation...";
    cout << "\n";
-   bool foo = temperatureFile.readValuesFromFile(&temperature, numOfValues);
+   bool foo = temperature.readValuesFromFile();
+
    if (!foo)
    {
+      cout << "\nCould not read values from file " << temperature.getInFileName();
+      cout << "\n";
+      cout << "\nTerminating the program.";
       terminate = true;
    }
    else
    {
       // Do calculations
       temperature.doCalulations();
-      cout << "\nPress Enter for menu: ";
-      cin.get();
    }
 
    while (!terminate)
    {
-   // start loop
-      menu.showMenu();
-      menuCoice_e menuChoice = menu.getMenuChoice();
-      switch (menuChoice)
+      if (first_run)
       {
-      case DISPLAY_VALUES:
+         cout << "\nPress Enter for menu: ";
+         cin.ignore(INT_MAX, '\n');
+      }
+      else
+      {
+         waitForUser();
+      }
+      menu.showMenu();
+
+      switch (menu.getMenuChoice())
+      {
+      case Menu::DISPLAY_VALUES:
          displayValues(temperature);
          break;
-      case VIEW_MAX_AND_MIN:
+      case Menu::VIEW_MAX_AND_MIN:
          viewMaxAndMin(temperature.getMax(), temperature.getMin());
          break;
-      case VIEW_AVERAGE:
+      case Menu::VIEW_AVERAGE:
          viewAverage(temperature.getAverage());
          break;
-      case QUIT:
-         cout << "\n\nTerminating the program.";
+      case Menu::QUIT:
+         cout << "\n";
+         cout << "\nTerminating the program.";
          terminate = true;
          break;
       }
-      cout << "\n\nPress Enter to continue:";
-      cin.get();
    }
-
-   // end program
-
+   waitForUser();
    return status;
 }
 
@@ -138,7 +138,6 @@ void miserableApplication::displayAppInfo()
 }
 void miserableApplication::displayValues(Values buffer)
 {
-   //cout << "\ndisplayValues";
    cout << "\nDisplaying the latest 24 temperature values:";
    cout << "\n";
    cout << "\n";
@@ -151,7 +150,6 @@ void miserableApplication::displayValues(Values buffer)
 }
 void miserableApplication::viewMaxAndMin(double max, double min)
 {
-   //cout << "\nviewMaxAndMin";
    cout << "\nCalculating the maximum and minimum temperature...";
    cout << "\n";
    cout << "\nMaximum temperature: " << std::fixed << std::setprecision(2) << max << " degrees Celcius";
@@ -161,11 +159,18 @@ void miserableApplication::viewMaxAndMin(double max, double min)
 }
 void miserableApplication::viewAverage(double average)
 {
-   //cout << "\nviewAverage";
    cout << "\nCalculating average temperature...\n";
    cout << "\nAverage temperature: ";
-   cout << std::fixed << std::setprecision(2) << average << " degrees Celcius";
+   cout << "\nMaximum temperature: " << std::fixed << std::setprecision(2) << average << " degrees Celcius";
    cout << "\n";
+}
+
+
+void miserableApplication::waitForUser()
+{
+   cout << "\n";
+   cout << "\nPress Enter to continue:";
+   cin.ignore(INT_MAX, '\n');
 }
 
 int main()
