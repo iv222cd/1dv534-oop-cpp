@@ -6,16 +6,21 @@
 */
 class Values
 {
-   double buffer[100];
+   enum {MAX = 100};
+   double buffer[MAX];
    int numberOfValues;
+   double min, max, average;
 public:
    Values();
+   Values(const Values& old_values);
    ~Values();
    void addValue(double newValue);
    void doCalulations();
-   double getMin();
-   double getMax();
-   double getAverage();
+   double getMin() { return min; }
+   double getMax() { return max; }
+   double getAverage() { return average; }
+   double getValue(int index) { return buffer[index]; }
+   double getNumberOfValues() { return numberOfValues; }
 };
 
 #endif /* VALUES_H */
