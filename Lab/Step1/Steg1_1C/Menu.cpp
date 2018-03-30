@@ -7,12 +7,16 @@ using std::cin;
 /**
 * @brief    Constructor
 */
-Menu::Menu() {}
+Menu::Menu()
+{
+}
 
 /**
 * @brief    Destructor
 */
-Menu::~Menu() {}
+Menu::~Menu()
+{
+}
 
 /**
 * @brief    Clear CLI and print application menu.
@@ -35,9 +39,9 @@ void Menu::showMenu()
 * 
 * If user enter an invalid char, continue promting until a valid choice is given.
 * 
-* @return   A valid menu choice (menuCoice_e enum).
+* @return   A valid menu choice (Menu::menuChoice enum).
 */
-Menu::menuCoice Menu::getMenuChoice()
+Menu::menuChoice Menu::getMenuChoice()
 {
    int i = 0;
    char input;
@@ -45,21 +49,21 @@ Menu::menuCoice Menu::getMenuChoice()
    while (0 == i)
    {
       cout << "\nMake your choice: ";
-      cin.get(input).ignore(INT_MAX, '\n'); // Get first char. Ignor rest until new line.
+      cin.get(input).ignore(INT_MAX, '\n'); // Get first char. Ignore rest until new line.
 
-      if (!cin.good()) // TODO What does this actually do??
+      if (!cin.good())
       {
          cin.clear();
          cin.ignore(INT_MAX, '\n');
       }
 
-      i = atoi(&input);		// atoi() wants a char-pointer (char*) as argument
-                           // Converts string to int-value
+      i = atoi(&input);
+
       if (i < 1 || i > 4)
       {
          cout << "\nNot a valid choice!";
          i = 0;
       }
    }
-   return (menuCoice)i;
+   return (menuChoice)i;
 }

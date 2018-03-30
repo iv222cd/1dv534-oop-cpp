@@ -1,23 +1,33 @@
 #include "Values.h"
 #include <fstream>
 
-#include <iostream> //TODO remove
-//TODO write function headers
-
 using std::ifstream;
 
-Values::Values() : numberOfValues_(0)
+/**
+* @brief    Basic Constructor
+*/
+Values::Values() : inFileName_(""), numberOfValues_(0), min_(0), max_(0), average_(0), bufferValid_(false)
 {
-   std::cout << "\n--Constructing Values";
 }
 
+/**
+* @brief    Parameterized Constructor
+*/
+Values::Values(string inFileName, int numOfValues) : inFileName_(inFileName), numberOfValues_(numOfValues), min_(0), max_(0), average_(0), bufferValid_(false)
+{
+}
+
+/**
+* @brief    Copy constructor
+*/
 Values::Values(const Values& old_values)
 {
-   std::cout << "\n--Copying Values";
    numberOfValues_ = old_values.numberOfValues_;
    max_ = old_values.max_;
    min_ = old_values.min_;
    average_ = old_values.average_;
+   bufferValid_ = old_values.bufferValid_;
+   inFileName_ = old_values.inFileName_;
 
    for (int i = 0; i < numberOfValues_; i++)
    {
@@ -25,11 +35,19 @@ Values::Values(const Values& old_values)
    }
 }
 
+/**
+* @brief    Destructor
+*/
 Values::~Values()
 {
-   std::cout << "\n--Destructing Values";
 }
 
+/**
+* @brief    Read values from file and stor in internal buffer. 
+*
+* @return   true     if successfull and values in buffer is valid.
+* @return   false    if not successfull
+*/
 bool Values::readValuesFromFile()
 {
    bool status = false;
@@ -40,7 +58,7 @@ bool Values::readValuesFromFile()
 
       if (file.is_open())
       {
-         status = true;
+         bufferValid_ = true;
 
          for (int i = 0; i < numberOfValues_; i++)
          {
@@ -48,35 +66,43 @@ bool Values::readValuesFromFile()
 
             if (!file)
             {
-               status = false;
+               bufferValid_ = false;
                break;
             }
          }
          file.close();
       }
    }
-   return status;
+   return bufferValid_;
 }
 
+/**
+* @brief   Calculate and store statistics (min, max, average) for the values in Values buffer.
+*
+* @note     Do not call before readValuesFromFile()
+*/
 void Values::doCalulations()
 {
-   average_ = 0;
-   if (numberOfValues_ > 0)
+   if (bufferValid_ && numberOfValues_ > 0)
    {
-      min_ = buffer_[0];
-      max_ = buffer_[0];
-      for (int i = 0; i < numberOfValues_; i++)
+      average_ = 0;
+      if (numberOfValues_ > 0)
       {
-         average_ += buffer_[i];
-         if (buffer_[i] > max_)
-            max_ = buffer_[i];
-         if (buffer_[i] < min_)
-            min_ = buffer_[i];
+         min_ = buffer_[0];
+         max_ = buffer_[0];
+         for (int i = 0; i < numberOfValues_; i++)
+         {
+            average_ += buffer_[i];
+            if (buffer_[i] > max_)
+               max_ = buffer_[i];
+            if (buffer_[i] < min_)
+               min_ = buffer_[i];
+         }
+         average_ /= numberOfValues_;
       }
-      average_ /= numberOfValues_;
-   }
-   else
-   {
-      min_ = max_ = 0;
+      else
+      {
+         min_ = max_ = 0;
+      }
    }
 }

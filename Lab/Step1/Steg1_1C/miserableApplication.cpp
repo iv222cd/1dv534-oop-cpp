@@ -1,13 +1,15 @@
 /**********************************************************************/
 // File: MiserableApplication.cpp
-// Summary: 
+// Summary: Reads a number of temperature values from file and print it to CLI
+//          according to user input.
 // Version: Version 1.0 - 2013-03-25
 // Author:  Ingrid Wiklund
 // -------------------------------------------
 // Log:  2004-08-23  Version 1.0 by Ingrid
 //                   Created the file.
 // Log:  2004-08-30  Version 1.1 by Ingrid
-//                   Implemented mayor part of application.
+//                   Implemented mayor part of application according to 
+//                   Class_Diagram.png
 /**********************************************************************/
 #include "Menu.h"
 #include "Values.h"
@@ -23,46 +25,44 @@ using std::string;
 /**
 * @brief    Class for running the application miserable.
 */
-class miserableApplication
+class temperatureApp
 {
-   bool terminate;       // Set to true if the application should terminate.
+   bool quit;            // Set to true if the application should terminate.
    int status;           // Application status. Ok is 0.
    Menu menu;            // Menu object
    Values temperature;   // Object for temperature values
 public:
-   miserableApplication();
-   miserableApplication(string fileName, int numOfValues);
-   ~miserableApplication();
+   temperatureApp();
+   temperatureApp(string fileName, int numOfValues);
+   ~temperatureApp();
+   int run();
    void displayAppInfo();
    void displayValues(Values buffer);
    void viewMaxAndMin(double max, double min);
    void viewAverage(double average);
-   void waitForUser();
-   int run();
+   void waitForUser(bool waitForMenu);
+   void viewQuitMessage();
 };
 
 /**
 * @brief    Constructor
 */
-miserableApplication::miserableApplication()
+temperatureApp::temperatureApp()
 {
-   cout << "\nConstruct miserableApplication";
 }
 
 /**
-* @brief    Constructor
+* @brief    Parameterized Constructor
 */
-miserableApplication::miserableApplication(string fileNameIn, int numOfValues) : terminate(false), status(0), temperature(fileNameIn, numOfValues)
+temperatureApp::temperatureApp(string fileNameIn, int numOfValues) : quit(false), status(0), temperature(fileNameIn, numOfValues)
 {
-   cout << "\n--Construct miserableApplication overloaded";
 }
 
 /**
 * @brief    Destructor
 */
-miserableApplication::~miserableApplication()
+temperatureApp::~temperatureApp()
 {
-   cout << "\n--Destruct miserableApplication";
 }
 
 /**
@@ -70,40 +70,30 @@ miserableApplication::~miserableApplication()
 * 
 * @return   Application termination status. Status ok if 0, error otherwise.
 */
-int miserableApplication::run()
+int temperatureApp::run()
 {
    bool first_run = true;
    // Display first info.
    displayAppInfo();
    // Read values
    cout << "\nReading logged values for processing and presentation...";
-   cout << "\n";
-   bool foo = temperature.readValuesFromFile();
 
-   if (!foo)
+   if (temperature.readValuesFromFile())
    {
-      cout << "\nCould not read values from file " << temperature.getInFileName();
-      cout << "\n";
-      cout << "\nTerminating the program.";
-      terminate = true;
+      temperature.doCalulations();
    }
    else
    {
-      // Do calculations
-      temperature.doCalulations();
+      cout << "\nCould not read values from file " << temperature.getInFileName();
+      status = -1;
+      viewQuitMessage();
+      quit = true;
    }
 
-   while (!terminate)
+   while (!quit)
    {
-      if (first_run)
-      {
-         cout << "\nPress Enter for menu: ";
-         cin.ignore(INT_MAX, '\n');
-      }
-      else
-      {
-         waitForUser();
-      }
+      waitForUser(first_run);
+      first_run = false;
       menu.showMenu();
 
       switch (menu.getMenuChoice())
@@ -118,27 +108,33 @@ int miserableApplication::run()
          viewAverage(temperature.getAverage());
          break;
       case Menu::QUIT:
-         cout << "\n";
-         cout << "\nTerminating the program.";
-         terminate = true;
+         viewQuitMessage();
+         quit = true;
          break;
       }
    }
-   waitForUser();
+
+   waitForUser(false);
    return status;
 }
 
-
-void miserableApplication::displayAppInfo()
+/**
+* @brief    Display information about the application to CLI
+*/
+void temperatureApp::displayAppInfo()
 {
    cout << "\n";
    cout << "\nTemperature Statistics";
    cout << "\n----------------------";
    cout << "\n";
 }
-void miserableApplication::displayValues(Values buffer)
+
+/**
+* @brief    Display temperature values in buffer to CLI
+*/
+void temperatureApp::displayValues(Values buffer)
 {
-   cout << "\nDisplaying the latest 24 temperature values:";
+   cout << "\nDisplaying the latest " << buffer.getNumberOfValues() << " temperature values:";
    cout << "\n";
    cout << "\n";
    for (int i = 0; i < buffer.getNumberOfValues(); i++)
@@ -148,7 +144,11 @@ void miserableApplication::displayValues(Values buffer)
       cout << std::fixed << std::setprecision(2) << std::setw(8) << buffer.getValue(i);
    }
 }
-void miserableApplication::viewMaxAndMin(double max, double min)
+
+/**
+* @brief    Display min and max values of buffer to CLI
+*/
+void temperatureApp::viewMaxAndMin(double max, double min)
 {
    cout << "\nCalculating the maximum and minimum temperature...";
    cout << "\n";
@@ -157,27 +157,52 @@ void miserableApplication::viewMaxAndMin(double max, double min)
    cout << "\nMinimum temperature: " << min << " degrees Celcius";
    cout << "\n";
 }
-void miserableApplication::viewAverage(double average)
+
+/**
+* @brief    Display average value of buffer to CLI
+*/
+void temperatureApp::viewAverage(double average)
 {
-   cout << "\nCalculating average temperature...\n";
+   cout << "\nCalculating average temperature...";
+   cout << "\n";
    cout << "\nAverage temperature: ";
    cout << "\nMaximum temperature: " << std::fixed << std::setprecision(2) << average << " degrees Celcius";
    cout << "\n";
 }
 
-
-void miserableApplication::waitForUser()
+/**
+* @brief    Display message to  CLI that user should give input before continuing program
+* @param    waitForMenu    set to true to display menu waiting option.
+*                          set to false otherwise and a more generec message will follow
+*/
+void temperatureApp::waitForUser(bool waitForMenu)
 {
    cout << "\n";
-   cout << "\nPress Enter to continue:";
+   if (waitForMenu)
+   {
+      cout << "\nPress Enter for menu: ";
+   }
+   else
+   {
+      cout << "\nPress Enter to continue:";
+   }
    cin.ignore(INT_MAX, '\n');
+}
+
+/**
+* @brief    Display quit message to CLI
+*/
+void temperatureApp::viewQuitMessage()
+{
+   cout << "\n";
+   cout << "\nTerminating the program.";
 }
 
 int main()
 {
    const string APP_FILE_PATH = "templog.txt";
    const int NUM_OF_VALUES = 24;
-   miserableApplication app(APP_FILE_PATH, NUM_OF_VALUES);
+   temperatureApp app(APP_FILE_PATH, NUM_OF_VALUES);
 
    return app.run();
 }

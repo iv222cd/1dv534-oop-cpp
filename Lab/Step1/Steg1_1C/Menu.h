@@ -7,7 +7,7 @@
 class Menu
 {
 public:
-   enum menuCoice
+   enum menuChoice
    {
       DISPLAY_VALUES = 1,
       VIEW_MAX_AND_MIN,
@@ -18,7 +18,7 @@ public:
    Menu();
    ~Menu();
    void showMenu();
-   menuCoice getMenuChoice();
+   menuChoice getMenuChoice();
 };
 
 #endif /* MENU_H */
