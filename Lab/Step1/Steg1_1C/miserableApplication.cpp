@@ -8,8 +8,8 @@
 // Log:  2004-08-23  Version 1.0 by Ingrid
 //                   Created the file.
 // Log:  2004-08-30  Version 1.1 by Ingrid
-//                   Implemented mayor part of application according to 
-//                   Class_Diagram.png
+//                   Implemented the application according to 
+//                   Class_Diagram.png and Sequence_Diagram.png.
 /**********************************************************************/
 #include "Menu.h"
 #include "Values.h"
@@ -31,17 +31,17 @@ class TemperatureApp
    int status;           // Application status. Ok is 0.
    Menu menu;            // Menu object
    Values temperature;   // Object for temperature values
-public:
-   TemperatureApp();
-   TemperatureApp(string fileName, int numOfValues);
-   ~TemperatureApp();
-   int run();
    void displayAppInfo();
    void displayValues(Values buffer);
    void viewMaxAndMin(double max, double min);
    void viewAverage(double average);
    void waitForUser(bool waitForMenu);
    void viewQuitMessage();
+public:
+   TemperatureApp();
+   TemperatureApp(string fileName, int numOfValues);
+   ~TemperatureApp();
+   int run();
 };
 
 /**
@@ -68,11 +68,12 @@ TemperatureApp::~TemperatureApp()
 /**
 * @brief    Run the application until the user terminates ut.
 * 
-* @return   Application termination status. Status ok if 0, error otherwise.
+* @return   Application termination status. 0 if status ok if 0.
 */
 int TemperatureApp::run()
 {
    bool first_run = true;
+
    // Display first info.
    displayAppInfo();
    // Read values
@@ -165,7 +166,6 @@ void TemperatureApp::viewAverage(double average)
 {
    cout << "\nCalculating average temperature...";
    cout << "\n";
-   cout << "\nAverage temperature: ";
    cout << "\nMaximum temperature: " << std::fixed << std::setprecision(2) << average << " degrees Celcius";
    cout << "\n";
 }

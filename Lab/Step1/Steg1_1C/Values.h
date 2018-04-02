@@ -14,11 +14,11 @@ using std::string;
 class Values
 {
    enum {MAX = 100};             // Maximum values that can be stored in the object.
-   double buffer_[MAX];          // Buffer for storing values
-   bool bufferValid_;            // Flag indicating the validity of buffer
-   int numberOfValues_;          // Number of values to store in the buffer.
-   double min_, max_, average_;  // Calculated statistics. Not valid until a call to doCalulations
-   string inFileName_;           // File name for file with values to read.
+   double buffer[MAX];          // Buffer for storing values
+   bool bufferValid;            // Flag indicating the validity of buffer
+   int numberOfValues;          // Number of values to store in the buffer.
+   double min, max, average;  // Calculated statistics. Not valid until a call to doCalulations
+   string inFileName;           // File name for file with values to read.
 public:
    Values();
    Values(string inFileName, int numOfValues);
@@ -26,12 +26,12 @@ public:
    ~Values();
    bool readValuesFromFile();
    void doCalulations();
-   double getMin() { return min_; }
-   double getMax() { return max_; }
-   double getAverage() { return average_; }
-   double getNumberOfValues() { return numberOfValues_; }
-   double getValue(int index) { return buffer_[index]; }
-   string getInFileName() { return inFileName_; }
+   double getMin() { return min; }
+   double getMax() { return max; }
+   double getAverage() { return average; }
+   double getNumberOfValues() { return numberOfValues; }
+   double getValue(int index) { return buffer[index]; }
+   string getInFileName() { return inFileName; }
 };
 
 #endif /* VALUES_H */

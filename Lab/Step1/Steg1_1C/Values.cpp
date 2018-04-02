@@ -6,14 +6,14 @@ using std::ifstream;
 /**
 * @brief    Basic Constructor
 */
-Values::Values() : inFileName_(""), numberOfValues_(0), min_(0), max_(0), average_(0), bufferValid_(false)
+Values::Values() : inFileName(""), numberOfValues(0), min(0), max(0), average(0), bufferValid(false)
 {
 }
 
 /**
 * @brief    Parameterized Constructor
 */
-Values::Values(string inFileName, int numOfValues) : inFileName_(inFileName), numberOfValues_(numOfValues), min_(0), max_(0), average_(0), bufferValid_(false)
+Values::Values(string inFileName, int numOfValues) : inFileName(inFileName), numberOfValues(numOfValues), min(0), max(0), average(0), bufferValid(false)
 {
 }
 
@@ -22,16 +22,16 @@ Values::Values(string inFileName, int numOfValues) : inFileName_(inFileName), nu
 */
 Values::Values(const Values& old_values)
 {
-   numberOfValues_ = old_values.numberOfValues_;
-   max_ = old_values.max_;
-   min_ = old_values.min_;
-   average_ = old_values.average_;
-   bufferValid_ = old_values.bufferValid_;
-   inFileName_ = old_values.inFileName_;
+   numberOfValues = old_values.numberOfValues;
+   max = old_values.max;
+   min = old_values.min;
+   average = old_values.average;
+   bufferValid = old_values.bufferValid;
+   inFileName = old_values.inFileName;
 
-   for (int i = 0; i < numberOfValues_; i++)
+   for (int i = 0; i < numberOfValues; i++)
    {
-      buffer_[i] = old_values.buffer_[i];
+      buffer[i] = old_values.buffer[i];
    }
 }
 
@@ -52,28 +52,28 @@ bool Values::readValuesFromFile()
 {
    bool status = false;
 
-   if (numberOfValues_ < MAX)
+   if (numberOfValues < MAX)
    {
-      ifstream file(inFileName_);
+      ifstream file(inFileName);
 
       if (file.is_open())
       {
-         bufferValid_ = true;
+         bufferValid = true;
 
-         for (int i = 0; i < numberOfValues_; i++)
+         for (int i = 0; i < numberOfValues; i++)
          {
-            file >> buffer_[i];
+            file >> buffer[i];
 
             if (!file)
             {
-               bufferValid_ = false;
+               bufferValid = false;
                break;
             }
          }
          file.close();
       }
    }
-   return bufferValid_;
+   return bufferValid;
 }
 
 /**
@@ -83,26 +83,26 @@ bool Values::readValuesFromFile()
 */
 void Values::doCalulations()
 {
-   if (bufferValid_ && numberOfValues_ > 0)
+   if (bufferValid && numberOfValues > 0)
    {
-      average_ = 0;
-      if (numberOfValues_ > 0)
+      average = 0;
+      if (numberOfValues > 0)
       {
-         min_ = buffer_[0];
-         max_ = buffer_[0];
-         for (int i = 0; i < numberOfValues_; i++)
+         min = buffer[0];
+         max = buffer[0];
+         for (int i = 0; i < numberOfValues; i++)
          {
-            average_ += buffer_[i];
-            if (buffer_[i] > max_)
-               max_ = buffer_[i];
-            if (buffer_[i] < min_)
-               min_ = buffer_[i];
+            average += buffer[i];
+            if (buffer[i] > max)
+               max = buffer[i];
+            if (buffer[i] < min)
+               min = buffer[i];
          }
-         average_ /= numberOfValues_;
+         average /= numberOfValues;
       }
       else
       {
-         min_ = max_ = 0;
+         min = max = 0;
       }
    }
 }
