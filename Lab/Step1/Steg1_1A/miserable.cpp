@@ -165,6 +165,11 @@ char getMenuCoice()
    while (!valid)
    {
       cin.get(menuChoice);
+
+      if (!cin.good())
+      {
+         cin.clear();
+      }
       cin.ignore(INT_MAX, '\n'); // Remove any trailing chars that the user migth have written.
 
       if (menuChoice < '1' || menuChoice > '4')
