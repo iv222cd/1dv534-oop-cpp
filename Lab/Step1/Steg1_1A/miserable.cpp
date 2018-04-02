@@ -7,7 +7,7 @@
 // Version: Version 1.1 - 2018-03-18
 // Author:  Ingrid Wiklund/Anne Norling
 // -------------------------------------------
-// Log:  2018-03-18  Version 1.0 by Ingrid
+// Log:  2018-03-18  Version 1.0 by Anne
 //                   Copied the file from the homepage of Course 1DV534.
 //                   The file is originally written by Anne Norling as
 //                   an example of badly written code.
@@ -38,7 +38,7 @@ using std::setw;
 void showMenu();
 char getMenuCoice();
 bool readValuesFromFile(string fileName, double* values, int size);
-void doCalulations(double* values, int size, double* min, double* max, double* average);
+void doCalulations(double values[], int size, double* min, double* max, double* average);
 
 int main()
 {
@@ -47,7 +47,7 @@ int main()
    bool continueProg = true;
    double temperature[NUMBER_OF_VAULES];
    double average, max = 0, min = 0;
-   char menuChoice = 'i';
+   char menuChoice = 'i'; // Start with 'i' for 'init'. Not a choice made by the user, init is run before user input.
 
    cout << "\n\nTemperature Statistics";
    cout << "\n----------------------\n";
@@ -121,6 +121,7 @@ int main()
          }
          cin.ignore(INT_MAX, '\n'); // Remove any trailing chars that the user migth have written.
 
+         // Show menu and get user input beforenext loop
          showMenu();
          menuChoice = getMenuCoice();
       }
@@ -150,7 +151,7 @@ void showMenu()
 /**
 * @brief  Get the menu choice of the user from consol input.
 * 
-* If an unvalid char is given, the user will be promted again. All other chars until new line will be ignored.
+* If an unvalid char is given, the user will be promted again. All chars but the first until new line will be ignored.
 *
 * @return  Char number between '1' and '4' representing the users choise.
 */
@@ -165,6 +166,7 @@ char getMenuCoice()
    {
       cin.get(menuChoice);
       cin.ignore(INT_MAX, '\n'); // Remove any trailing chars that the user migth have written.
+
       if (menuChoice < '1' || menuChoice > '4')
       {
          cout << "\n'" << menuChoice << "' is not a valid menu choice. Please make a choice from the menu.\n";
@@ -178,9 +180,9 @@ char getMenuCoice()
 }
 
 /**
-* @brief  Read blank separated double values from a file.
+* @brief  Read space separated numbers from a file.
 *
-* @param fileName    Input file with values
+* @param fileName    Input file with values. Format should be space separated decimal numbers.
 * @param values      Pointer to array where values can be stored. Needs to be of at least size.
 * @param size        Number of values to read. Length of array values.
 * @return            true if the reading suceeded, false otherwise.
@@ -196,10 +198,10 @@ bool readValuesFromFile(string fileName, double* values, int size)
       for (int cnt = 0; cnt < size; cnt++)
       {
          inFile >> values[cnt];
+
          if (!inFile)
          {
             cout << "Could not read values from file " << fileName;
-            cin.get();
             status = false;
             break;
          }
@@ -209,14 +211,13 @@ bool readValuesFromFile(string fileName, double* values, int size)
    else
    {
       cout << "Could not open file " << fileName;
-      cin.get();
       status = false;
    }
    return status;
 }
 
 /**
-* @brief  Calculate min, max and average from an double array
+* @brief  Calculate min, max and average from a double array
 *
 * @param values      Pointer to input array with values.
 * @param size        Length of array values.
@@ -224,7 +225,7 @@ bool readValuesFromFile(string fileName, double* values, int size)
 * @param max         Pointer to parameter for max result output.
 * @param average     Pointer to parameter for average result output.
 */
-void doCalulations(double* values, int size, double* min, double* max, double* average)
+void doCalulations(double values[], int size, double* min, double* max, double* average)
 {
    // Calculate average and min/max
    *max = *min = values[0];
