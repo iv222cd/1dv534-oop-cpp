@@ -10,4 +10,5 @@ CashRegister::~CashRegister()
 
 bool CashRegister::registerItem(int category, const char* articleName, double amount)
 {
+   return false;
 }

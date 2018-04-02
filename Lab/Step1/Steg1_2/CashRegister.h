@@ -9,9 +9,9 @@ using std::ofstream;
 
 class CashRegister {
 public:
-   CashRegister(char* fileName, int nrOfCategories); // The file contains
+   CashRegister(const char* fileName, int nrOfCategories); // The file contains
    ~CashRegister(); // registered items and balances
-   bool registerItem(int category, char* articleName, double amount);
+   bool registerItem(int category, const char* articleName, double amount);
    double batchTotal() {
       double total = _batchTotal;
       _batchTotal = 0; // batchTotal() is expected to reset _batchTotal;
