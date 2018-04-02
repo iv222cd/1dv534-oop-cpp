@@ -31,13 +31,13 @@ int main()
 	
 	while (*pStr != '\0')
 	{
-      if (isalnum(*pStr))
-      {
+		if (isalnum(*pStr))
+		{
 			ch = toupper(*pStr);
 			newStr[i++] = ch;
-      }
+		}
 		
-      if (*pStr == ' ')
+		if (*pStr == ' ')
 			count++;
 		pStr++;
 	}
@@ -60,8 +60,8 @@ int main()
 			}
 		}
 	}
-   cout << "New sorted string: " << newStr << endl;
-   cin.get();
+	cout << "New sorted string: " << newStr << endl;
+	cin.get();
 	
 	return 0;
 }
