@@ -18,6 +18,7 @@ public:
       return total;
    }
 private:
+   void setTimeNowString(char* buffer, size_t sizeOfBuffer, const char* format);
    ofstream _file; // Here will registered items be saved
    int _nrOfCategories; // Products are organized in categories
    double* _categorySums; // The vector will contain respective sum of each
