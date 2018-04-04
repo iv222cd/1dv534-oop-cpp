@@ -23,6 +23,7 @@ Menu::~Menu()
 */
 void Menu::showMenu()
 {
+   system("cls");
    cout << "\n";
    cout << "\nMENU";
    cout << "\n----";

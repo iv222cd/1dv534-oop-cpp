@@ -2,14 +2,17 @@
 // File: MiserableApplication.cpp
 // Summary: Reads a number of temperature values from file and print it to CLI
 //          according to user input.
-// Version: Version 1.0 - 2013-03-25
+// Version: Version 1.2 - 2018-04-04
 // Author:  Ingrid Wiklund
 // -------------------------------------------
-// Log:  2004-08-23  Version 1.0 by Ingrid
+// Log:  2018-03-23  Version 1.0 by Ingrid
 //                   Created the file.
-// Log:  2004-08-30  Version 1.1 by Ingrid
+// Log:  2018-03-30  Version 1.1 by Ingrid
 //                   Implemented the application according to 
 //                   Class_Diagram.png and Sequence_Diagram.png.
+// Log:  2018-04-04  Version 1.2 by Ingrid
+//                   Renaming main file to follow class name. 
+//                   Added missing call to system(cls) when showing menu.
 /**********************************************************************/
 #include "Menu.h"
 #include "Values.h"
