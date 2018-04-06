@@ -7,6 +7,7 @@
 
 const char *LONG_TIME_DATE_FORMAT = "%F  %A  at  %R"; // Example: 2018-04-02  Monday  at  23:15
 const char *SHORT_TIME_FORMAT = "%R"; // 23:15
+const char *CURRENCY = "Kr.";
 
 /**
 * @brief Overloaded Constructor for CashRegister.
@@ -26,6 +27,7 @@ CashRegister::CashRegister(const char* fileName, int nrOfCategories) : _nrOfCate
    char timeString[40];
    setTimeNowString(timeString, sizeof(timeString), LONG_TIME_DATE_FORMAT);
 
+   // TODO: Will file be created if deasent exist?
    _file.open(fileName, std::ofstream::app);
 
    if (_file.is_open())
@@ -59,10 +61,10 @@ CashRegister::~CashRegister()
 
       for (int i = 0; i < _nrOfCategories; i++)
       {
-         _file << "Category " << std::setw(3) << i + 1 << " :" << std::setw(10) << _categorySums[i] << " Kr.\n";
+         _file << "Category " << std::setw(3) << i + 1 << " :" << std::setw(10) << _categorySums[i] << " "<< CURRENCY << "\n";
          total += _categorySums[i];
       }
-      _file << "Total sales within all categories: " << total << " Kr.\n";
+      _file << "Total sales within all categories: " << total << " " << CURRENCY << "\n";
       _file << "==========================================================================\n";
       _file.close();
    }
@@ -98,7 +100,7 @@ bool CashRegister::registerItem(int category, const char* articleName, double am
 
       if (_file.is_open())
       {
-         _file << timeString << " : Cat." << std::setw(3) << category << " :" << std::setw(13) << amount << " Kr. [ " << articleName << " ]\n";
+         _file << timeString << " : Cat." << std::setw(3) << category << " :" << std::setw(13) << amount << " " << CURRENCY << " [ " << articleName << " ]\n";
       }
    }
    return result;
@@ -120,10 +122,11 @@ void CashRegister::setTimeNowString(char* buffer, size_t sizeOfBuffer, const cha
 {
    // Kommentar angående implementation av datumstämpel till registerfilen.
    // 
-   // Följde dokumentationen av ctime på www.cplusplus.com/reference/ctime/.
-   // Hämtar "nu"-tiden (i sek sen epoch) med std::time.
-   // Omvandlar till en tid-struct med info för lokal tid med localtime_s.
+   // Funktionen hämtar "nu"-tiden (i sek sen epoch) med std::time.
+   // Omvandlar sedan till en tid-struct med info för lokal tid med localtime_s.
    // Skriver ut informationen i structen till en sträng på specifierat format med std::strftime.
+   //
+   // För att implementera följde jag dokumentationen av ctime på www.cplusplus.com/reference/ctime/.
    // Använde först localtime men bytte sen till localtime_s eftersom den föregående är "deprecated".
    // Stötte inte på några speciella andra svårigheter med implementeringen då dokumentationen är rättfram och enkel att följa.
 
