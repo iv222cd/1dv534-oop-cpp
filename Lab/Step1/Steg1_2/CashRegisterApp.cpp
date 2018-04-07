@@ -22,6 +22,8 @@
 const char* REGISTER_FILE_NAME = "Register.txt";
 const int NR_OF_CATEGORIES = 5;
 
+const int BUFFER_SIZE = 256;
+
 enum menuItems {
    MENU_ITEM_ADD = 1,
    MENU_ITEM_SUM,
@@ -39,6 +41,9 @@ public:
    void getItemFromUser();
    void showSumOfBatch();
    void waitForUser();
+   bool getIntFromUser(int &value);
+   bool getDoubleFromUser(double &value);
+   bool getStringFromUser(char *string, int bufSize);
 };
 
 CashRegisterApp::CashRegisterApp() : cashRegister(REGISTER_FILE_NAME, NR_OF_CATEGORIES)
@@ -83,30 +88,32 @@ int CashRegisterApp::run()
 
 void CashRegisterApp::getItemFromUser()
 {
-   std::cout << "\nWrite item info...";
+   std::cout << "\nWrite item info...\n";
 
-   const int BUFFER_SIZE = 100;
-   int category;
-   double price;
-   char stringBuffer[BUFFER_SIZE];
+   const int BUFFER_SIZE = 256;
+   int category = 0;
+   double price = 0;
+   char description[BUFFER_SIZE];
 
-   // TODO: Add error handling of user input.
-   std::cout << "\nCategory:";
-   std::cin >> category;
-   std::cin.ignore(INT_MAX, '\n');
-   std::cout << "Price:";
-   std::cin >> price;
-   std::cin.ignore(INT_MAX, '\n');
-   std::cout << "Description:";
-   std::cin.getline(stringBuffer, BUFFER_SIZE);
-
-   if (cashRegister.registerItem(category, stringBuffer, price))
+   std::cout << "Category:";
+   if (getIntFromUser(category))
    {
-      std::cout << "item added.";
-   }
-   else
-   {
-      std::cout << "Could not add item. Is category correct?";
+      std::cout << "Price:";
+      if (getDoubleFromUser(price))
+      {
+         std::cout << "Description:";
+         if (getStringFromUser(description, BUFFER_SIZE))
+         {
+            if (cashRegister.registerItem(category, description, price))
+            {
+               std::cout << "item "<< description << " for price " << price << " in category " << category << " added.";
+            }
+            else
+            {
+               std::cout << "Could not add item. Is category correct?";
+            }
+         }
+      }
    }
 }
 
@@ -127,6 +134,72 @@ void CashRegisterApp::printStartInfo()
    std::cout << "\n";
    std::cout << "\n---------------------";
    std::cout << "\n";
+}
+
+bool CashRegisterApp::getIntFromUser(int &value)
+{
+   bool status = false;
+   long tmpValue;
+   char stringBuffer[BUFFER_SIZE];
+   char* endPtr;
+
+   std::cin.getline(stringBuffer, BUFFER_SIZE);
+   tmpValue = std::strtol(stringBuffer, &endPtr, 10);
+
+   if ((stringBuffer != endPtr) && (tmpValue >= INT_MIN) && (tmpValue <= INT_MAX))
+   {
+      value = tmpValue;
+      status = true;
+   }
+   else
+   {
+      std::cout << "Could not read value.";
+   }
+
+   return status;
+}
+
+bool CashRegisterApp::getDoubleFromUser(double &value)
+{
+   bool status = false;
+   double tmpValue;
+   char stringBuffer[BUFFER_SIZE];
+   char* endPtr;
+
+   std::cin.getline(stringBuffer, BUFFER_SIZE);
+   tmpValue = std::strtod(stringBuffer, &endPtr);
+
+   if ((stringBuffer != endPtr))
+   {
+      value = tmpValue;
+      status = true;
+   }
+   else
+   {
+      std::cout << "Could not read value.";
+   }
+
+   return status;
+}
+
+bool CashRegisterApp::getStringFromUser(char *string, int bufSize)
+{
+   bool status = false;
+
+   std::cin.getline(string, bufSize);
+
+   if (!std::cin.fail())
+   {
+      status = true;
+   }
+   else
+   {
+      std::cin.clear();
+      std::cin.ignore(INT_MAX,'\n');
+      std::cout << "Could not read value.\n";
+   }
+
+   return status;
 }
 
 int main()
