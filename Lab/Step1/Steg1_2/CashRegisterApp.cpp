@@ -162,8 +162,8 @@ void CashRegisterApp::showSumOfBatch()
 */
 void CashRegisterApp::waitForUser()
 {
-   std::cout << "\nPress any key to continue...";
-   std::cin.get();
+   std::cout << "\nPress Enter to continue...";
+   std::cin.ignore(INT_MAX, '\n');
 }
 
 /**
