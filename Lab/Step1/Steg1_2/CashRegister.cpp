@@ -1,13 +1,10 @@
 #include <ctime>
 #include <iomanip>
-
 #include "CashRegister.h"
 
-#include <iostream>
-
-const char *LONG_TIME_DATE_FORMAT = "%F  %A  at  %R"; // Example: 2018-04-02  Monday  at  23:15
-const char *SHORT_TIME_FORMAT = "%R"; // 23:15
-const char *CURRENCY = "Kr.";
+const char *LONG_TIME_DATE_FORMAT = "%F  %A  at  %R"; /** Format. Example: 2018-04-02  Monday  at  23:15 */
+const char *SHORT_TIME_FORMAT = "%R"; /** Format. Example: 23:15 */
+const char *CURRENCY = "Kr."; /** Currency string */
 
 /**
 * @brief Overloaded Constructor for CashRegister.
@@ -27,7 +24,6 @@ CashRegister::CashRegister(const char* fileName, int nrOfCategories) : _nrOfCate
    char timeString[40];
    setTimeNowString(timeString, sizeof(timeString), LONG_TIME_DATE_FORMAT);
 
-   // TODO: Will file be created if deasent exist?
    _file.open(fileName, std::ofstream::app);
 
    if (_file.is_open())
@@ -95,7 +91,6 @@ bool CashRegister::registerItem(int category, const char* articleName, double am
       result = true;
       _categorySums[category - 1] += amount;
       _batchTotal += amount;
-
       setTimeNowString(timeString, sizeof(timeString), SHORT_TIME_FORMAT);
 
       if (_file.is_open())

@@ -2,11 +2,13 @@
 #define CASH_REGISTER_H
 
 #include <fstream>
-#include <string>
 
 using std::ofstream;
 
-
+/**
+* Class for maintaing a cash register.
+* Items added to the cash register is printed to file.
+*/
 class CashRegister {
 public:
    CashRegister(const char* fileName, int nrOfCategories); // The file contains
