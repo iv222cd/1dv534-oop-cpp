@@ -8,7 +8,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Steg1_2", "Steg1_2.vcxproj"
 		{B0AF6A65-D5DE-47F9-83A3-376CD750A25A} = {B0AF6A65-D5DE-47F9-83A3-376CD750A25A}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MainTest", "RunTest.vcxproj", "{B0AF6A65-D5DE-47F9-83A3-376CD750A25A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MainTest", "MainTest.vcxproj", "{B0AF6A65-D5DE-47F9-83A3-376CD750A25A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
