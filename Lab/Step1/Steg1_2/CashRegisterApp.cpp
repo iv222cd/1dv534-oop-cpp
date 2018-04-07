@@ -1,5 +1,5 @@
 /**********************************************************************/
-// File: App.cpp
+// File: CashRegisterApp.cpp
 // Summary: Main program file for Lab 2, Step 1
 //          The program lets the user add item to a cash register.
 //          The register is opened when the program starts,
@@ -20,8 +20,6 @@ const char* REGISTER_FILE_NAME = "Register.txt"; /** Output file. */
 const int NR_OF_CATEGORIES = 5; /** Allowed number of categories. Aloowed categories will be 1 to NR_OF_CATEGORIES */
 const int BUFFER_SIZE = 256; /** Size of temporary buffer for storing strings. */
 const char ERROR_VALUE[] = "Could not read value.\n"; /** Error message to show if an incorect value is give by user. */
-
-
 
 /**
 * @brief Application class allowing the user to enter values into the Cash register.
