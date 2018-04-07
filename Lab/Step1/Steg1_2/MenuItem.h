@@ -6,14 +6,14 @@
 */
 class MenuItem
 {
-   int itemId;              // Id number of the menu item.
+   char itemId;             // Value representing the id of the menu item.
    const char *description; // Description of menu item.
 public:
    MenuItem() {}
    ~MenuItem() {}
-   void setItem(int itemId_, const char *description_) { itemId = itemId_; description = description_; }
+   void setItem(char itemId_, const char *description_) { itemId = itemId_; description = description_; }
    const char * getDesciption() { return description; }
-   int getItemId() { return itemId; }
+   char getItemId() { return itemId; }
 };
 
 #endif /* MENU_ITEM_H */

@@ -19,22 +19,21 @@ Menu::~Menu()
 {
 }
 
-void Menu::addMenuChoice(const char* description)
+/**
+* @brief    Add a new menu item.
+*
+* Do not add the same menu id twice.
+* The menu can only store up to 20 items.
+*
+* @param id is the char associated with the menu choice, shown in the menu list and returned from the function getMenuChoice().
+*        Note! the id needs to be uniqe for this menu.
+* @param Description is a string describing the item shown to the user.
+*/
+void Menu::addMenuChoice(char id, const char* description)
 {
    if (nrOfItems < MAX)
    {
-      menuList[nrOfItems] = description;
-      menuList_[nrOfItems].setItem(nrOfItems, description);
-      nrOfItems++;
-   }
-}
-
-void Menu::addMenuChoice(int id, const char* description)
-{
-   if (nrOfItems < MAX)
-   {
-      menuList[nrOfItems] = description;
-      menuList_[nrOfItems].setItem(id, description);
+      menuList[nrOfItems].setItem(id, description);
       nrOfItems++;
    }
 }
@@ -45,13 +44,15 @@ void Menu::addMenuChoice(int id, const char* description)
 void Menu::showMenu()
 {
    system("cls");
+
    cout << "\n";
    cout << "\nMENU";
    cout << "\n----";
    cout << "\n";
+
    for (int i = 0; i < nrOfItems; i++)
    {
-      cout << "\n" << menuList_[i].getItemId() << ". " << menuList_[i].getDesciption();
+      cout << "\n" << menuList[i].getItemId() << ". " << menuList[i].getDesciption();
    }
    cout << "\n";
 }
@@ -63,16 +64,15 @@ void Menu::showMenu()
 *
 * @return   A valid menu choice.
 */
-int Menu::getMenuChoice()
+char Menu::getMenuChoice()
 {
    bool valid = false;
-   int choice = 0;
-   char input;
+   char choice;
 
    while (!valid)
    {
       cout << "\nMake your choice: ";
-      cin.get(input).ignore(INT_MAX, '\n'); // Get first char. Ignore rest until new line.
+      cin.get(choice).ignore(INT_MAX, '\n'); // Get first char. Ignore rest until new line.
 
       if (!cin.good())
       {
@@ -80,11 +80,9 @@ int Menu::getMenuChoice()
          cin.ignore(INT_MAX, '\n');
       }
 
-      choice = atoi(&input);
-
       for (int i = 0; i < nrOfItems; i++)
       {
-         if (choice == menuList_[i].getItemId())
+         if (choice == menuList[i].getItemId())
          {
             valid = true;
             break;

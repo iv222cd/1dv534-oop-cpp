@@ -8,18 +8,16 @@
 */
 class Menu
 {
-   enum{ MAX = 10 };
-   MenuItem menuList_[MAX];
-   const char* menuList[MAX];
+   enum{ MAX = 20 };
+   MenuItem menuList[MAX];
    int nrOfItems;
 
 public:
    Menu();
    ~Menu();
-   void addMenuChoice(const char* description);
-   void addMenuChoice(int id, const char* description);
+   void addMenuChoice(char id, const char* description);
    void showMenu();
-   int getMenuChoice();
+   char getMenuChoice();
 };
 
 #endif /* MENU_H */

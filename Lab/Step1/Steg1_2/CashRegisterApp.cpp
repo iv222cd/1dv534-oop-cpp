@@ -40,8 +40,8 @@ class CashRegisterApp
    /**
    * Enum for numbers displayed by the menu.
    */
-   enum menuItems {
-      MENU_ITEM_ADD = 1,
+   enum menuItems : char {
+      MENU_ITEM_ADD = '1',
       MENU_ITEM_SUM,
       MENU_ITEM_QUIT
    };
