@@ -4,8 +4,6 @@
 class Compare
 {
 public:
-   Compare();
-   ~Compare();
    bool equal(const char *, const char *);
 };
 
