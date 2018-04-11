@@ -109,7 +109,7 @@ void MyApp::printInstuctions()
 * @brief Measure user writing time
 * Measure the time between enter and enter from CLI and save user input to stringBuffer
 * If there is more input than buffer size, clear and ignore CLI.
-* Return the time as a MyTime object.
+* @return the time as a MyTime object.
 */
 MyTime MyApp::measureWritingTime()
 {
@@ -136,18 +136,21 @@ MyTime MyApp::measureWritingTime()
 
 /**
 * @brief Ask user if the want to run again.
-* Ask for Y/N but interpret all unknown chars as a "no".
-* return true if run agan.
-* return false if quit.
+* Ask for Y/N but interpret all unknown chars as a "no"
+* and accept both 'Y' and 'y' as "yes".
+* @return true if run agan.
+* @return false if quit.
 */
 bool MyApp::askUserIfContinue()
 {
    bool cont = false;
+   char answer;
    std::cout << "\nTry again (Y/N)?";
    std::cout << "\n";
-   std::cin.getline(stringBuffer, MAX_BUFFER_SIZE);
+   std::cin.get(answer);
+   std::cin.ignore(INT_MAX, '\n');
 
-   if (stringBuffer[0] == 'Y' || stringBuffer[0] == 'y')
+   if (answer == 'Y' || answer == 'y')
    {
       cont = true;
    }

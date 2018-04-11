@@ -3,9 +3,9 @@
 /**
 * @brief Compare the content of string1 and string2.
 * Compare the strings char by char ('A' != 'a').
-* @Note The strings has to be null terminated!
-* return true if string are equal.
-* return false if string are not equal.
+* @note The strings has to be null-terminated!
+* @return true if string are equal.
+* @return false if string are not equal.
 */
 bool Compare::equal(const char * string1, const char * string2)
 {
