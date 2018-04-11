@@ -1,4 +1,17 @@
-// TODO write file header.
+/**********************************************************************/
+// File: MyApp.cpp
+// Summary: A simple program that measure how fast the user can write
+//          the alphabet in the CLI.
+//          Made as a lab assignment in the course 1DV534 OOP in C++ at LNU.
+//          The assignment is for exploring the objec lifecykle, and is
+//          therefore using "new" and "delete" as much as possible.
+// Version: Version 1.0- 2018-04-11
+// Author:  Ingrid Wiklund
+// -------------------------------------------
+// Log:  2018-04-10  Created the file. Ingrid
+//       2018-04-11  Implemented basic functionality using classes
+//                   "Clock", "MyTime" and the new "Compare".
+/**********************************************************************/
 
 #include <iostream>
 #include <MyTime.h>
@@ -11,6 +24,9 @@ using std::cout;
 //const char* ALPHABET = "abcdefghijklmnopqrstuvwxyz";
 const char* ALPHABET = "abcdef"; // TODO: remove. Only for testing purpuses.
 
+/**
+* @brief Class MyApp for running this application. Call run() for running the program.
+*/
 class MyApp {
    enum {MAX_BUFFER_SIZE = 256};
    char stringBuffer[MAX_BUFFER_SIZE];
@@ -22,6 +38,10 @@ public:
    void run();
 };
 
+
+/**
+* @brief Application runner. Will run until stopt by user.
+*/
 void MyApp::run()
 {
    bool isEqual;
@@ -59,7 +79,9 @@ void MyApp::run()
    }
 }
 
-
+/**
+* @brief Print program information to CLI.
+*/
 void MyApp::printProgramInfo()
 {
    std::cout << "\nHow fast do you write?";
@@ -68,6 +90,9 @@ void MyApp::printProgramInfo()
    std::cout << "\nThis simple program lets you test how fast you write by measuring how fast you can write the alphabet.";
 }
 
+/**
+* @brief Print user instructions to CLI.
+*/
 void MyApp::printInstuctions()
 {
    std::cout << "\n";
@@ -80,6 +105,12 @@ void MyApp::printInstuctions()
    std::cout << "\nStart by pressing enter...";
 }
 
+/**
+* @brief Measure user writing time
+* Measure the time between enter and enter from CLI and save user input to stringBuffer
+* If there is more input than buffer size, clear and ignore CLI.
+* Return the time as a MyTime object.
+*/
 MyTime MyApp::measureWritingTime()
 {
    Clock *clockPtr = new Clock();
@@ -103,19 +134,30 @@ MyTime MyApp::measureWritingTime()
    return (timeStop - timeStart);
 }
 
+/**
+* @brief Ask user if the want to run again.
+* Ask for Y/N but interpret all unknown chars as a "no".
+* return true if run agan.
+* return false if quit.
+*/
 bool MyApp::askUserIfContinue()
 {
    bool cont = false;
    std::cout << "\nTry again (Y/N)?";
    std::cout << "\n";
    std::cin.getline(stringBuffer, MAX_BUFFER_SIZE);
+
    if (stringBuffer[0] == 'Y' || stringBuffer[0] == 'y')
    {
       cont = true;
    }
+
    return cont;
 }
 
+/**
+* @brief Main function of application. Call MyApp.
+*/
 int main()
 {
    MyApp alphabetTimerApp;

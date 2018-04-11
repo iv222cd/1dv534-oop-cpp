@@ -1,6 +1,9 @@
 #ifndef COMPARE_H
 #define COMPARE_H
 
+/**
+* @brief Simple class for comparing the content of two strings.
+*/
 class Compare
 {
 public:
