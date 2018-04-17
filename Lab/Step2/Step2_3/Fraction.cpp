@@ -1,9 +1,9 @@
 #include "Fraction.h"
 
-int Fraction::foo(int i)
-{
-   return i;
-}
+// TODO: Not set denominator to zero
+// TODO: Add gcn-functionality.
+// TODO: Comment.
+
 
 ostream &operator<<(ostream &stream, Fraction frac)
 {
@@ -13,6 +13,7 @@ ostream &operator<<(ostream &stream, Fraction frac)
 
 istream &operator>>(istream &stream, Fraction frac)
 {
+   // TODO: implement correctly.
    stream >> frac._nom;
    stream.get(); // '/'
    stream >> frac._den;
