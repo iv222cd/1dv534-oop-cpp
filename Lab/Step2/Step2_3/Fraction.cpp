@@ -25,26 +25,34 @@ int Fraction::gcd()
 }
 
 /**
+* @brief Divide with GCD and make sure that the denominator is positive
+*/
+void Fraction::reduce()
+{
+   int _gcd = gcd();
+
+   // Always let the denominator be positive.
+   // If the fraction is negateive let that be represented by a negative numerator.
+   if ((_den < 0) && (_gcd > 0))
+   {
+      _gcd *= -1;
+   }
+
+   _den /= _gcd;
+   _nom /= _gcd;
+}
+
+/**
 * @brief Overloading the << operator. (stream << fraction)
 * The function adds a representation of the Fraction object to the stream, for example 5/-3.
-* The function is implemented as a friend function and not a memeber function
+* The function is implemented as a friend function and not a member function
 * since the left hand argument is not of type Fraction.
 * @return stream object (same as input)
 */
 ostream &operator<<(ostream &stream, Fraction frac)
 {
    // Devide with GCD before presenting the fraction
-   int gcd = frac.gcd();
-
-   // Always let the denominator be positive.
-   // If the fraction is negateive let that be represented by a negative numerator.
-   if ((frac._den < 0) && (gcd > 0))
-   {
-      gcd *= -1;
-   }
-
-   frac._den /= gcd;
-   frac._nom /= gcd;
+   frac.reduce();
 
    if (frac._den != 1)
    {
@@ -52,7 +60,7 @@ ostream &operator<<(ostream &stream, Fraction frac)
    }
    else
    {
-      // frac is a integer
+      // frac is a integer, represent with the numerator
       stream << frac._nom;
    }
 
@@ -62,7 +70,7 @@ ostream &operator<<(ostream &stream, Fraction frac)
 /**
 * @brief Overloading the >> operator. (stream << fraction)
 * The fuction extracts a representation from the stream, for example '5/-3'.
-* The function is implemented as a friend function and not a memeber function
+* The function is implemented as a friend function and not a member function
 * since the left hand argument is not of type Fraction.
 * @return stream object (same as input)
 */
@@ -81,7 +89,7 @@ istream &operator>>(istream &stream, Fraction &frac)
 
 /**
 * @brief Overloading the + operator for int plus fraction. (int + fraction)
-* The function is implemented as a firend functions and not a memeber function
+* The function is implemented as a firend functions and not a member function
 * since the left hand argument is not of type Fraction.
 * @return a new fraction that is the old fraction plus the int, for example 2 + 3/4 = 11/4
 */
