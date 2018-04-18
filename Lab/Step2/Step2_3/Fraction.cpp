@@ -1,18 +1,17 @@
 #include "Fraction.h"
 
 // TODO: Not set denominator to zero
-// TODO: Add gcn-functionality.
-// TOD: Protect inargs with const?
+// TODO: Protect inargs with const?
 
 /**
-* @brief Calculation the Greatest Common Divisor (GCD) of the nominator and the denominator of Fraction.
+* @brief Calculation the Greatest Common Divisor (GCD) of the numerator and the denominator of Fraction.
 * Using Euclid's algorithm.
 * @return GCD
 */
 int Fraction::gcd()
 {
-   int a = _den > _nom ? _den : _nom; // Let a be the biggest of denominator and nominator
-   int b = _den > _nom ? _nom : _den; // Let b be the smallest of denominator and nominator
+   int a = _den > _nom ? _den : _nom; // Let a be the biggest of denominator and numerator
+   int b = _den > _nom ? _nom : _den; // Let b be the smallest of denominator and numerator
    int mod = a % b;
 
    while (mod != 0)
@@ -35,11 +34,10 @@ int Fraction::gcd()
 ostream &operator<<(ostream &stream, Fraction frac)
 {
    // Devide with GCD before presenting the fraction
-
    int gcd = frac.gcd();
 
    // Always let the denominator be positive.
-   // If the fraction is negateive let that be represented by a negative nominator.
+   // If the fraction is negateive let that be represented by a negative numerator.
    if ((frac._den < 0) && (gcd > 0))
    {
       gcd *= -1;
@@ -48,7 +46,16 @@ ostream &operator<<(ostream &stream, Fraction frac)
    frac._den /= gcd;
    frac._nom /= gcd;
 
-   stream << frac._nom << "/" << frac._den;
+   if (frac._den != 1)
+   {
+      stream << frac._nom << "/" << frac._den;
+   }
+   else
+   {
+      // frac is a integer
+      stream << frac._nom;
+   }
+
    return stream;
 }
 
