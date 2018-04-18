@@ -4,8 +4,26 @@
 #include <iostream>
 using namespace std;
 
-// TODO: Comment.
+/**
+* @brief Class for storing a fraction of integears (a rational number)
+* The following operators are overloaded in this class:
+*  Fraction = Fraction
+*  Fraction + Fraction
+*  Fraction - Fraction
+*  Fraction * Fraction
+*  Fraction / Fraction
+*  int + Fraction
+*  int - Fraction
+*  int * Fraction
+*  int / Fraction
+*  ostram << Fraction
+*  istream >> Fraction
 
+* @Note Operators on the form
+*  Fraction operator int
+* doesn't need to be overloaded since the int is turned into a Fraction object
+* with the constructor Fraction(int).
+*/
 class Fraction {
    int _nom; // Nominator
    int _den; // Denominator
@@ -15,9 +33,8 @@ public:
    Fraction(int nom, int den) : _nom(nom), _den(den) {}
 
    // Overloaded operators
-   // Friend function operators (where the rigth arg of the operator is not of type Fraction.)
    // TODO: write friend functions for all operators.
-
+   // Friend function operators (where the rigth arg of the operator is not of type Fraction.)
    friend ostream &operator<<(ostream &stream, Fraction frac); // stream << frac
    friend istream &operator>>(istream &stream, Fraction &frac); // stream >> frac
    friend Fraction operator+(int i, Fraction f); // int + frac
@@ -30,6 +47,5 @@ public:
 
    // TODO: overload operator ++, --, +=, -=, and logic operators
 };
-
 
 #endif /* FRACTION_H */
