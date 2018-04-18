@@ -11,12 +11,14 @@ ostream &operator<<(ostream &stream, Fraction frac)
    return stream;
 }
 
-istream &operator>>(istream &stream, Fraction frac)
+istream &operator>>(istream &stream, Fraction &frac)
 {
-   // TODO: implement correctly.
    stream >> frac._nom;
-   stream.get(); // '/'
+   stream.ignore(INT_MAX,'/'); // Remove the '/' char
    stream >> frac._den;
+   //TODO: Error handling.
+   //if (!stream) ....
+   //TODO: What happens if the user does no give a '/' token?.
    return stream;
 }
 
