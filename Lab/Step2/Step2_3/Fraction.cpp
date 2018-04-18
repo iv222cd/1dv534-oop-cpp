@@ -5,6 +5,27 @@
 // TOD: Protect inargs with const?
 
 /**
+* @brief Calculation the Greatest Common Divisor (GCD) of the nominator and the denominator of Fraction.
+* Using Euclid's algorithm.
+* @return GCD
+*/
+int Fraction::gcd()
+{
+   int a = _den > _nom ? _den : _nom; // Let a be the biggest of denominator and nominator
+   int b = _den > _nom ? _nom : _den; // Let b be the smallest of denominator and nominator
+   int mod = a % b;
+
+   while (mod != 0)
+   {
+      a = b;
+      b = mod;
+      mod = a % b;
+   }
+
+   return b;
+}
+
+/**
 * @brief Overloading the << operator. (stream << fraction)
 * The function adds a representation of the Fraction object to the stream, for example 5/-3.
 * The function is implemented as a friend function and not a memeber function

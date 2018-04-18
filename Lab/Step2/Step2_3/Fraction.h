@@ -27,6 +27,7 @@ using namespace std;
 class Fraction {
    int _nom; // Nominator
    int _den; // Denominator
+   int gcd();
 public:
    Fraction() : _nom(0), _den(1) {}
    Fraction(int nom) : _nom(nom), _den(1) {}
