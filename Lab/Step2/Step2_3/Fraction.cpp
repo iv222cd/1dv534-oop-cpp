@@ -34,6 +34,20 @@ int Fraction::gcd()
 */
 ostream &operator<<(ostream &stream, Fraction frac)
 {
+   // Devide with GCD before presenting the fraction
+
+   int gcd = frac.gcd();
+
+   // Always let the denominator be positive.
+   // If the fraction is negateive let that be represented by a negative nominator.
+   if ((frac._den < 0) && (gcd > 0))
+   {
+      gcd *= -1;
+   }
+
+   frac._den /= gcd;
+   frac._nom /= gcd;
+
    stream << frac._nom << "/" << frac._den;
    return stream;
 }
