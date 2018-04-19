@@ -49,19 +49,19 @@ void Fraction::reduce()
 * since the left hand argument is not of type Fraction.
 * @return stream object (same as input)
 */
-ostream &operator<<(ostream &stream, Fraction frac)
+ostream &operator<<(ostream &stream, Fraction f)
 {
    // Devide with GCD before presenting the fraction
-   frac.reduce();
+   f.reduce();
 
-   if (frac._den != 1)
+   if (f._den != 1)
    {
-      stream << frac._nom << "/" << frac._den;
+      stream << f._nom << "/" << f._den;
    }
    else
    {
-      // frac is a integer, represent with the numerator
-      stream << frac._nom;
+      // f is a integer, represent with the numerator
+      stream << f._nom;
    }
 
    return stream;
@@ -74,11 +74,11 @@ ostream &operator<<(ostream &stream, Fraction frac)
 * since the left hand argument is not of type Fraction.
 * @return stream object (same as input)
 */
-istream &operator>>(istream &stream, Fraction &frac)
+istream &operator>>(istream &stream, Fraction &f)
 {
-   stream >> frac._nom;
+   stream >> f._nom;
    stream.ignore(INT_MAX,'/'); // Remove the '/' char
-   stream >> frac._den;
+   stream >> f._den;
    //TODO: Error handling.
    //if (!stream) ....
    // Maby set the stream fail bit?
@@ -93,12 +93,39 @@ istream &operator>>(istream &stream, Fraction &frac)
 * since the left hand argument is not of type Fraction.
 * @return a new fraction that is the old fraction plus the int, for example 2 + 3/4 = 11/4
 */
-Fraction operator+(int i, Fraction fraction)
+Fraction operator+(int i, Fraction f)
 {
    Fraction result;
 
-   result._nom = i * fraction._den + fraction._nom;
-   result._den = fraction._den;
+   result._nom = i * f._den + f._nom;
+   result._den = f._den;
+   return result;
+}
+
+
+Fraction operator-(int i, Fraction f)
+{
+   Fraction result;
+
+   result._nom = i * f._den - f._nom;
+   result._den = f._den;
+   return result;
+}
+
+Fraction operator*(int i, Fraction f)
+{
+   Fraction result;
+
+   result._nom = i * f._nom;
+   result._den = f._den;
+   return result;
+}
+Fraction operator/(int i, Fraction f)
+{
+   Fraction result;
+
+   result._nom = i * f._den;
+   result._den = f._nom;
    return result;
 }
 
@@ -107,12 +134,12 @@ Fraction operator+(int i, Fraction fraction)
 * The function adds two fraction objects, for example 2/3 + 3/2 = 13/6
 * @return a new fraction that is the sum of the two arguments.
 */
-Fraction Fraction::operator+(Fraction frac)
+Fraction Fraction::operator+(Fraction f)
 {
    Fraction result;
 
-   result._nom = _nom * frac._den + _den * frac._nom;
-   result._den = _den * frac._den;
+   result._nom = _nom * f._den + _den * f._nom;
+   result._den = _den * f._den;
    return result;
 }
 
@@ -121,12 +148,12 @@ Fraction Fraction::operator+(Fraction frac)
 * The function subtracts one fraction objects from antoher, for example 2/3 - 3/2 = -5/6
 * @return a new fraction that is the subtraction between the two arguments.
 */
-Fraction Fraction::operator-(Fraction frac)
+Fraction Fraction::operator-(Fraction f)
 {
    Fraction result;
 
-   result._nom = _nom * frac._den - _den * frac._nom;
-   result._den = _den * frac._den;
+   result._nom = _nom * f._den - _den * f._nom;
+   result._den = _den * f._den;
    return result;
 }
 
@@ -135,12 +162,12 @@ Fraction Fraction::operator-(Fraction frac)
 * The function subtracts one fraction objects from antoher, for example 2/3 * 3/2 = 1
 * @return a new fraction that is the multiple of the two arguments.
 */
-Fraction Fraction::operator*(Fraction frac)
+Fraction Fraction::operator*(Fraction f)
 {
    Fraction result;
 
-   result._nom = _nom * frac._nom;
-   result._den = _den * frac._den;
+   result._nom = _nom * f._nom;
+   result._den = _den * f._den;
    return result;
 }
 
@@ -149,12 +176,12 @@ Fraction Fraction::operator*(Fraction frac)
 * The function subtracts one fraction objects from antoher, for example 2/3 / 3/2 = 4/9
 * @return a new fraction that is the devision between the two arguments.
 */
-Fraction Fraction::operator/(Fraction frac)
+Fraction Fraction::operator/(Fraction f)
 {
    Fraction result;
 
-   result._nom = _nom * frac._den;
-   result._den = _den * frac._nom;
+   result._nom = _nom * f._den;
+   result._den = _den * f._nom;
    return result;
 }
 
@@ -163,9 +190,9 @@ Fraction Fraction::operator/(Fraction frac)
 * The function sets the value of one fraction the the current one.
 * @return a copy of the assigned object.
 */
-Fraction Fraction::operator=(Fraction frac)
+Fraction Fraction::operator=(Fraction f)
 {
-   _nom = frac._nom;
-   _den = frac._den;
+   _nom = f._nom;
+   _den = f._den;
    return *this;
 }
