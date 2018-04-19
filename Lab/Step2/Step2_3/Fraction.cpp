@@ -74,7 +74,7 @@ ostream &operator<<(ostream &stream, Fraction f)
 * since the left hand argument is not of type Fraction.
 * @return stream object (same as input)
 */
-istream &operator>>(istream &stream, const Fraction &f)
+istream &operator>>(istream &stream, Fraction &f)
 {
    stream >> f._nom; // Read numerator
 

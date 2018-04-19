@@ -40,7 +40,7 @@ public:
    // TODO: write friend functions for all operators.
    // Friend function operators (where the rigth arg of the operator is not of type Fraction.)
    friend ostream &operator<<(ostream &stream, const Fraction f); // stream << frac
-   friend istream &operator>>(istream &stream, const Fraction &f); // stream >> frac
+   friend istream &operator>>(istream &stream, Fraction &f); // stream >> frac
    friend Fraction operator+(const int i, const Fraction f); // int + frac
    friend Fraction operator-(const int i, const Fraction f); // int - frac
    friend Fraction operator*(const int i, const Fraction f); // int * frac
