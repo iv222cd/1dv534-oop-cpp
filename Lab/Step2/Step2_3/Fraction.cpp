@@ -149,11 +149,7 @@ Fraction operator/(const int i, const Fraction f)
 */
 Fraction Fraction::operator+(const Fraction f) const
 {
-   Fraction result;
-
-   result._nom = _nom * f._den + _den * f._nom;
-   result._den = _den * f._den;
-   return result;
+   return Fraction(_nom * f._den + _den * f._nom, _den * f._den);
 }
 
 /**
@@ -163,11 +159,7 @@ Fraction Fraction::operator+(const Fraction f) const
 */
 Fraction Fraction::operator-(const Fraction f) const
 {
-   Fraction result;
-
-   result._nom = _nom * f._den - _den * f._nom;
-   result._den = _den * f._den;
-   return result;
+   return Fraction(_nom * f._den - _den * f._nom, _den * f._den);
 }
 
 /**
@@ -177,11 +169,7 @@ Fraction Fraction::operator-(const Fraction f) const
 */
 Fraction Fraction::operator*(const Fraction f) const
 {
-   Fraction result;
-
-   result._nom = _nom * f._nom;
-   result._den = _den * f._den;
-   return result;
+   return Fraction(_nom * f._nom, _den * f._den);
 }
 
 /**
@@ -191,11 +179,7 @@ Fraction Fraction::operator*(const Fraction f) const
 */
 Fraction Fraction::operator/(const Fraction f) const
 {
-   Fraction result;
-
-   result._nom = _nom * f._den;
-   result._den = _den * f._nom;
-   return result;
+   return Fraction(_nom * f._den, _den * f._nom);
 }
 
 /**
