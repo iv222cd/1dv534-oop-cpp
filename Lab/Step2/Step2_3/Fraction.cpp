@@ -33,7 +33,7 @@ void Fraction::reduce()
 
    // Always let the denominator be positive.
    // If the fraction is negateive let that be represented by a negative numerator.
-   if ((_den < 0) && (_gcd > 0))
+   if ((_den * _gcd) < 0)
    {
       _gcd *= -1;
    }
@@ -89,44 +89,47 @@ istream &operator>>(istream &stream, Fraction &f)
 
 /**
 * @brief Overloading the + operator for int plus fraction. (int + fraction)
-* The function is implemented as a firend functions and not a member function
+* The function is implemented as a friend function and not a member function
 * since the left hand argument is not of type Fraction.
 * @return a new fraction that is the old fraction plus the int, for example 2 + 3/4 = 11/4
 */
 Fraction operator+(int i, Fraction f)
 {
-   Fraction result;
-
-   result._nom = i * f._den + f._nom;
-   result._den = f._den;
-   return result;
+   return Fraction(i) + f;
 }
 
+/**
 
+* @brief Overloading the - operator for int minnus fraction. (int - fraction)
+* The function is implemented as a friend function and not a member function
+* since the left hand argument is not of type Fraction.
+* @return a new fraction that is the int minus the fraction, for example 2 - 3/4 = 5/4
+*/
 Fraction operator-(int i, Fraction f)
 {
-   Fraction result;
-
-   result._nom = i * f._den - f._nom;
-   result._den = f._den;
-   return result;
+   return Fraction(i) - f;
 }
 
+/**
+* @brief Overloading the * operator for int times fraction. (int * fraction)
+* The function is implemented as a friend function and not a member function
+* since the left hand argument is not of type Fraction.
+* @return a new fraction that is the int minus the fraction, for example 2 * 3/4 = 3/2
+*/
 Fraction operator*(int i, Fraction f)
 {
-   Fraction result;
-
-   result._nom = i * f._nom;
-   result._den = f._den;
-   return result;
+   return Fraction(i) * f;
 }
+
+/**
+* @brief Overloading the / operator for int devided with fraction. (int / fraction)
+* The function is implemented as a friend function and not a member function
+* since the left hand argument is not of type Fraction.
+* @return a new fraction that is the int minus the fraction, for example 2 / 3/4 = 8/3
+*/
 Fraction operator/(int i, Fraction f)
 {
-   Fraction result;
-
-   result._nom = i * f._den;
-   result._den = f._nom;
-   return result;
+   return Fraction(i) / f;
 }
 
 /**
