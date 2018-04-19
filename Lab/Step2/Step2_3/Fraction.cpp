@@ -1,8 +1,5 @@
 #include "Fraction.h"
 
-// TODO: Not set denominator to zero
-// TODO: Protect inargs with const?
-
 /**
 * @brief Calculation the Greatest Common Divisor (GCD) of the numerator and the denominator of Fraction.
 * Using Euclid's algorithm.
@@ -12,13 +9,21 @@ int Fraction::gcd()
 {
    int a = _den > _nom ? _den : _nom; // Let a be the biggest of denominator and numerator
    int b = _den > _nom ? _nom : _den; // Let b be the smallest of denominator and numerator
-   int mod = a % b;
 
-   while (mod != 0)
+   if (_nom == 0)
    {
-      a = b;
-      b = mod;
-      mod = a % b;
+      b = 1; // Avoid devision by zero by return gdc = 1 if numerator is zero.
+   }
+   else
+   {
+      int mod = a % b;
+
+      while (mod != 0)
+      {
+         a = b;
+         b = mod;
+         mod = a % b;
+      }
    }
 
    return b;
@@ -27,7 +32,7 @@ int Fraction::gcd()
 /**
 * @brief Divide with GCD and make sure that the denominator is positive
 */
-void Fraction::reduce()
+inline void Fraction::reduce()
 {
    int _gcd = gcd();
 
@@ -51,9 +56,6 @@ void Fraction::reduce()
 */
 ostream &operator<<(ostream &stream, Fraction f)
 {
-   // Devide with GCD before presenting the fraction
-   f.reduce();
-
    if (f._den != 1)
    {
       stream << f._nom << "/" << f._den;
@@ -76,8 +78,10 @@ ostream &operator<<(ostream &stream, Fraction f)
 */
 istream &operator>>(istream &stream, Fraction &f)
 {
-   stream >> f._nom; // Read numerator
+   // Read numerator
+   stream >> f._nom;
 
+   // Read '/' token.
    if (stream)
    {
       char div;
@@ -86,14 +90,31 @@ istream &operator>>(istream &stream, Fraction &f)
 
       if (div != '/')
       {
-         stream.setstate(std::ios_base::failbit); // No '/' token found
-      }
-      else
-      {
-         stream >> f._den; // Read denominator
+         stream.setstate(std::ios_base::failbit); // '/' token not found
       }
    }
 
+   // Read denominator
+   if (stream)
+   {
+      stream >> f._den;
+   }
+
+   // Fraction cleanup
+   if (stream)
+   {
+      // Avoide division with zero by setting the fraction to 0.
+      if (f._den == 0)
+      {
+         f._den = 1;
+         f._nom = 0;
+      }
+      else
+      {
+         // Devide with GCD
+         f.reduce();
+      }
+   }
    return stream;
 }
 

@@ -4,6 +4,8 @@
 #include <iostream>
 using namespace std;
 
+// TODO: Throw exception if div with zero.
+
 /**
 * @brief Class for storing a fraction of integears (a rational number)
 * The following operators are overloaded in this class:
@@ -25,6 +27,8 @@ using namespace std;
 *  Fraction operator int
 * doesn't need to be overloaded since the int is turned into a Fraction object
 * with the constructor Fraction(int).
+*
+* When devision with zero the Fraction object is set to 0/1.
 */
 class Fraction {
    int _nom; // Nominator
@@ -34,10 +38,9 @@ class Fraction {
 public:
    Fraction() : _nom(0), _den(1) {}
    Fraction(int nom) : _nom(nom), _den(1) {}
-   Fraction(int nom, int den) : _nom(nom), _den(den) {}
+   Fraction(int nom, int den) : _nom(den != 0 ? nom : 0), _den(den != 0 ? den : 1) { reduce(); }
 
    // Overloaded operators
-   // TODO: write friend functions for all operators.
    // Friend function operators (where the rigth arg of the operator is not of type Fraction.)
    friend ostream &operator<<(ostream &stream, const Fraction f); // stream << frac
    friend istream &operator>>(istream &stream, Fraction &f); // stream >> frac
@@ -55,10 +58,6 @@ public:
    Fraction operator-() const; // -frac
 
    // TODO: overload operator ++, --, +=, -=, and logic operators
-};
-
-class FractionError {
-
 };
 
 #endif /* FRACTION_H */
