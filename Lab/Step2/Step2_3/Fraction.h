@@ -44,11 +44,13 @@ public:
    friend Fraction operator*(int i, Fraction f); // int * frac
    friend Fraction operator/(int i, Fraction f); // int / frac
    // Member operators (where the rigth arg of the operator is of type Fraction.)
-   Fraction operator+(Fraction frac); // frac + frac
+   Fraction operator=(Fraction f); // frac = frac
+   Fraction operator+(Fraction f); // frac + frac
    Fraction operator-(Fraction f); // frac - frac
    Fraction operator*(Fraction f); // frac * frac
    Fraction operator/(Fraction f); // frac / frac
-   Fraction operator=(Fraction f); // frac = frac
+   Fraction operator+(); // +frac
+   Fraction operator-(); // -frac
 
    // TODO: overload operator ++, --, +=, -=, and logic operators
 };

@@ -209,3 +209,21 @@ Fraction Fraction::operator=(Fraction f)
    _den = f._den;
    return *this;
 }
+
+/**
+* @brief Overloading the + operator for plus fraction. (+ fraction)
+* @return a copy of the object.
+*/
+Fraction Fraction::operator+()
+{
+   return *this;
+}
+
+/**
+* @brief Overloading the - operator for minus fraction. (- fraction)
+* @return a negative copy of the object.
+*/
+Fraction Fraction::operator-()
+{
+   return Fraction(-1) * *this;
+}
