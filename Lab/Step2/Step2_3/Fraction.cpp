@@ -74,7 +74,7 @@ ostream &operator<<(ostream &stream, Fraction f)
 * since the left hand argument is not of type Fraction.
 * @return stream object (same as input)
 */
-istream &operator>>(istream &stream, Fraction &f)
+istream &operator>>(istream &stream, const Fraction &f)
 {
    stream >> f._nom; // Read numerator
 
@@ -103,7 +103,7 @@ istream &operator>>(istream &stream, Fraction &f)
 * since the left hand argument is not of type Fraction.
 * @return a new fraction that is the old fraction plus the int, for example 2 + 3/4 = 11/4
 */
-Fraction operator+(int i, Fraction f)
+Fraction operator+(const int i, const Fraction f)
 {
    return Fraction(i) + f;
 }
@@ -115,7 +115,7 @@ Fraction operator+(int i, Fraction f)
 * since the left hand argument is not of type Fraction.
 * @return a new fraction that is the int minus the fraction, for example 2 - 3/4 = 5/4
 */
-Fraction operator-(int i, Fraction f)
+Fraction operator-(const int i, const Fraction f)
 {
    return Fraction(i) - f;
 }
@@ -126,7 +126,7 @@ Fraction operator-(int i, Fraction f)
 * since the left hand argument is not of type Fraction.
 * @return a new fraction that is the int minus the fraction, for example 2 * 3/4 = 3/2
 */
-Fraction operator*(int i, Fraction f)
+Fraction operator*(const int i, const Fraction f)
 {
    return Fraction(i) * f;
 }
@@ -137,7 +137,7 @@ Fraction operator*(int i, Fraction f)
 * since the left hand argument is not of type Fraction.
 * @return a new fraction that is the int minus the fraction, for example 2 / 3/4 = 8/3
 */
-Fraction operator/(int i, Fraction f)
+Fraction operator/(const int i, const Fraction f)
 {
    return Fraction(i) / f;
 }
@@ -147,7 +147,7 @@ Fraction operator/(int i, Fraction f)
 * The function adds two fraction objects, for example 2/3 + 3/2 = 13/6
 * @return a new fraction that is the sum of the two arguments.
 */
-Fraction Fraction::operator+(Fraction f)
+Fraction Fraction::operator+(const Fraction f) const
 {
    Fraction result;
 
@@ -161,7 +161,7 @@ Fraction Fraction::operator+(Fraction f)
 * The function subtracts one fraction objects from antoher, for example 2/3 - 3/2 = -5/6
 * @return a new fraction that is the subtraction between the two arguments.
 */
-Fraction Fraction::operator-(Fraction f)
+Fraction Fraction::operator-(const Fraction f) const
 {
    Fraction result;
 
@@ -175,7 +175,7 @@ Fraction Fraction::operator-(Fraction f)
 * The function subtracts one fraction objects from antoher, for example 2/3 * 3/2 = 1
 * @return a new fraction that is the multiple of the two arguments.
 */
-Fraction Fraction::operator*(Fraction f)
+Fraction Fraction::operator*(const Fraction f) const
 {
    Fraction result;
 
@@ -189,7 +189,7 @@ Fraction Fraction::operator*(Fraction f)
 * The function subtracts one fraction objects from antoher, for example 2/3 / 3/2 = 4/9
 * @return a new fraction that is the devision between the two arguments.
 */
-Fraction Fraction::operator/(Fraction f)
+Fraction Fraction::operator/(const Fraction f) const
 {
    Fraction result;
 
@@ -203,7 +203,7 @@ Fraction Fraction::operator/(Fraction f)
 * The function sets the value of one fraction the the current one.
 * @return a copy of the assigned object.
 */
-Fraction Fraction::operator=(Fraction f)
+Fraction Fraction::operator=(const Fraction f) 
 {
    _nom = f._nom;
    _den = f._den;
@@ -214,7 +214,7 @@ Fraction Fraction::operator=(Fraction f)
 * @brief Overloading the + operator for plus fraction. (+ fraction)
 * @return a copy of the object.
 */
-Fraction Fraction::operator+()
+Fraction Fraction::operator+() const
 {
    return *this;
 }
@@ -223,7 +223,7 @@ Fraction Fraction::operator+()
 * @brief Overloading the - operator for minus fraction. (- fraction)
 * @return a negative copy of the object.
 */
-Fraction Fraction::operator-()
+Fraction Fraction::operator-() const
 {
    return Fraction(-1) * *this;
 }
