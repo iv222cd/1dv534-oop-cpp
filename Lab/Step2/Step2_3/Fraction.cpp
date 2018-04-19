@@ -76,14 +76,24 @@ ostream &operator<<(ostream &stream, Fraction f)
 */
 istream &operator>>(istream &stream, Fraction &f)
 {
-   stream >> f._nom;
-   stream.ignore(INT_MAX,'/'); // Remove the '/' char
-   stream >> f._den;
-   //TODO: Error handling.
-   //if (!stream) ....
-   // Maby set the stream fail bit?
-   //TODO: What happens if the user does no give a '/' token?.
-   //stream.setstate(std::istream::badbit);
+   stream >> f._nom; // Read numerator
+
+   if (stream)
+   {
+      char div;
+      stream >> std::ws; // Remove all white spaces before '/' token
+      stream.get(div);
+
+      if (div != '/')
+      {
+         stream.setstate(std::ios_base::failbit); // No '/' token found
+      }
+      else
+      {
+         stream >> f._den; // Read denominator
+      }
+   }
+
    return stream;
 }
 
