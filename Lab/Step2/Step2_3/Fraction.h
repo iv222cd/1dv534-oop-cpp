@@ -38,7 +38,10 @@ class Fraction {
 public:
    Fraction() : _nom(0), _den(1) {}
    Fraction(int nom) : _nom(nom), _den(1) {}
-   Fraction(int nom, int den) : _nom(den != 0 ? nom : 0), _den(den != 0 ? den : 1) { reduce(); }
+   Fraction(int nom, int den) : _nom(den != 0 ? nom : 0), _den(den != 0 ? den : 1) {
+   // Fraction(int nom, int den) : _nom(nom), _den(den) {
+   // throw std::overflow_error("Divide by zero exception");
+      reduce(); }
 
    // Overloaded operators
    // Friend function operators (where the rigth arg of the operator is not of type Fraction.)
