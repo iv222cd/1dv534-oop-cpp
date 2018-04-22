@@ -1,5 +1,9 @@
 #include "Fraction.h"
 
+/******************************************************************************
+* Fraction private member functions
+******************************************************************************/
+
 /**
 * @brief Calculation the Greatest Common Divisor (GCD) of the numerator and the denominator of Fraction.
 * Using Euclid's algorithm.
@@ -46,6 +50,84 @@ inline void Fraction::reduce()
    _den /= _gcd;
    _nom /= _gcd;
 }
+
+/******************************************************************************
+* Fraction public member functions
+******************************************************************************/
+
+/**
+* @brief Overloading the + operator for fraction plus fraction. (fraction + fraction)
+* The function adds two fraction objects, for example 2/3 + 3/2 = 13/6
+* @return a new fraction that is the sum of the two arguments.
+*/
+Fraction Fraction::operator+(const Fraction f) const
+{
+   return Fraction(_nom * f._den + _den * f._nom, _den * f._den);
+}
+
+/**
+* @brief Overloading the - operator for fraction minus fraction. (fraction - fraction)
+* The function subtracts one fraction objects from antoher, for example 2/3 - 3/2 = -5/6
+* @return a new fraction that is the subtraction between the two arguments.
+*/
+Fraction Fraction::operator-(const Fraction f) const
+{
+   return Fraction(_nom * f._den - _den * f._nom, _den * f._den);
+}
+
+/**
+* @brief Overloading the * operator for fraction times fraction. (fraction * fraction)
+* The function subtracts one fraction objects from antoher, for example 2/3 * 3/2 = 1
+* @return a new fraction that is the multiple of the two arguments.
+*/
+Fraction Fraction::operator*(const Fraction f) const
+{
+   return Fraction(_nom * f._nom, _den * f._den);
+}
+
+/**
+* @brief Overloading the / operator for fraction devided with fraction. (fraction / fraction)
+* The function subtracts one fraction objects from antoher, for example 2/3 / 3/2 = 4/9
+* @return a new fraction that is the devision between the two arguments.
+*/
+Fraction Fraction::operator/(const Fraction f) const
+{
+   return Fraction(_nom * f._den, _den * f._nom);
+}
+
+/**
+* @brief Overloading the = operator for fraction assignement. (fraction = fraction)
+* The function sets the value of one fraction the the current one.
+* @return a copy of the assigned object.
+*/
+Fraction Fraction::operator=(const Fraction f) 
+{
+   _nom = f._nom;
+   _den = f._den;
+   return *this;
+}
+
+/**
+* @brief Overloading the + operator for plus fraction. (+ fraction)
+* @return a copy of the object.
+*/
+Fraction Fraction::operator+() const
+{
+   return *this;
+}
+
+/**
+* @brief Overloading the - operator for minus fraction. (- fraction)
+* @return a negative copy of the object.
+*/
+Fraction Fraction::operator-() const
+{
+   return Fraction(-1) * *this;
+}
+
+/******************************************************************************
+* Fraction friend functions
+******************************************************************************/
 
 /**
 * @brief Overloading the << operator. (stream << fraction)
@@ -162,74 +244,4 @@ Fraction operator*(const int i, const Fraction f)
 Fraction operator/(const int i, const Fraction f)
 {
    return Fraction(i) / f;
-}
-
-/**
-* @brief Overloading the + operator for fraction plus fraction. (fraction + fraction)
-* The function adds two fraction objects, for example 2/3 + 3/2 = 13/6
-* @return a new fraction that is the sum of the two arguments.
-*/
-Fraction Fraction::operator+(const Fraction f) const
-{
-   return Fraction(_nom * f._den + _den * f._nom, _den * f._den);
-}
-
-/**
-* @brief Overloading the - operator for fraction minus fraction. (fraction - fraction)
-* The function subtracts one fraction objects from antoher, for example 2/3 - 3/2 = -5/6
-* @return a new fraction that is the subtraction between the two arguments.
-*/
-Fraction Fraction::operator-(const Fraction f) const
-{
-   return Fraction(_nom * f._den - _den * f._nom, _den * f._den);
-}
-
-/**
-* @brief Overloading the * operator for fraction times fraction. (fraction * fraction)
-* The function subtracts one fraction objects from antoher, for example 2/3 * 3/2 = 1
-* @return a new fraction that is the multiple of the two arguments.
-*/
-Fraction Fraction::operator*(const Fraction f) const
-{
-   return Fraction(_nom * f._nom, _den * f._den);
-}
-
-/**
-* @brief Overloading the / operator for fraction devided with fraction. (fraction / fraction)
-* The function subtracts one fraction objects from antoher, for example 2/3 / 3/2 = 4/9
-* @return a new fraction that is the devision between the two arguments.
-*/
-Fraction Fraction::operator/(const Fraction f) const
-{
-   return Fraction(_nom * f._den, _den * f._nom);
-}
-
-/**
-* @brief Overloading the = operator for fraction assignement. (fraction = fraction)
-* The function sets the value of one fraction the the current one.
-* @return a copy of the assigned object.
-*/
-Fraction Fraction::operator=(const Fraction f) 
-{
-   _nom = f._nom;
-   _den = f._den;
-   return *this;
-}
-
-/**
-* @brief Overloading the + operator for plus fraction. (+ fraction)
-* @return a copy of the object.
-*/
-Fraction Fraction::operator+() const
-{
-   return *this;
-}
-
-/**
-* @brief Overloading the - operator for minus fraction. (- fraction)
-* @return a negative copy of the object.
-*/
-Fraction Fraction::operator-() const
-{
-   return Fraction(-1) * *this;
 }

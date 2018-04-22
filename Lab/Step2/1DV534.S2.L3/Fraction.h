@@ -44,13 +44,6 @@ public:
       reduce(); }
 
    // Overloaded operators
-   // Friend function operators (where the rigth arg of the operator is not of type Fraction.)
-   friend ostream &operator<<(ostream &stream, const Fraction f); // stream << frac
-   friend istream &operator>>(istream &stream, Fraction &f); // stream >> frac
-   friend Fraction operator+(const int i, const Fraction f); // int + frac
-   friend Fraction operator-(const int i, const Fraction f); // int - frac
-   friend Fraction operator*(const int i, const Fraction f); // int * frac
-   friend Fraction operator/(const int i, const Fraction f); // int / frac
    // Member operators (where the rigth arg of the operator is of type Fraction.)
    Fraction operator=(const Fraction f); // frac = frac
    Fraction operator+(const Fraction f) const; // frac + frac
@@ -59,7 +52,13 @@ public:
    Fraction operator/(const Fraction f) const; // frac / frac
    Fraction operator+() const; // +frac
    Fraction operator-() const; // -frac
-
+   // Friend function operators (where the rigth arg of the operator is not of type Fraction.)
+   friend ostream &operator<<(ostream &stream, const Fraction f); // stream << frac
+   friend istream &operator>>(istream &stream, Fraction &f); // stream >> frac
+   friend Fraction operator+(const int i, const Fraction f); // int + frac
+   friend Fraction operator-(const int i, const Fraction f); // int - frac
+   friend Fraction operator*(const int i, const Fraction f); // int * frac
+   friend Fraction operator/(const int i, const Fraction f); // int / frac
    // TODO: overload operator ++, --, +=, -=, and logic operators
 };
 
