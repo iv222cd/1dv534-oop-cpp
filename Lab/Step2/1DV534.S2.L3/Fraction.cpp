@@ -9,7 +9,7 @@
 * Using Euclid's algorithm.
 * @return GCD
 */
-int Fraction::gcd()
+inline int Fraction::gcd()
 {
    int a = _den > _nom ? _den : _nom; // Let a be the biggest of denominator and numerator
    int b = _den > _nom ? _nom : _den; // Let b be the smallest of denominator and numerator
@@ -123,6 +123,24 @@ Fraction Fraction::operator+() const
 Fraction Fraction::operator-() const
 {
    return Fraction(-1) * *this;
+}
+
+/**
+* @brief Overloading the == operator coparing two fractions. (fraction == fraction)
+* @return a negative copy of the object.
+*/
+bool Fraction::operator== (const Fraction f) const
+{
+   return ((_nom == f._nom) && (_den == f._den));
+}
+
+/**
+* @brief Overloading the == operator coparing two fractions. (fraction == fraction)
+* @return a negative copy of the object.
+*/
+bool Fraction::operator!= (const Fraction f) const
+{
+   return ((_nom != f._nom) || (_den != f._den));
 }
 
 /******************************************************************************

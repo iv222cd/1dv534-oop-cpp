@@ -20,20 +20,39 @@
 //         2015-03-06   Revised by Anne. Converted to VS 2013
 //         2018-04-05   Code tested for VS 2017, by Anne
 //         2018-04-22   Added some cin error handling, by Ingrid Wiklund
-//         2018-04-22   Encapsulated the program in a try-catch statement.
+//         2018-04-22   Encapsulated the program in a try-catch statement, by Ingrid Wiklund
+//         2018-04-22   Added more test for better test coverage, by Ingrid Wiklund
+//                      Using exception for testing with the simple TestFailException class.
 /*************************************************************************/
 
 #include <iostream>
+#include <sstream>
 #include "Fraction.h"
+#include "TestFailException.h"
+
 using std::endl;
 using std::cin;
 using std::cout;
 
 class Application
 {
+   void testEqual(Fraction expected, Fraction actual);
 public:
    int run();
 };
+
+/**
+* @brief    Compare expected and actual. Throw exception "TestFailException" if not equal.
+*/
+void Application::testEqual(Fraction expected, Fraction actual)
+{
+   if (expected != actual)
+   {
+      stringstream s;
+      s << "Test Failed! Expected " << expected << ", was " << actual << endl;
+      throw TestFailException(s.str());
+   }
+}
 
 int Application::run()
 {
@@ -76,6 +95,24 @@ int Application::run()
    // Following should output "2/-3 / 5/6 = -4/5" if test case examples was used
    cout << endl << f1 << " / " << f2 << " = " << result << endl;
 
+
+   // ** This section by Ingrid Wiklund ****************
+   // Test int operator Fraction
+   cout << "================================" << endl;
+   cout << "Start of tests written by Ingrid" << endl;
+   cout << "================================" << endl;
+
+   int i = 3;
+   f1 = Fraction(3 / 2);
+   Fraction expected;
+
+   expected = Fraction(5 / 5);
+   result = i + f1;
+   cout << endl << i << " + " << f1 << " = " << result << " =? " << expected << endl;
+   testEqual(expected, result);
+
+   // ** End section by Ingrid Wiklund ****************
+
    cin.get();
    return 0;
 }
@@ -88,9 +125,17 @@ int main()
    {
       returnValue = myApp.run();
    }
+   catch (TestFailException &e)
+   {
+      cout << e.getMessage();
+      cin.get();
+      cin.get();
+   }
    catch (...)
    {
       cout << "\nProgram stopped du to an unknow error";
+      cin.get();
+      throw;
    }
    return returnValue;
 }

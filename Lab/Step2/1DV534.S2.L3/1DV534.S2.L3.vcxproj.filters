@@ -26,5 +26,8 @@
     <ClInclude Include="Fraction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TestFailException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
