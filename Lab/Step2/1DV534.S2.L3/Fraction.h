@@ -32,14 +32,14 @@ using namespace std;
 * When division with zero throw std::overflow_error.
 */
 class Fraction {
-   int _nom; // Nominator
+   int _num; // Nominator
    int _den; // Denominator
    int gcd();
    void reduce();
 public:
-   Fraction() : _nom(0), _den(1) {}
-   Fraction(int nom) : _nom(nom), _den(1) {}
-   Fraction(int nom, int den) : _nom(nom), _den(den)
+   Fraction() : _num(0), _den(1) {}
+   Fraction(int nom) : _num(nom), _den(1) {}
+   Fraction(int nom, int den) : _num(nom), _den(den)
    {
       if (den == 0) throw std::overflow_error("Divition by zero");
       reduce();

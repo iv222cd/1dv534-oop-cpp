@@ -11,10 +11,10 @@
 */
 inline int Fraction::gcd()
 {
-   int a = _den > _nom ? _den : _nom; // Let a be the biggest of denominator and numerator
-   int b = _den > _nom ? _nom : _den; // Let b be the smallest of denominator and numerator
+   int a = _den > _num ? _den : _num; // Let a be the biggest of denominator and numerator
+   int b = _den > _num ? _num : _den; // Let b be the smallest of denominator and numerator
 
-   if (_nom == 0)
+   if (_num == 0)
    {
       b = 1; // Avoid devision by zero by return gdc = 1 if numerator is zero.
    }
@@ -48,7 +48,7 @@ inline void Fraction::reduce()
    }
 
    _den /= _gcd;
-   _nom /= _gcd;
+   _num /= _gcd;
 }
 
 /******************************************************************************
@@ -62,7 +62,7 @@ inline void Fraction::reduce()
 */
 Fraction Fraction::operator+(const Fraction f) const
 {
-   return Fraction(_nom * f._den + _den * f._nom, _den * f._den);
+   return Fraction(_num * f._den + _den * f._num, _den * f._den);
 }
 
 /**
@@ -72,7 +72,7 @@ Fraction Fraction::operator+(const Fraction f) const
 */
 Fraction Fraction::operator-(const Fraction f) const
 {
-   return Fraction(_nom * f._den - _den * f._nom, _den * f._den);
+   return Fraction(_num * f._den - _den * f._num, _den * f._den);
 }
 
 /**
@@ -82,7 +82,7 @@ Fraction Fraction::operator-(const Fraction f) const
 */
 Fraction Fraction::operator*(const Fraction f) const
 {
-   return Fraction(_nom * f._nom, _den * f._den);
+   return Fraction(_num * f._num, _den * f._den);
 }
 
 /**
@@ -92,7 +92,7 @@ Fraction Fraction::operator*(const Fraction f) const
 */
 Fraction Fraction::operator/(const Fraction f) const
 {
-   return Fraction(_nom * f._den, _den * f._nom);
+   return Fraction(_num * f._den, _den * f._num);
 }
 
 /**
@@ -102,7 +102,7 @@ Fraction Fraction::operator/(const Fraction f) const
 */
 Fraction Fraction::operator=(const Fraction f) 
 {
-   _nom = f._nom;
+   _num = f._num;
    _den = f._den;
    return *this;
 }
@@ -131,7 +131,7 @@ Fraction Fraction::operator-() const
 */
 bool Fraction::operator== (const Fraction f) const
 {
-   return ((_nom == f._nom) && (_den == f._den));
+   return ((_num == f._num) && (_den == f._den));
 }
 
 /**
@@ -140,7 +140,7 @@ bool Fraction::operator== (const Fraction f) const
 */
 bool Fraction::operator!= (const Fraction f) const
 {
-   return ((_nom != f._nom) || (_den != f._den));
+   return ((_num != f._num) || (_den != f._den));
 }
 
 /******************************************************************************
@@ -161,12 +161,12 @@ ostream &operator<<(ostream &stream, Fraction f)
 {
    if (f._den != 1)
    {
-      stream << f._nom << "/" << f._den;
+      stream << f._num << "/" << f._den;
    }
    else
    {
       // f is a integer, represent with the numerator
-      stream << f._nom;
+      stream << f._num;
    }
 
    return stream;
@@ -182,7 +182,7 @@ ostream &operator<<(ostream &stream, Fraction f)
 istream &operator>>(istream &stream, Fraction &f)
 {
    // Read numerator
-   stream >> f._nom;
+   stream >> f._num;
 
    // Read '/' token.
    if (stream)
