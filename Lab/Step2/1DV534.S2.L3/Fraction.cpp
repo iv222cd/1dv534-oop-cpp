@@ -130,10 +130,13 @@ Fraction Fraction::operator-() const
 ******************************************************************************/
 
 /**
+*@Note   The following functions are implemented as friend functions and not a member functions
+* since the left hand argument is not of type Fraction.
+*/
+
+/**
 * @brief Overloading the << operator. (stream << fraction)
 * The function adds a representation of the Fraction object to the stream, for example 5/-3.
-* The function is implemented as a friend function and not a member function
-* since the left hand argument is not of type Fraction.
 * @return stream object (same as input)
 */
 ostream &operator<<(ostream &stream, Fraction f)
@@ -154,8 +157,6 @@ ostream &operator<<(ostream &stream, Fraction f)
 /**
 * @brief Overloading the >> operator. (stream << fraction)
 * The fuction extracts a representation from the stream, for example '5/-3'.
-* The function is implemented as a friend function and not a member function
-* since the left hand argument is not of type Fraction.
 * @return stream object (same as input)
 */
 istream &operator>>(istream &stream, Fraction &f)
@@ -203,8 +204,6 @@ istream &operator>>(istream &stream, Fraction &f)
 
 /**
 * @brief Overloading the + operator for int plus fraction. (int + fraction)
-* The function is implemented as a friend function and not a member function
-* since the left hand argument is not of type Fraction.
 * @return a new fraction that is the old fraction plus the int, for example 2 + 3/4 = 11/4
 */
 Fraction operator+(const int i, const Fraction f)
@@ -215,8 +214,6 @@ Fraction operator+(const int i, const Fraction f)
 /**
 
 * @brief Overloading the - operator for int minnus fraction. (int - fraction)
-* The function is implemented as a friend function and not a member function
-* since the left hand argument is not of type Fraction.
 * @return a new fraction that is the int minus the fraction, for example 2 - 3/4 = 5/4
 */
 Fraction operator-(const int i, const Fraction f)
@@ -226,8 +223,6 @@ Fraction operator-(const int i, const Fraction f)
 
 /**
 * @brief Overloading the * operator for int times fraction. (int * fraction)
-* The function is implemented as a friend function and not a member function
-* since the left hand argument is not of type Fraction.
 * @return a new fraction that is the int minus the fraction, for example 2 * 3/4 = 3/2
 */
 Fraction operator*(const int i, const Fraction f)
@@ -237,8 +232,6 @@ Fraction operator*(const int i, const Fraction f)
 
 /**
 * @brief Overloading the / operator for int devided with fraction. (int / fraction)
-* The function is implemented as a friend function and not a member function
-* since the left hand argument is not of type Fraction.
 * @return a new fraction that is the int minus the fraction, for example 2 / 3/4 = 8/3
 */
 Fraction operator/(const int i, const Fraction f)
