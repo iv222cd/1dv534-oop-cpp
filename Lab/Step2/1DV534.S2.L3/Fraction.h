@@ -21,6 +21,8 @@ using namespace std;
 *  istream >> Fraction
 *  + Fraction
 *  - Fraction
+*  Fraction == Fraction
+*  Fraction != Fraction
 
 * @Note Operators on the form
 *  Fraction operator int
@@ -62,7 +64,8 @@ public:
    friend Fraction operator-(const int i, const Fraction f); // int - frac
    friend Fraction operator*(const int i, const Fraction f); // int * frac
    friend Fraction operator/(const int i, const Fraction f); // int / frac
-   // TODO: overload operator ++, --, +=, -=, and logic operators
+
+   // TODO: overload operator ++, --, +=, -=, and all logic operators
 };
 
 #endif /* FRACTION_H */

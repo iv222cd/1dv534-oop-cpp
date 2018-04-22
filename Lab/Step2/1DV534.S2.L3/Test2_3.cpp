@@ -11,7 +11,7 @@
 //         2. code aiming to provide the program with quality enhancing 
 //         details (e.g. an improved, user friendly interface). Such 
 //         changes should be well motivated in commenting to code.
-// Version:  Version 1.3 - 2013-04-22
+// Version:  Version 1.4 - 2013-04-22
 // Author:   Anne Norling
 // ------------------------------------------
 // Log:    2003-08-25   Created the file. Anne
@@ -23,6 +23,7 @@
 //         2018-04-22   Encapsulated the program in a try-catch statement, by Ingrid Wiklund
 //         2018-04-22   Added more test for better test coverage, by Ingrid Wiklund
 //                      Using exception for testing with the simple TestFailException class.
+//         2018-04-22   Testing that a overflow exception is thrown when dividing with zero.
 /*************************************************************************/
 
 #include <iostream>
@@ -97,7 +98,7 @@ int Application::run()
 
 
    // ** This section by Ingrid Wiklund ****************
-   // Test int operator Fraction
+   // Test int _ Fraction
    cout << "================================" << endl;
    cout << "Start of tests written by Ingrid" << endl;
    cout << "================================" << endl;
@@ -107,7 +108,7 @@ int Application::run()
    Fraction f4(2, 3);
    Fraction expected;
 
-   // result = int operator fraction
+   // result = int _ fraction
    expected = Fraction(3, 2);
    result = i + f3;
    cout << endl << i << " + " << f3 << " = " << result << " =? " << expected << endl;
@@ -128,7 +129,7 @@ int Application::run()
    cout << endl << i << " / " << f3 << " = " << result << " =? " << expected << endl;
    testEqual(expected, result);
 
-   // result = operator fraction
+   // result = _ fraction
    expected = Fraction(-3, 2);
    result = +f3;
    cout << endl << result << " =+ " << f3 << " =? " << expected << endl;
@@ -139,7 +140,7 @@ int Application::run()
    cout << endl << result << " =- " << f3 << " =? " << expected << endl;
    testEqual(expected, result);
 
-   // result = fraction operator fraction
+   // result = fraction _ fraction
    expected = Fraction(-5, 6);
    result = f3 + f4;
    cout << endl << f3 << " + " << f4 << " = " << result << " =? " << expected << endl;
@@ -159,6 +160,41 @@ int Application::run()
    result = f3 / f4;
    cout << endl << f3 << " / " << f4 << " = " << result << " =? " << expected << endl;
    testEqual(expected, result);
+
+   // Test division by zero (should throw exception)
+   try
+   {
+      cout << endl << "1/0 -> overflow_error" << endl;
+      Fraction(1, 0); // Devision with zero.
+      throw TestFailException("Test Failed: No exception when dividing with zero");
+   }
+   catch (const std::exception)
+   {
+      // All is well. Test passed. Continue...
+   }
+
+   try
+   {
+      f4 = Fraction(0);
+      cout << endl << f3 << " / " << f4 << " -> overflow_error" << endl;
+      result = f3 / f4;
+      throw TestFailException("Test Failed: No exception when dividing with zero");
+   }
+   catch (const std::exception)
+   {
+      // All is well. Test passed. Continue...
+   }
+
+   try
+   {
+      cout << "Input Fraction with a Zero denominator (i.e. 1/0) -> overflow_error" << endl;
+      cin >> f3;
+      throw TestFailException("Test Failed: No exception when dividing with zero");
+   }
+   catch (const std::exception)
+   {
+      // All is well. Test passed. Continue...
+   }
 
    // ** End section by Ingrid Wiklund ****************
 
