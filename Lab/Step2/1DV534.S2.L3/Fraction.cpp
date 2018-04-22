@@ -158,6 +158,8 @@ ostream &operator<<(ostream &stream, Fraction f)
 * @brief Overloading the >> operator. (stream << fraction)
 * The fuction extracts a representation from the stream, for example '5/-3'.
 * @return stream object (same as input)
+* Errors are returned with the internal state flags and set in the same manner as for istream::operator>> for basic types.
+* Flag std::ios_base::failbit is set if the Fraction could not be read due to incorrect format.
 */
 istream &operator>>(istream &stream, Fraction &f)
 {
@@ -189,14 +191,13 @@ istream &operator>>(istream &stream, Fraction &f)
       // Avoide division with zero by setting the fraction to 0.
       if (f._den == 0)
       {
-         // throw std::overflow_error("Divide by zero exception");
+         // TODO: throw std::overflow_error("Divide by zero exception");
          f._den = 1;
          f._nom = 0;
       }
       else
       {
-         // Devide with GCD
-         f.reduce();
+         f.reduce(); // Devide with GCD
       }
    }
    return stream;
