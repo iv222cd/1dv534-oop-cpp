@@ -103,12 +103,61 @@ int Application::run()
    cout << "================================" << endl;
 
    int i = 3;
-   f1 = Fraction(3 / 2);
+   Fraction f3(3, -2);
+   Fraction f4(2, 3);
    Fraction expected;
 
-   expected = Fraction(5 / 5);
-   result = i + f1;
-   cout << endl << i << " + " << f1 << " = " << result << " =? " << expected << endl;
+   // result = int operator fraction
+   expected = Fraction(3, 2);
+   result = i + f3;
+   cout << endl << i << " + " << f3 << " = " << result << " =? " << expected << endl;
+   testEqual(expected, result);
+
+   expected = Fraction(9, 2);
+   result = i - f3;
+   cout << endl << i << " - " << f3 << " = " << result << " =? " << expected << endl;
+   testEqual(expected, result);
+
+   expected = Fraction(-9, 2);
+   result = i * f3;
+   cout << endl << i << " * " << f3 << " = " << result << " =? " << expected << endl;
+   testEqual(expected, result);
+
+   expected = Fraction(-2, 1);
+   result = i / f3;
+   cout << endl << i << " / " << f3 << " = " << result << " =? " << expected << endl;
+   testEqual(expected, result);
+
+   // result = operator fraction
+   expected = Fraction(-3, 2);
+   result = +f3;
+   cout << endl << result << " =+ " << f3 << " =? " << expected << endl;
+   testEqual(expected, result);
+
+   expected = Fraction(3, 2);
+   result = -f3;
+   cout << endl << result << " =- " << f3 << " =? " << expected << endl;
+   testEqual(expected, result);
+
+   // result = fraction operator fraction
+   expected = Fraction(-5, 6);
+   result = f3 + f4;
+   cout << endl << f3 << " + " << f4 << " = " << result << " =? " << expected << endl;
+   testEqual(expected, result);
+
+   expected = Fraction(-13, 6);
+   result = f3 - f4;
+   cout << endl << f3 << " - " << f4 << " = " << result << " =? " << expected << endl;
+   testEqual(expected, result);
+
+   expected = Fraction(-1);
+   result = f3 * f4;
+   cout << endl << f3 << " * " << f4 << " = " << result << " =? " << expected << endl;
+   testEqual(expected, result);
+
+   expected = Fraction(-9, 4);
+   result = f3 / f4;
+   cout << endl << f3 << " / " << f4 << " = " << result << " =? " << expected << endl;
    testEqual(expected, result);
 
    // ** End section by Ingrid Wiklund ****************
@@ -124,6 +173,8 @@ int main()
    try
    {
       returnValue = myApp.run();
+      cout << "All testes passed" << endl;
+      cin.get();
    }
    catch (TestFailException &e)
    {
@@ -133,7 +184,7 @@ int main()
    }
    catch (...)
    {
-      cout << "\nProgram stopped du to an unknow error";
+      cout << "Program stopped du to an unknow error" << endl;
       cin.get();
       throw;
    }

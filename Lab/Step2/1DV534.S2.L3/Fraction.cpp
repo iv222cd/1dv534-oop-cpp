@@ -135,7 +135,7 @@ bool Fraction::operator== (const Fraction f) const
 }
 
 /**
-* @brief Overloading the == operator coparing two fractions. (fraction == fraction)
+* @brief Overloading the != operator coparing two fractions. (fraction != fraction)
 * @return a negative copy of the object.
 */
 bool Fraction::operator!= (const Fraction f) const
