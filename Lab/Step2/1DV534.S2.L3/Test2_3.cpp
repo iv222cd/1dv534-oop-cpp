@@ -1,7 +1,7 @@
 /*************************************************************************/
 // File:   Test2_3.cpp
 // Summary:   Test file for Lab 3, Step 2
-//          The program will test functionality for class Fraction, 
+//         The program will test functionality for class Fraction, 
 //         which is aimed to represent and handle fractional values.
 //         If defined according to requirements in given specification, 
 //         the result of execution is expected to present outputs
@@ -11,14 +11,15 @@
 //         2. code aiming to provide the program with quality enhancing 
 //         details (e.g. an improved, user friendly interface). Such 
 //         changes should be well motivated in commenting to code.
-// Version: Version 1.1 - 2013-04-09
+// Version:  Version 1.2 - 2013-04-22
 // Author:   Anne Norling
 // ------------------------------------------
-// Log:      2003-08-25   Created the file. Anne
+// Log:    2003-08-25   Created the file. Anne
 //         2013-04-08   Uppdate  Version 1.1 by Anne. 
 //                  Converted to English and VS 2012
 //         2015-03-06   Revised by Anne. Converted to VS 2013
-//         2018-04-05  Code tested for VS 2017, by Anne
+//         2018-04-05   Code tested for VS 2017, by Anne
+//         2018-04-22   Added some cin error handling, by Ingrid Wiklund
 /*************************************************************************/
 
 #include <iostream>
@@ -49,6 +50,14 @@ int Application::run()
    cout << "Test 2:" << endl;
    cout << "Input two fractions as example: 2/-3 5/6 (separated by whitespace):" << endl;
    cin >> f1 >> f2;
+   // ** This section by Ingrid Wiklund ****************
+   // If error in input
+   if (!cin)
+   {
+      cin.clear();
+      cin.ignore(INT_MAX, '\n');
+   }
+   // ** End section by Ingrid Wiklund ****************
 
    result = f1 + f2;   
    // Following should output "2/-3 + 5/6 = 1/6" if test case examples was used
