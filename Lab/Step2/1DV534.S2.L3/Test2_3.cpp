@@ -11,7 +11,7 @@
 //         2. code aiming to provide the program with quality enhancing 
 //         details (e.g. an improved, user friendly interface). Such 
 //         changes should be well motivated in commenting to code.
-// Version:  Version 1.2 - 2013-04-22
+// Version:  Version 1.3 - 2013-04-22
 // Author:   Anne Norling
 // ------------------------------------------
 // Log:    2003-08-25   Created the file. Anne
@@ -20,6 +20,7 @@
 //         2015-03-06   Revised by Anne. Converted to VS 2013
 //         2018-04-05   Code tested for VS 2017, by Anne
 //         2018-04-22   Added some cin error handling, by Ingrid Wiklund
+//         2018-04-22   Encapsulated the program in a try-catch statement.
 /*************************************************************************/
 
 #include <iostream>
@@ -82,5 +83,14 @@ int Application::run()
 int main()
 {
    Application myApp;
-   return myApp.run();
+   int returnValue = -1;
+   try
+   {
+      returnValue = myApp.run();
+   }
+   catch (...)
+   {
+      cout << "\nProgram stopped du to an unknow error";
+   }
+   return returnValue;
 }
