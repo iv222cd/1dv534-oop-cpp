@@ -2,9 +2,8 @@
 #define FRACTION_H
 
 #include <iostream>
+#include <stdexcept>
 using namespace std;
-
-// TODO: Throw exception if div with zero.
 
 /**
 * @brief Class for storing a fraction of integears (a rational number)
@@ -28,7 +27,7 @@ using namespace std;
 * doesn't need to be overloaded since the int is turned into a Fraction object
 * with the constructor Fraction(int).
 *
-* When devision with zero the Fraction object is set to 0/1.
+* When division with zero throw std::overflow_error.
 */
 class Fraction {
    int _nom; // Nominator
@@ -38,10 +37,11 @@ class Fraction {
 public:
    Fraction() : _nom(0), _den(1) {}
    Fraction(int nom) : _nom(nom), _den(1) {}
-   Fraction(int nom, int den) : _nom(den != 0 ? nom : 0), _den(den != 0 ? den : 1) {
-   // Fraction(int nom, int den) : _nom(nom), _den(den) {
-   // throw std::overflow_error("Divide by zero exception");
-      reduce(); }
+   Fraction(int nom, int den) : _nom(nom), _den(den)
+   {
+      if (den == 0) throw std::overflow_error("Divition by zero");
+      reduce();
+   }
 
    // Overloaded operators
    // Member operators (where the left arg of the operator is of type Fraction.)

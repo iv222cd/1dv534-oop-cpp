@@ -209,9 +209,7 @@ istream &operator>>(istream &stream, Fraction &f)
       // Avoide division with zero by setting the fraction to 0.
       if (f._den == 0)
       {
-         // TODO: throw std::overflow_error("Divide by zero exception");
-         f._den = 1;
-         f._nom = 0;
+         throw std::overflow_error("Divition by zero");
       }
       else
       {
