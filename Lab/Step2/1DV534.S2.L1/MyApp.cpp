@@ -5,12 +5,14 @@
 //          Made as a lab assignment in the course 1DV534 OOP in C++ at LNU.
 //          The assignment is for exploring the objec lifecykle, and is
 //          therefore using "new" and "delete" as much as possible.
-// Version: Version 1.0- 2018-04-11
+// Version: Version 1.1- 2018-04-22
 // Author:  Ingrid Wiklund
 // -------------------------------------------
 // Log:  2018-04-10  Created the file. Ingrid
 //       2018-04-11  Implemented basic functionality using classes
 //                   "Clock", "MyTime" and the new "Compare".
+//       2018-04-22  Version 1.1. User interface change.
+//                   The "ask user if continue" interpret all non-'Y' token as "No".
 /**********************************************************************/
 
 #include <iostream>
@@ -21,15 +23,14 @@
 using std::cin;
 using std::cout;
 
-//const char* ALPHABET = "abcdefghijklmnopqrstuvwxyz";
-const char* ALPHABET = "abcdef"; // TODO: remove. Only for testing purpuses.
+const char* ALPHABET = "abcdefghijklmnopqrstuvwxyz";
 
 /**
 * @brief Class MyApp for running this application. Call run() for running the program.
 */
 class MyApp {
-   enum {MAX_BUFFER_SIZE = 256};
-   char stringBuffer[MAX_BUFFER_SIZE];
+   static const int MAX_BUFFER_SIZE = 256;
+   char inputBuffer[MAX_BUFFER_SIZE];
    void printProgramInfo();
    void printInstuctions();
    MyTime measureWritingTime();
@@ -40,24 +41,23 @@ public:
 
 
 /**
-* @brief Application runner. Will run until stopt by user.
+* @brief Application runner. Will run until stopped by user.
 */
 void MyApp::run()
 {
-   bool isEqual;
-   bool contProgram = true;
+   bool isEqual; // Flag for storing compare string result.
+   bool contProgram = true; // Flag if program should continue or terminate.
 
    printProgramInfo();
 
    while (contProgram)
    {
       printInstuctions();
-
       MyTime time = measureWritingTime();
 
       // Compare with a correct alphabet.
       Compare *comparePtr = new Compare();
-      isEqual = comparePtr->equal(ALPHABET, stringBuffer);
+      isEqual = comparePtr->equal(ALPHABET, inputBuffer);
       delete comparePtr;
 
       // Show user the result.
@@ -68,12 +68,11 @@ void MyApp::run()
       else
       {
          std::cout << "\nThat is not the alphabet.";
-         std::cout << "\nYou wrote: " << stringBuffer;
+         std::cout << "\nYou wrote:               " << inputBuffer;
          std::cout << "\nYou should have written: " << ALPHABET;
       }
 
-      std::cout << "\n---------------------";
-   
+      std::cout << "\n---------------------";   
       contProgram = askUserIfContinue();
       system("cls");
    }
@@ -96,9 +95,9 @@ void MyApp::printProgramInfo()
 void MyApp::printInstuctions()
 {
    std::cout << "\n";
-   std::cout << "\nInstruction:";
-   std::cout << "\nPress enter.";
-   std::cout << "\nWrite all lower case letters in alphabetic order ('" << ALPHABET << "'). ";
+   std::cout << "\nInstructions:";
+   std::cout << "\nPress enter. Then write all lower case letters in alphabetic order.";
+   std::cout << "\n ('" << ALPHABET << "') ";
    std::cout << "\nPress enter again.";
    std::cout << "\nThe program will disply the time between enter and enter if the input was correct.";
    std::cout << "\n";
@@ -120,7 +119,7 @@ MyTime MyApp::measureWritingTime()
    // Start clock.
    MyTime timeStart = clockPtr->give_me_the_time();
    // Read line until enter.
-   std::cin.getline(stringBuffer, MAX_BUFFER_SIZE);
+   std::cin.getline(inputBuffer, MAX_BUFFER_SIZE);
    // Stop clock.
    MyTime timeStop = clockPtr->give_me_the_time();
    delete clockPtr; // Clock not needded anymore.
@@ -145,6 +144,7 @@ bool MyApp::askUserIfContinue()
 {
    bool cont = false;
    char answer;
+
    std::cout << "\nTry again (Y/N)?";
    std::cout << "\n";
    std::cin.get(answer);
@@ -159,7 +159,7 @@ bool MyApp::askUserIfContinue()
 }
 
 /**
-* @brief Main function of application. Call MyApp.
+* @brief Main function of application. Calling MyApp.
 */
 int main()
 {
