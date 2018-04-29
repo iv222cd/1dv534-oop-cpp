@@ -25,6 +25,9 @@
   <ItemGroup>
     <ClInclude Include="Texthandler.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Historier.txt" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{63055CFA-E8E3-4CD2-8A93-AE4D7A543E62}</ProjectGuid>
