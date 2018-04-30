@@ -6,6 +6,7 @@ class Texthandler
    const int _maxTextsToStore;
    int _antalTexter;
    char **texter;
+   void replaceSpecialChars(char * buffert);
 public:
    Texthandler(const char*, int);
    ~Texthandler();

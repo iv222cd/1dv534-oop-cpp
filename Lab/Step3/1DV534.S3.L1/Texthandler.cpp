@@ -23,6 +23,21 @@
 const char *SEPARATOR = "%%%%%"; /** Text separator used in file to separate the texts. */
 const int MAX_NR_OF_TOKENS_IN_TEXT = 10000; /** No text should contain more than this number of tokens. */
 
+void Texthandler::replaceSpecialChars(char * buffert)
+{
+   char* p = buffert;
+   while (*p) {
+      // håller på tills den träffar '\0' 
+      if (*p == -59) *p = -113;
+      if (*p == -60) *p = -114;
+      if (*p == -42) *p = -103;
+      if (*p == -27) *p = -122;
+      if (*p == -28) *p = -124;
+      if (*p == -10) *p = -108;
+      ++p;
+   }
+}
+
 /**
 * @brief Overloaded constructor.
 * @param    fileName          Name to textfile to read from.
@@ -60,6 +75,7 @@ Texthandler::Texthandler(const char* fileName, int maxTextsToStore) : _maxTextsT
                int len = strlen(textBuffer);
                char * ptr = new char[len + 1];
                strncpy(ptr, textBuffer, len + 1);
+               replaceSpecialChars(ptr);
                texter[_antalTexter] = ptr;
                _antalTexter++;
                // TODO: Error if more than max.
