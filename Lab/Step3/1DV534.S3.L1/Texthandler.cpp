@@ -1,28 +1,22 @@
 #include <fstream>
+#include <iostream>
 #include "Texthandler.h"
 
-#include <iostream>
-
-// TODO: REQ: Replace tokens for åäö with others accoring to:
-//char* p = buffert;
-//while (*p) {
-//   // håller på tills den träffar '\0' 
-//   if (*p == -59) *p = -113;
-//   if (*p == -60) *p = -114;
-//   if (*p == -42) *p = -103;
-//   if (*p == -27) *p = -122;
-//   if (*p == -28) *p = -124;
-//   if (*p == -10) *p = -108;
-//   ++p;
-//}
-
-// TODO: REQ: Replace '\0' with '\n' for console.
-
-// TODO: REQ: Throw error (show message and exit) if text longer than MAX_NUM_OF_TOKENS
 
 const char *SEPARATOR = "%%%%%"; /** Text separator used in file to separate the texts. */
-const int MAX_NR_OF_TOKENS_IN_TEXT = 10000; /** No text should contain more than this number of tokens. */
+const int MAX_NR_OF_TOKENS_IN_TEXT = 10000 + sizeof(SEPARATOR)/sizeof(SEPARATOR[0]); /** No text should contain more than this number of tokens. */
 
+/******************************************************************************
+* Private member functions
+******************************************************************************/
+
+/**
+* @brief Replace special chars that differs from file format to consol format (åäö).
+* Replace åäöÅÄÖ-chars in buffert from file format to corresponding tokens on console format.
+* Other chars are ignored.
+*
+* @param    buffert   NULL-terminated string buffert with chars to replace.
+*/
 void Texthandler::replaceSpecialChars(char * buffert)
 {
    char* p = buffert;
@@ -38,80 +32,109 @@ void Texthandler::replaceSpecialChars(char * buffert)
    }
 }
 
+/******************************************************************************
+* Public member functions
+******************************************************************************/
+
 /**
 * @brief Overloaded constructor.
+*
+* This constructor will read the text stories from fileName and allocatie memory for each text.
+* The stories should all be less that 10 000 tokens, and separated with a line equal to '%%%%%'
+*
 * @param    fileName          Name to textfile to read from.
-* @param    maxTextsToStore   Maximum number of text to read and store from file.
+* @param    maxTextsToStore   Maximum number of text to read and store from file. Ignoring if there are more text to be read.
 */
-Texthandler::Texthandler(const char* fileName, int maxTextsToStore) : _maxTextsToStore(maxTextsToStore), _antalTexter(0)
+Texthandler::Texthandler(const char* fileName, int maxTextsToStore) : _maxTextsToStore(maxTextsToStore), _nrOfTexts(0)
 {
    std::ifstream f;
-   char lineBuffer[MAX_NR_OF_TOKENS_IN_TEXT]; // TODO: Maybe move to heap instead.
-   char textBuffer[MAX_NR_OF_TOKENS_IN_TEXT]; // TODO: Maybe move to heap instead.
-   char *ptrBuff;
-   int pos = 0;
-   bool first = true;
-   int nrOfLines = 0;
+   char buffer[MAX_NR_OF_TOKENS_IN_TEXT]; // Input buffer
+   char *ptrBuffer; // Pointer to current working position in buffer
+   bool firstSeparatorFound = false;
 
-   texter = new char*[_maxTextsToStore];
+   texts = new char*[_maxTextsToStore];
 
-   ptrBuff = textBuffer;
-   textBuffer[0] = '\0';
+   ptrBuffer = buffer;
 
    f.open(fileName, std::ios::in);
    if (f)
    {
-      while (f.getline(lineBuffer, MAX_NR_OF_TOKENS_IN_TEXT))
+      while (f.getline(ptrBuffer, MAX_NR_OF_TOKENS_IN_TEXT - (ptrBuffer - buffer)))
       {
-         int cmp = strncmp(lineBuffer, SEPARATOR, strlen(SEPARATOR));
-         if (cmp == 0)
+         if (strncmp(ptrBuffer, SEPARATOR, strlen(SEPARATOR)) == 0)
          {
-            if (first)
+            // Line was a spearator line.
+            if (!firstSeparatorFound)
             {
-               first = false;
+               firstSeparatorFound = true;
             }
             else
             {
-               int len = strlen(textBuffer);
-               char * ptr = new char[len + 1];
-               strncpy(ptr, textBuffer, len + 1);
-               replaceSpecialChars(ptr);
-               texter[_antalTexter] = ptr;
-               _antalTexter++;
-               // TODO: Error if more than max.
-               ptrBuff = textBuffer;
-               textBuffer[0] = '\0';
+               // Store the previous text
+               int lenOfNewText = strlen(buffer) - strlen(SEPARATOR);
+               texts[_nrOfTexts] = new char[lenOfNewText + 1]; // +1 is for storing end token.
+               strncpy(texts[_nrOfTexts], buffer, lenOfNewText);
+               texts[_nrOfTexts][lenOfNewText] = '\0'; // Text should end with '\0'
+               replaceSpecialChars(texts[_nrOfTexts]); // Replacing special tokens (åäö) that differs from file to console.
+
+               // Prepear input buffer stuff for next text
+               ptrBuffer = buffer;
+               buffer[0] = '\0';
+               _nrOfTexts++;
+
+               if (_nrOfTexts == _maxTextsToStore)
+               {
+                  break;
+               }
             }
-            // Start/end of text 1
-            std::streampos startPos = f.tellg();
          }
-         else if (!first)
+         else if (firstSeparatorFound)
          {
-            // Read text to buffer
-            //Still space in buffer?
-            int lineLen = strlen(lineBuffer);
-            if ((ptrBuff - textBuffer) + lineLen < MAX_NR_OF_TOKENS_IN_TEXT)
+            // Normal storie line.
+            ptrBuffer += f.gcount() - 1; // -1 is for pointing on end char, so we can replce it with '\n'
+            if (*ptrBuffer == '\0')
             {
-               strncat(ptrBuff, lineBuffer, lineLen);
-               ptrBuff += lineLen;
-               strncat(ptrBuff, "\n", 1);
-               ptrBuff += 1;
+               *ptrBuffer = '\n';
             }
+            ptrBuffer += 1;
          }
-         nrOfLines++;
+         // Other lines before first separator ignored.
+      }
+      if (!f.eof() && (_nrOfTexts != _maxTextsToStore))
+      {
+         // EOF not reached, and max number of texts not reached. we must be out of buffer.
+         char error_msg[] = "\nMore than 10 000 tokens in the text. Internal buffer to small.\n";
+         std::cout << error_msg; // Printing error msg to cout since main application doesn't
+         throw std::overflow_error(error_msg);
       }
       f.close();
    }
+   else
+   {
+      // Could not open file.
+      char error_msg[] = "\nCould not open file.\n";
+      std::cout << error_msg; // Printing error msg to cout since main application doesn't
+      throw std::invalid_argument(error_msg);
+   }
 }
 
+/**
+* @brief Get text number i.
+*
+* @param i   Text number index. Index starts a 1. Maximum value for i is antalTexter.
+*
+* @return   pointer to text i.
+* @return   NULL pointer if i is out of bounds.
+*/
 const char *Texthandler::text(int i)
 {
-   char *p1 = NULL;
-   if ((i - 1 >= 0) && (i - 1 < _antalTexter))
+   char *ptrText = NULL;
+   // Note! Index i startes at 1, not 0.
+   if ((i - 1 >= 0) && (i - 1 < _nrOfTexts))
    {
-      p1 = texter[i - 1];
+      ptrText = texts[i - 1];
    }
-   return p1;
+   return ptrText;
 }
 
 /**
@@ -119,9 +142,9 @@ const char *Texthandler::text(int i)
 */
 Texthandler::~Texthandler()
 {
-   for (int i = 0; i < _antalTexter; i++)
+   for (int i = 0; i < _nrOfTexts; i++)
    {
-      delete[] texter[i];
+      delete[] texts[i];
    }
-   delete[] texter;
+   delete[] texts;
 }
