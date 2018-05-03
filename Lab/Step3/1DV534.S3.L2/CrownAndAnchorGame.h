@@ -6,10 +6,8 @@
 class CrownAndAnchorGame : public IGame
 {
 public:
-   CrownAndAnchorGame() {}
+   CrownAndAnchorGame();
    ~CrownAndAnchorGame() {}
-
-
    int play(char* bet, int amount);
    int getID() const;
 };
