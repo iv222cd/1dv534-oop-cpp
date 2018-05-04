@@ -2,12 +2,12 @@
 #define CROWN_AND_ANCHOR_GAME_H
 
 #include "IGame.h"
+#include "CrownAndAnchor.h"
 
 class CrownAndAnchorGame : public IGame
 {
+   CrownAndAnchor dice;
 public:
-   CrownAndAnchorGame();
-   ~CrownAndAnchorGame() {}
    int play(char* bet, int amount);
    int getID() const;
 };

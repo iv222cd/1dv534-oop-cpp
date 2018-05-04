@@ -15,33 +15,32 @@
 
 // For simplicity can the playes only bet on one symbol a time in this game.
 
-enum SYMBOLS {
-   CROWN = 0,
-   ANCHOR,
-   DIAMOND,
-   SPADE,
-   CLUB,
-   HEART
-};
-
-CrownAndAnchorGame::CrownAndAnchorGame()
-{
-   srand((int)time(0)); // Initilize randomizator.
-}
-
 int CrownAndAnchorGame::play(char* bet, int amount)
 {
-   // TODO: Ignore bet for now, but in future let player decide which symbol to bet on.
    const int NUM_OF_DICE = 3;
-   int symbol = CROWN; // Use decided bet symbol for now
-   int dice;
+   CrownAndAnchor::Symbol symbol = CrownAndAnchor::CROWN; // Let Crown be the default bet.
    int win = 0;
+
+   if (bet != NULL)
+   {
+      for (int i = 0; i < CrownAndAnchor::SYMBOLS_MAX; i++)
+      {
+         if (dice.isSymbol(bet, (CrownAndAnchor::Symbol)i))
+         {
+            symbol = (CrownAndAnchor::Symbol)i;
+            break;
+         }
+      }
+   }
+
+   std::cout << "Betting " << amount <<  " on " << dice.SymbolName(symbol) << ". Dices show: ";
 
    for (int i = 0; i < NUM_OF_DICE; i++)
    {
       // Throw a dice
-      dice = rand() % 6;
-      if (dice == symbol)
+      CrownAndAnchor::Symbol result = dice.randomSymbol();
+      std::cout << dice.SymbolName(result) << ", ";
+      if (result == symbol)
       {
          win += amount;
       }
@@ -51,6 +50,7 @@ int CrownAndAnchorGame::play(char* bet, int amount)
    {
       win += amount; // If player won, also return stake.
    }
+   std::cout << "win: " << win << "\n";
 
    return win;
 }
