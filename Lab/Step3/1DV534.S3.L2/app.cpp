@@ -128,6 +128,9 @@ void App::waitForUser()
 */
 void App::playGames()
 {
+   // The player and the game is plugged into the framework here
+   // since the amount of money a player starts with can be changed by the user
+   // And the IPlayer framework has no method for setting the money (outside of the constructor).
    CrownAndAnchorPlayer player(_money);
    CrownAndAnchorGame game;
    try
