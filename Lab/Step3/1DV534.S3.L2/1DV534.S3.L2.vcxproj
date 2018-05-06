@@ -23,12 +23,14 @@
     <ClCompile Include="CrownAndAnchor.cpp" />
     <ClCompile Include="CrownAndAnchorGame.cpp" />
     <ClCompile Include="CrownAndAnchorPlayer.cpp" />
+    <ClCompile Include="GameFramework.cpp" />
     <ClCompile Include="Menu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CrownAndAnchor.h" />
     <ClInclude Include="CrownAndAnchorGame.h" />
     <ClInclude Include="CrownAndAnchorPlayer.h" />
+    <ClInclude Include="GameFramework.h" />
     <ClInclude Include="IGame.h" />
     <ClInclude Include="IPlayer.h" />
     <ClInclude Include="Menu.h" />
