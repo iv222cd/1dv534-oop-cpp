@@ -12,7 +12,7 @@ class GameFramework
    IPlayer* _player;
    IGame* _game;
 public:
-   GameFramework(IPlayer* player, IGame* game) : _player(player), _game(game) {}
+   GameFramework(IPlayer* player, IGame* game);
    void playBettingGames(int numberOfTimes);
 };
 

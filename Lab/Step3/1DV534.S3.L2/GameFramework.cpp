@@ -1,23 +1,30 @@
 #include <iostream>
+#include <stdexcept>      // std::invalid_argument
 #include "GameFramework.h"
 
+
 /**
-* @brief Connect the player and the game and let the player play the game numberOfTimes.
+* @brief Constructor, connects the player and the game.
+* Throws an invalud argument exception if the player cannot set the game.
+*/
+
+GameFramework::GameFramework(IPlayer* player, IGame* game) : _player(player), _game(game)
+{
+   if (!_player->setGame(_game))
+   {
+      throw std::invalid_argument("This player cannot play this game!");
+   }
+}
+
+/**
+* @brief Let the player play the game numberOfTimes.
 * Print the result to Terminal.
-* Thows a ... error if the player is unable to play this game.
 */
 void GameFramework::playBettingGames(int numberOfTimes)
 {
-   if (_player->setGame(_game))
+   if (!_player->play(numberOfTimes))
    {
-      if (!_player->play(numberOfTimes))
-      {
-         std::cout << "Player is out of money!" << std::endl;
-      }
-      std::cout << "After " << _player->getBetCount() << " the player has " << _player->getMoney() << " money left!" << std::endl;
+      std::cout << "Player is out of money!" << std::endl;
    }
-   else
-   {
-      // TODO: Throw error. player and game does not go well together.
-   }
+   std::cout << "After " << _player->getBetCount() << " the player has " << _player->getMoney() << " money left!" << std::endl;
 }

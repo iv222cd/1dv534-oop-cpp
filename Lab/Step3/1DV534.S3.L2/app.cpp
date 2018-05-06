@@ -127,9 +127,15 @@ void App::playGames()
 {
    CrownAndAnchorPlayer player(_money);
    CrownAndAnchorGame game;
-   
-   GameFramework house(&player, &game);
-   house.playBettingGames(_bettingTimes);
+   try
+   {
+      GameFramework house(&player, &game);
+      house.playBettingGames(_bettingTimes);
+   }
+   catch (std::exception e)
+   {
+      std::cout << "Exception: " << e.what() << '\n';
+   }
 }
 
 /**
