@@ -2,7 +2,6 @@
 #include <stdexcept>      // std::invalid_argument
 #include "GameFramework.h"
 
-
 /**
 * @brief Constructor, connects the player and the game.
 * Throws an invalud argument exception if the player cannot set the game.
@@ -26,5 +25,5 @@ void GameFramework::playBettingGames(int numberOfTimes)
    {
       std::cout << "Player is out of money!" << std::endl;
    }
-   std::cout << "After " << _player->getBetCount() << " the player has " << _player->getMoney() << " money left!" << std::endl;
+   std::cout << "After " << _player->getBetCount() << " rounds the player has " << _player->getMoney() << " left!" << std::endl;
 }

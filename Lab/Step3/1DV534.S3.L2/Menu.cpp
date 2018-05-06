@@ -28,8 +28,6 @@ void Menu::addMenuChoice(char id, const char* description)
 */
 void Menu::showMenu()
 {
-   system("cls");
-
    cout << "\n";
    cout << "\nMENU";
    cout << "\n----";

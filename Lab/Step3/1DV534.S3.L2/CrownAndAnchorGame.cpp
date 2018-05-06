@@ -1,7 +1,6 @@
 #include "CrownAndAnchorGame.h"
 #include <cstdlib>
 #include <ctime> // Used for initilizing randomisator
-#include <iostream> // Used for initilizing randomisator
 
 /**
 * @brief Play one game of crown and anchor.
@@ -27,14 +26,11 @@ int CrownAndAnchorGame::play(char* bet, int amount)
       }
    }
 
-   std::cout << "Betting " << amount <<  " on " << dice.SymbolName(symbol) << ". Dices show: ";
-
    // Throwing three dicec and see what the game result was.
    for (int i = 0; i < NUM_OF_DICE; i++)
    {
       // Throw a dice
       CrownAndAnchor::Symbol result = dice.randomSymbol();
-      std::cout << dice.SymbolName(result) << ", ";
       if (result == symbol)
       {
          win += amount;
@@ -45,7 +41,6 @@ int CrownAndAnchorGame::play(char* bet, int amount)
    {
       win += amount; // If player won, also return stake.
    }
-   std::cout << "win: " << win << "\n";
 
    return win;
 }

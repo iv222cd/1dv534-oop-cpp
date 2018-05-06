@@ -54,10 +54,11 @@ bool CrownAndAnchorPlayer::play(int numberOfTimes)
       const char * bettingSymbol = playMat.SymbolName(playMat.randomSymbol());
 
       // Need to transfer the const char string to a non const char before calling game->play.
-      char * temp = new char[strlen(bettingSymbol) + 1];
-      memcpy(temp, bettingSymbol, strlen(bettingSymbol) + 1);
-      win = _game->play(temp, bet);
-      delete[] temp;
+      char * bettingSymbolTemp = new char[strlen(bettingSymbol) + 1];
+      memcpy(bettingSymbolTemp, bettingSymbol, strlen(bettingSymbol) + 1);
+
+      win = _game->play(bettingSymbolTemp, bet);
+      delete[] bettingSymbolTemp;
 
       _money -= bet;
       _money += win;

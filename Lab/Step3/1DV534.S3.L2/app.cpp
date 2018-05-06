@@ -67,6 +67,8 @@ int App::run() {
 
    while (!quit)
    {
+      system("cls");
+      printPlayerInfo();
       menu.showMenu();
       choice = menu.getMenuChoice();
 
@@ -83,7 +85,7 @@ int App::run() {
          break;
       case MENU_ITEM_QUIT: /* Fall through intended*/
       default:
-         std::cout << "\nQuitting.";
+         std::cout << "Quitting.\n";
          quit = true;
          break;
       }
@@ -97,8 +99,9 @@ int App::run() {
 */
 void App::printStartInfo()
 {
-   // TODO: Write
-   std::cout << "Play game... \n";
+   std::cout << "This program simulates a game of Crown and Anchor.\n";
+   std::cout << "It lets a player bet on the game a number of times,\n";
+   std::cout << "and prints out how much money (if any) is left after a number of rounds.\n";
 }
 
 /**
@@ -106,8 +109,7 @@ void App::printStartInfo()
 */
 void App::printPlayerInfo()
 {
-   // TODO: Write
-   std::cout << "player... \n";
+   std::cout << "Player has " << _money << " to bet with and wants to play " << _bettingTimes << " number of rounds\n";
 }
 
 /**
@@ -115,7 +117,8 @@ void App::printPlayerInfo()
 */
 void App::waitForUser()
 {
-   std::cout << "\nPress Enter to continue...";
+   std::cout << "\n";
+   std::cout << "Press Enter to continue...";
    std::cin.ignore(INT_MAX, '\n');
 }
 
@@ -144,7 +147,7 @@ void App::playGames()
 */
 void App::getMoneyFromUser()
 {
-   std::cout << "\nHow much money should the user play with?";
+   std::cout << "How much money should the user play with? ";
    getIntFromUser(_money);
 }
 
@@ -154,7 +157,7 @@ void App::getMoneyFromUser()
 */
 void App::getBettingTimesFromUser()
 {
-   std::cout << "\nHow many times should the user bet?";
+   std::cout << "How many times should the user bet? ";
    getIntFromUser(_bettingTimes);
 }
 
