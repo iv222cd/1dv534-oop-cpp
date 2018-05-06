@@ -3,31 +3,56 @@
 #include <iostream> // Used for initilizing randomisator
 #include "CrownAndAnchor.h"
 
-const char *SYMBOL_NAMES[] = { "crown", "anchor", "diamond", "spade", "club", "heart" };
+const char *SYMBOL_NAMES[] = { "crown", "anchor", "diamond", "spade", "club", "heart" }; /** Char strings representing the six symbols on the Crown and Anchor mat or dice. */
 
-
+/**
+* @brief Constructor.  Initilize randomizator.
+*/
 CrownAndAnchor::CrownAndAnchor()
 {
-   srand((int)time(0)); // Initilize randomizator.
+   srand((int)time(0)); // Initilize randomizator with current time.
 }
 
-const char* CrownAndAnchor::SymbolName(Symbol symbol)
+/**
+* @brief Constructor. Initilize randomizator.
+* 
+* @return String represeting the symbol.
+* @return NULL if int not represinting a symbol.
+*/
+const char* CrownAndAnchor::SymbolName(int symbol)
 {
-   return SYMBOL_NAMES[symbol];
+   const char* name = NULL;
+   if ((symbol >= 0) && (symbol < SYMBOLS_MAX))
+   {
+      name = SYMBOL_NAMES[symbol];
+   }
+   return name;
 }
 
+/**
+* @brief Get a random Crown and Anchor symbol. Can be used as a dice.
+* @return Random Crown and Anchor symbol.
+*/
 CrownAndAnchor::Symbol CrownAndAnchor::randomSymbol()
 {
    int dice = rand() % 6;
    return (Symbol)dice;
 }
 
-bool CrownAndAnchor::isSymbol(char * SymbolName, Symbol symbol)
+/**
+* @brief Compare th a char string with the char strings the int represents.
+* @return true if the int represent the symbol name.
+* @return false if the int does not represent the symbol name.
+*/
+bool CrownAndAnchor::isSymbol(char * SymbolName, int symbol)
 {
    bool equal = false;
-   if (strcmp(SymbolName, SYMBOL_NAMES[symbol]) == 0)
+   if ((symbol >= 0) && (symbol < SYMBOLS_MAX))
    {
-      equal = true;
+      if (strcmp(SymbolName, SYMBOL_NAMES[symbol]) == 0)
+      {
+         equal = true;
+      }
    }
    return equal;
 }

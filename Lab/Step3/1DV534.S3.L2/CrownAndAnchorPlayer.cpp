@@ -3,7 +3,12 @@
 #include "CrownAndAnchorPlayer.h"
 #include "CrownAndAnchor.h"
 
-
+/**
+* @brief Set what game this player should play. Must be a specific Crown and Anchor game.
+* @param game. Game this player should play
+* @return true if this player can play the game.
+* @return false if this player cannot play the game.
+*/
 bool CrownAndAnchorPlayer::setGame(IGame* game)
 {
    bool status = true;
@@ -17,6 +22,12 @@ bool CrownAndAnchorPlayer::setGame(IGame* game)
    return status;
 }
 
+/**
+* @brief Start and play the game.
+* @param numberOfTimes. Times the player should play this game before giving up.
+* @return true if the player played the game numberOfTimes.
+* @return false if the player went out of money
+*/
 bool CrownAndAnchorPlayer::play(int numberOfTimes)
 {
    bool status = true;

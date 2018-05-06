@@ -4,6 +4,10 @@
 #include "IPlayer.h"
 #include "IGame.h"
 
+/**
+* @brief Class representing a Crown and Anchor player.
+* this player will bet on a random symbol, and will bet more if it is winning.
+*/
 class CrownAndAnchorPlayer : public IPlayer
 {
    IGame* _game;

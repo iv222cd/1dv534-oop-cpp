@@ -10,18 +10,23 @@
 const int BUFFER_SIZE = 256; /** Size of temporary buffer for storing strings. */
 const char ERROR_VALUE[] = "Could not read value.\n"; /** Error message to show if an incorect value is give by user. */
 
+/**
+* @brief Class for running a program letting a user control a player playing the betting game Crown and Anchor.
+*/
 class App {
 public:
    App();
    int run();
 private:
    Menu menu;
+   int _money;
+   int _bettingTimes;
    void printStartInfo();
    void printPlayerInfo();
    void waitForUser();
-   void playGames(int money, int times);
-   int getMoneyFromUser();
-   int getBettingTimesFromUser();
+   void playGames();
+   void getMoneyFromUser();
+   void getBettingTimesFromUser();
    bool getIntFromUser(int &value);
 
    /**
@@ -33,24 +38,29 @@ private:
       MENU_ITEM_SET_MONEY,
       MENU_ITEM_QUIT
    };
-
 };
 
-App::App()
+/**
+* @brief Constructor. Setting menu choises and how much money and betting times for the player to start with.
+*/
+App::App() : _money(1000), _bettingTimes(10)
 {
    menu.addMenuChoice(MENU_ITEM_PLAY, "Play games");
-   menu.addMenuChoice(MENU_ITEM_SET_TIMES, "Change number of times to play.");
+   menu.addMenuChoice(MENU_ITEM_SET_TIMES, "Change number of times the player should bet on the game.");
    menu.addMenuChoice(MENU_ITEM_SET_MONEY, "Set how much money the player has.");
    menu.addMenuChoice(MENU_ITEM_QUIT, "Quit");
 }
 
+/**
+* @brief Running the application.
+* Runs until the user gives a quit signal, or an unknown error occures.
+* @return 0 if ended normally
+* @return -1 if an unexpected error occured.
+*/
 int App::run() {
 
    bool quit = false;
    int choice;
-
-   int money = 1000; // If user tells nothing else, play with 1000 for betting.
-   int times = 100; // If user tells nothing else, play the game a 100 times.
 
    printStartInfo();
    waitForUser();
@@ -63,13 +73,13 @@ int App::run() {
       switch (choice)
       {
       case MENU_ITEM_PLAY:
-         playGames(money, times);
+         playGames();
          break;
       case MENU_ITEM_SET_TIMES:
-         times = getBettingTimesFromUser();
+         getBettingTimesFromUser();
          break;
       case MENU_ITEM_SET_MONEY:
-         money = getMoneyFromUser();
+         getMoneyFromUser();
          break;
       case MENU_ITEM_QUIT: /* Fall through intended*/
       default:
@@ -79,19 +89,24 @@ int App::run() {
       }
       waitForUser();
    }
-
    return 0;
 }
 
-
+/**
+* @brief Print info about the program to command line.
+*/
 void App::printStartInfo()
 {
+   // TODO: Write
    std::cout << "Play game... \n";
 }
 
-
+/**
+* @brief Print info about the player and the game to command line.
+*/
 void App::printPlayerInfo()
 {
+   // TODO: Write
    std::cout << "player... \n";
 }
 
@@ -104,30 +119,37 @@ void App::waitForUser()
    std::cin.ignore(INT_MAX, '\n');
 }
 
-
-void App::playGames(int money, int times)
+/**
+* @brief Sets up a player of Crown and Anchor with a game.
+* Then plays it a number of times. (or until the player is out of money.)
+*/
+void App::playGames()
 {
-   CrownAndAnchorPlayer player(money);
+   CrownAndAnchorPlayer player(_money);
    CrownAndAnchorGame game;
    
    GameFramework house(&player, &game);
-   house.playBettingGames(times);
+   house.playBettingGames(_bettingTimes);
 }
 
-int App::getMoneyFromUser()
+/**
+* @brief Ask user to input how much money the player should play with via the command line.
+* If an inccorect value is given an error message vill be shown and the money variable is not changed.
+*/
+void App::getMoneyFromUser()
 {
-   int money;
    std::cout << "\nHow much money should the user play with?";
-   getIntFromUser(money);
-   return money;
+   getIntFromUser(_money);
 }
 
-int App::getBettingTimesFromUser()
+/**
+* @brief Ask user to input how many times the player should bet with via the command line.
+* If an inccorect value is given an error message vill be shown and the money variable is not changed.
+*/
+void App::getBettingTimesFromUser()
 {
-   int times;
    std::cout << "\nHow many times should the user bet?";
-   getIntFromUser(times);
-   return times;
+   getIntFromUser(_bettingTimes);
 }
 
 /**
@@ -162,6 +184,15 @@ bool App::getIntFromUser(int &value)
    return status;
 }
 
+/**
+* @brief Read an int from user.
+*
+* If unable to read, give an error message to user.
+*
+* @param value for storing the int
+* @return true if an int could be read
+* @return false if unable to read value.
+*/
 int main() {
    App app;
    return app.run();

@@ -3,29 +3,23 @@
 #include <ctime> // Used for initilizing randomisator
 #include <iostream> // Used for initilizing randomisator
 
-// The game is played between a player and a banker.
-// A canvas or felt mat marked with the six symbols is used for play.
-// The player places bets on one or more symbols.
-// He then throws the three dice.
-// If there is a bet on any symbol which comes up on one or more of the dice,
-// in addition to returning the stake the banker pays the player the amount
-// of his stake for each die showing that symbol :
-// even money if one, 2 : 1 if two, and 3 : 1 if three.
-// If the symbol doesn't come up, the player loses his bet.
-
-// For simplicity can the playes only bet on one symbol a time in this game.
-
+/**
+* @brief Play one game of crown and anchor.
+* @param bet. Set to any char string given as a symbol by the CrownAndAnchor class.
+* @return win of the game.
+*/
 int CrownAndAnchorGame::play(char* bet, int amount)
 {
    const int NUM_OF_DICE = 3;
    CrownAndAnchor::Symbol symbol = CrownAndAnchor::CROWN; // Let Crown be the default bet.
    int win = 0;
 
+   // Get if the player specified what symbol to bet on.
    if (bet != NULL)
    {
       for (int i = 0; i < CrownAndAnchor::SYMBOLS_MAX; i++)
       {
-         if (dice.isSymbol(bet, (CrownAndAnchor::Symbol)i))
+         if (dice.isSymbol(bet, i))
          {
             symbol = (CrownAndAnchor::Symbol)i;
             break;
@@ -35,6 +29,7 @@ int CrownAndAnchorGame::play(char* bet, int amount)
 
    std::cout << "Betting " << amount <<  " on " << dice.SymbolName(symbol) << ". Dices show: ";
 
+   // Throwing three dicec and see what the game result was.
    for (int i = 0; i < NUM_OF_DICE; i++)
    {
       // Throw a dice
@@ -55,6 +50,10 @@ int CrownAndAnchorGame::play(char* bet, int amount)
    return win;
 }
 
+/**
+* @brief Get Unique ID for Crown and Anchor game.
+* @return ID.
+*/
 int CrownAndAnchorGame::getID() const
 {
    return 26501; // Unique ID for this game.
