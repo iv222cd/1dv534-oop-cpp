@@ -4,7 +4,7 @@
 class TList {
    //friend class WList;
 public:
-   TList(char* tword, TList* tnext) {}
+   TList(const char* tword, TList* tnext) {}
    virtual ~TList() {}
    const char* getWord() const { return word; }
    const TList* successor() const { return nullptr; }
@@ -16,10 +16,10 @@ private:
 class WList {
 public:
    //----- instance methods
-   WList(char* wword, char* tword, WList* wnext) {}
-   ~WList() {}
+   WList(const char* wword, const char* tword, WList* wnext);
+   ~WList();
    //----- class methods belonging to the class object
-   static WList* insert(const char* wword, const char* tword) { return whead; }
+   static WList* insert(const char* wword, const char* tword);
    static bool remove(const char* wword, const char* tword) { return false; }
    static void killWlist() {}
    static void showWlist() {}
@@ -28,7 +28,7 @@ public:
    static bool load(const char* filename) { return false; }
 private:
    static WList* whead;
-   char* word;
+   const char* word;
    TList* thead;
    WList* next;
 };
