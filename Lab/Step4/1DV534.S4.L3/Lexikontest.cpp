@@ -21,7 +21,7 @@
 using namespace std;
 
 
-void show_translation ( char* wword )
+void show_translation (const char* wword )
 {
 	const TList* tp = WList::translate(wword);
 	if (tp) {
@@ -37,7 +37,7 @@ void show_translation ( char* wword )
 }
 
 
-void facit ( char* stg )
+void facit (const char* stg )
 {
 	int i;
 	char buf[10];
