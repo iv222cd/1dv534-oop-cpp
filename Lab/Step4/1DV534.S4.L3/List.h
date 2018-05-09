@@ -2,12 +2,12 @@
 #define LIST_H
 
 class TList {
-   friend class WList;
+   //friend class WList;
 public:
    TList(char* tword, TList* tnext) {}
    virtual ~TList() {}
    const char* getWord() const { return word; }
-   const TList* successor() const { return next; }
+   const TList* successor() const { return nullptr; }
 private:
    char* word;
    TList* next;
@@ -23,7 +23,7 @@ public:
    static bool remove(const char* wword, const char* tword) { return false; }
    static void killWlist() {}
    static void showWlist() {}
-   static const TList* translate(const char* wword) { return whead->thead; }
+   static const TList* translate(const char* wword) { return nullptr; }
    static bool save(const char* filename) { return false; }
    static bool load(const char* filename) { return false; }
 private:
