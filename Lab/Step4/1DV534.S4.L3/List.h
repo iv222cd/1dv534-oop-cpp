@@ -4,12 +4,12 @@
 class TList {
    //friend class WList;
 public:
-   TList(const char* tword, TList* tnext) {}
+   TList(const char* tword, TList* tnext) : word(tword), next(tnext) {}
    virtual ~TList() {}
    const char* getWord() const { return word; }
-   const TList* successor() const { return nullptr; }
+   const TList* successor() const { return next; }
 private:
-   char* word;
+   const char* word;
    TList* next;
 };
 
@@ -21,11 +21,11 @@ public:
    //----- class methods belonging to the class object
    static WList* insert(const char* wword, const char* tword);
    static bool remove(const char* wword, const char* tword) { return false; }
-   static void killWlist() {}
-   static void showWlist() {}
+   static void killWlist();
+   static void showWlist();
    static const TList* translate(const char* wword) { return nullptr; }
-   static bool save(const char* filename) { return false; }
-   static bool load(const char* filename) { return false; }
+   static bool save(const char* filename) { return true; }
+   static bool load(const char* filename) { return true; }
 private:
    static WList* whead;
    const char* word;

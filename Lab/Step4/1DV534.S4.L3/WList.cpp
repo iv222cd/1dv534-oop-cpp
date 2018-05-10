@@ -1,3 +1,4 @@
+#include <iostream>
 #include "List.h"
 
 WList* WList::whead = nullptr; // Initilizing static member variables of list
@@ -7,7 +8,7 @@ WList* WList::whead = nullptr; // Initilizing static member variables of list
 */
 WList::WList(const char* wword, const char* tword, WList* wnext) : word(wword)
 {
-   // TODO: Set WList as head for now. Later, change to insert where it should be.
+   // TODO: Set new WList as head for now. Later, change to insert where it should be.
    thead = new TList(tword, nullptr);
    next = whead;
    whead = this;
@@ -22,7 +23,7 @@ WList::~WList()
    if (thead)
    {
       const TList* tp = thead;
-      const TList* tpNext = thead->successor();
+      const TList* tpNext;
       while (tp)
       {
          tpNext = tp->successor();
@@ -45,9 +46,44 @@ WList::~WList()
 *********************************************************************/
 WList* WList::insert(const char* wword, const char* tword)
 {
-   WList* reslut = nullptr;
+   WList* newList = nullptr;
    // TODO, see if word already in list.
+   newList = new WList(wword, tword, whead);
+   return newList;
+}
 
-   
-   return reslut;
+
+void WList::killWlist()
+{
+   // Delete all objects in the list.
+   if (whead)
+   {
+      const WList* wp = whead;
+      const WList* wpNext;
+      while (wp)
+      {
+         wpNext = wp->next;
+         delete wp;
+         wp = wpNext;
+      }
+   }
+}
+
+
+void WList::showWlist()
+{
+   std::cout << "Contents of Registry\n--------------------\n";
+   const WList* wp = whead;
+   while (wp)
+   {
+      std::cout << wp->word << " :";
+      const TList* tp = wp->thead;
+      while (tp)
+      {
+         std::cout << "\t" << tp->getWord();
+         tp = tp->successor();
+      }
+      std::cout << "\n";
+      wp = wp->next;
+   }
 }
