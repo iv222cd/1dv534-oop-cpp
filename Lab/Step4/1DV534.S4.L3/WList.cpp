@@ -68,9 +68,9 @@ WList* WList::insert(const char* wword, const char* tword)
 {
    bool wordInList = false; // flag if wword is in Wlist and later if tword is in TList.
    int compare;
+   WList* wp = whead;
 
    // Check if wword is in WList.
-   WList* wp = whead;
    while (wp)
    {
       compare = strcmp(wp->word, wword);
@@ -136,6 +136,100 @@ WList* WList::insert(const char* wword, const char* tword)
    }
 
    return wp;
+}
+
+/*********************************************************************
+* static bool WList::remove( char* wword, char* tword )
+* -----------------------------------------------------
+* This class method will find the wlist node for wword, and then
+* traverse its tlist until tword is found. It will then remove that
+* TList node. If this operation makes the tlist empty, the method
+* will also remove the WList node.
+* Method will return true if operation was successful, otherwise false.
+* It will normally return false only if tword is not found for wword.
+*
+*********************************************************************/
+bool WList::remove(const char* wword, const char* tword)
+{
+   bool wordInList = false; // flag if wword is in Wlist and later if tword is in TList.
+   int compare;
+   WList* wp = whead;
+   WList* wpPrev;
+   bool status = false;
+
+   // Check if wword is in WList.
+   while (wp)
+   {
+      compare = strcmp(wp->word, wword);
+      if (compare == 0)
+      {
+         wordInList = true;
+         break;
+      }
+      else if (compare > 0)
+      {
+         break;
+      }
+      wpPrev = wp;
+      wp = wp->next;
+   }
+
+   if (wordInList)
+   {
+      // If wword in WList, check if tword in TList of this WList object.
+      wordInList = false;
+      TList* tp = wp->thead;
+      TList* tpPrev = nullptr;
+
+      while (tp)
+      {
+         compare = strcmp(tp->word, tword);
+         if (compare == 0)
+         {
+            // The wword and tword exist in the lexikon.
+            wordInList = true;
+            break;
+         }
+         else if (compare > 0)
+         {
+            break;
+         }
+         tpPrev = tp;
+         tp = tp->next;
+      }
+      if (wordInList)
+      {
+         if (tpPrev)
+         {
+            tpPrev->next = tp->next;
+            delete tp;
+         }
+         else
+         {
+            // Word is first in list.
+            if (tp->next)
+            {
+               wp->thead = tp->next;
+               delete tp;
+            }
+            else
+            {
+               if (wpPrev)
+               {
+                  wpPrev->next = wp->next;
+               }
+               else
+               {
+                  whead = wp->next;
+               }
+               delete wp;
+            }
+         }
+         status = true;
+      }
+   }
+
+   return false;
 }
 
 void WList::killWlist()
