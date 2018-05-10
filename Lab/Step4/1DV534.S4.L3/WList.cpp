@@ -77,7 +77,7 @@ WList* WList::insert(const char* wword, const char* tword)
    WList* wpTmp;
 
    // Check if wword is in WList.
-   if (findNode(wword, wpTmp, wp))
+   if (findNode(wword, wpTmp, wp, whead))
    {
       if (!wp->insertTword(tword))
       {
@@ -111,18 +111,19 @@ bool WList::remove(const char* wword, const char* tword)
    WList* wpPrev;
 
    // Check if wword is in WList.
-   if (findNode(wword, wpPrev, wp))
+   if (findNode(wword, wpPrev, wp, whead))
    {
       // If wword in WList, check if tword in TList of this WList object.
       TList* tp;
       TList* tpPrev;
 
-      if (wp->findNode(tword, tpPrev, tp))
+      if (findNode(tword, tpPrev, tp, wp->thead))
       {
-         wp->removeNode(tpPrev, tp);
+         removeNode(tpPrev, tp, wp->thead);
          if (!wp->thead)
          {
-            wp->removeNode(wpPrev, wp);
+            // TList is empty. Remove this WList node as well.
+            removeNode(wpPrev, wp, whead);
          }
          status = true;
       }
@@ -150,7 +151,8 @@ void WList::killWlist()
 
 void WList::showWlist()
 {
-   std::cout << "Contents of Registry\n--------------------\n";
+   std::cout << "Contents of Registry\n";
+   std::cout << "--------------------\n";
    const WList* wp = whead;
    while (wp)
    {
@@ -158,7 +160,7 @@ void WList::showWlist()
       const TList* tp = wp->thead;
       while (tp)
       {
-         std::cout << "\t" << tp->getWord();
+         std::cout << FILE_SEPARATOR << tp->getWord();
          tp = tp->successor();
       }
       std::cout << "\n";
@@ -172,7 +174,7 @@ const TList* WList::translate(const char* wword)
    WList* wpTmp;
    TList* tp = nullptr;
 
-   if (findNode(wword, wpTmp, wp))
+   if (findNode(wword, wpTmp, wp, whead))
    {
       tp = wp->thead;
    }
@@ -198,7 +200,7 @@ bool WList::save(const char* filename)
             tp = wp->thead;
             while (tp)
             {
-               f << "\t" << tp->getWord();
+               f << FILE_SEPARATOR << tp->getWord();
                tp = tp->successor();
             }
             f << "\n";
@@ -216,7 +218,6 @@ bool WList::save(const char* filename)
 
    return status;
 }
-
 
 bool WList::load(const char* filename)
 {
@@ -241,7 +242,7 @@ bool WList::load(const char* filename)
             tword = nullptr;
             for (c = wBuffer; c < (wBuffer + BUFFER_SIZE) && (*c != '\0'); c++)
             {
-               if (*c == '\t')
+               if (*c == FILE_SEPARATOR)
                {
                   *c = '\0';
                   if (tword)
@@ -277,7 +278,7 @@ bool WList::insertTword(const char* tword)
    TList* tpPrev;
 
    // If wword in WList, check if tword in TList of this WList object.
-   if (!findNode(tword, tpPrev, tp))
+   if (!findNode(tword, tpPrev, tp, thead))
    {
       wordInserted = true;
       // tword not in the TList for this WList object. Add it.
@@ -294,89 +295,4 @@ bool WList::insertTword(const char* tword)
    }
 
    return wordInserted;
-}
-
-void WList::removeNode(WList* prevNode, WList* node)
-{
-   if (prevNode)
-   {
-      prevNode->next = node->next;
-   }
-   else
-   {
-      whead = node->next;
-   }
-   delete node;
-}
-
-
-
-void WList::removeNode(TList* prevNode, TList* node)
-{
-   if (prevNode)
-   {
-      prevNode->next = node->next;
-   }
-   else
-   {
-      // Word is first in list.
-      thead = node->next;
-   }
-   delete node;
-}
-
-bool WList::findNode(const char* wword, WList* &prevNode, WList* &node)
-{
-   bool wordInList = false;
-   node = whead;
-   prevNode = nullptr;
-   int compare;
-
-   // If wword in WList, check if tword in TList of this WList object.
-   while (node)
-   {
-      compare = strcmp(node->word, wword);
-      if (compare == 0)
-      {
-         // The wword and tword already exist in the lexikon.
-         wordInList = true;
-         break;
-      }
-      else if (compare > 0)
-      {
-         break;
-      }
-      prevNode = node;
-      node = node->next;
-   }
-   return wordInList;
-}
-
-
-bool WList::findNode(const char* tword, TList* &prevNode, TList* &node)
-{
-   bool wordInList = false;
-   node = thead;
-   prevNode = nullptr;
-   int compare;
-
-   // If wword in WList, check if tword in TList of this WList object.
-   while (node)
-   {
-      compare = strcmp(node->word, tword);
-      if (compare == 0)
-      {
-         // The wword and tword already exist in the lexikon.
-         wordInList = true;
-         break;
-      }
-      else if (compare > 0)
-      {
-         break;
-      }
-      prevNode = node;
-      node = node->next;
-   }
-
-   return wordInList;
 }

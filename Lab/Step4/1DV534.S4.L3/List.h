@@ -27,15 +27,69 @@ public:
    static bool save(const char* filename);
    static bool load(const char* filename);
 private:
+   //----- class constants
+   static const char FILE_SEPARATOR = '\t';
+   //----- class private template methods
+   template <class T>
+   static void removeNode(T &prevNode, T &node, T &head);
+   template <class T>
+   static bool findNode(const char * word, T &prevNode, T &node, T &head);
+   //----- class privatemethods
    bool insertTword(const char* tword);
-   void removeNode(WList* prevNode, WList* node);
-   void removeNode(TList* prevNode, TList* node);
-   static bool findNode(const char* wword, WList* &prevNode, WList* &node);
-   bool findNode(const char* tword, TList* &prevNode, TList* &node);
+   //----- class private member variables
    static WList* whead;
    char* word;
    TList* thead;
    WList* next;
 };
+
+/******************************************************************************
+* Private ¨template function members
+******************************************************************************/
+
+template <class T>
+void WList::removeNode(T &prevNode, T &node, T &head)
+{
+   if (prevNode)
+   {
+      prevNode->next = node->next;
+   }
+   else
+   {
+      // Word is first in list.
+      head = node->next;
+   }
+   delete node;
+}
+
+template <class T>
+bool WList::findNode(const char * word, T &prevNode, T &node, T &head)
+{
+   bool wordInList = false;
+   int compare;
+
+   node = head;
+   prevNode = nullptr;
+
+   // If wword in WList, check if tword in TList of this WList object.
+   while (node)
+   {
+      compare = strcmp(node->word, word);
+      if (compare == 0)
+      {
+         // The wword and tword already exist in the lexikon.
+         wordInList = true;
+         break;
+      }
+      else if (compare > 0)
+      {
+         break;
+      }
+      prevNode = node;
+      node = node->next;
+   }
+   return wordInList;
+}
+
 
 #endif /* LIST_H */
