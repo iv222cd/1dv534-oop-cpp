@@ -1,13 +1,26 @@
 #include <iostream>
+#include <fstream>
+#include <sstream>
 #include "List.h"
+
+
+TList::TList(const char* tword, TList* tnext) : next(tnext)
+{
+   word = new char[strlen(tword) + 1];
+   strncpy(word, tword, strlen(tword) + 1);
+}
+
 
 WList* WList::whead = nullptr; // Initilizing static member variables of list
 
 /**
 * Constructor
 */
-WList::WList(const char* wword, const char* tword, WList* wnext) : word(wword)
+WList::WList(const char* wword, const char* tword, WList* wnext)
 {
+   word = new char[strlen(wword) + 1];
+   strncpy(word, wword, strlen(wword) + 1);
+
    thead = new TList(tword, nullptr); // TList next is a nullpointer since this is the first entry for this word
 
    // Insert this WList into the linked list.
@@ -39,6 +52,7 @@ WList::WList(const char* wword, const char* tword, WList* wnext) : word(wword)
 */
 WList::~WList()
 {
+   delete word;
    // Delete thread that belongs to this word.
    if (thead)
    {
@@ -229,7 +243,7 @@ bool WList::remove(const char* wword, const char* tword)
       }
    }
 
-   return false;
+   return status;
 }
 
 void WList::killWlist()
@@ -246,6 +260,7 @@ void WList::killWlist()
          wp = wpNext;
       }
    }
+   whead = nullptr;
 }
 
 void WList::showWlist()
@@ -280,4 +295,91 @@ const TList* WList::translate(const char* wword)
       wp = wp->next;
    }
    return tp;
+}
+
+
+bool WList::save(const char* filename)
+{
+   bool status = false;
+
+   std::fstream f;
+   f.open(filename, std::fstream::out);
+   if (f)
+   {
+      try
+      {
+         const WList* wp = whead;
+         const TList* tp;
+         while (wp)
+         {
+            f << wp->word;
+            tp = wp->thead;
+            while (tp)
+            {
+               f << "\t" << tp->getWord();
+               tp = tp->successor();
+            }
+            f << "\n";
+            wp = wp->next;
+         }
+         status = true;
+         f.close();
+      }
+      catch (...)
+      {
+         f.close();
+         throw;
+      }
+   }
+
+   return status;
+}
+
+
+bool WList::load(const char* filename)
+{
+   bool status = false;
+   const int BUFFER_SIZE = 256;
+   char wBuffer[BUFFER_SIZE];
+   char* wword = wBuffer;
+   char* tword;
+   char* c;
+
+   killWlist(); // Remove the old list.
+
+   std::fstream f;
+   f.open(filename, std::fstream::in);
+
+   if (f)
+   {
+      try
+      {
+         while (f.getline(wBuffer, BUFFER_SIZE))
+         {
+            tword = nullptr;
+            for (c = wBuffer; c < (wBuffer + BUFFER_SIZE) && (*c != '\0'); c++)
+            {
+               if (*c == '\t')
+               {
+                  *c = '\0';
+                  if (tword)
+                  {
+                     insert(wword, tword);
+                  }
+                  tword = c + 1;
+               }
+            }
+            insert(wword, tword);
+         }
+         status = true;
+         f.close();
+      }
+      catch (...)
+      {
+         f.close();
+         throw;
+      }
+   }
+
+   return status;
 }
