@@ -27,6 +27,11 @@ public:
    static bool save(const char* filename);
    static bool load(const char* filename);
 private:
+   bool insertTword(const char* tword);
+   void removeNode(WList* prevNode, WList* node);
+   void removeNode(TList* prevNode, TList* node);
+   static bool findNode(const char* wword, WList* &prevNode, WList* &node);
+   bool findNode(const char* tword, TList* &prevNode, TList* &node);
    static WList* whead;
    char* word;
    TList* thead;
