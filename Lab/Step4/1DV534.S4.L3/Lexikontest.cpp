@@ -4,12 +4,14 @@
 //				The program will test functionality of the 
 //				English/Swedish Dictionary, implementated by the
 //				Link classes TList and WList .
-// Version:		1.0  -  2000-07-15
+// Version:		1.1  -  2018-05-10
 // Copyright:	2000-07-15, Dept. of Technology, University of Kalmar
 // ------------------------------------------
 // Log:			2013-05-17	Uppdate  Version 1.1 by Anne. 
 //				Converted to VS 2012
 //				2015-03-05	Revised by Anne. Converted to VS 2013
+//				2018-05-10	Revised by Ingrid Wiklund.
+//				Converted to VS 2017 using 'const char *' instead of 'char *'.
 /**********************************************************************/
 
 
