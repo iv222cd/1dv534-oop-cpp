@@ -3,14 +3,6 @@
 #include <sstream>
 #include "List.h"
 
-
-TList::TList(const char* tword, TList* tnext) : next(tnext)
-{
-   word = new char[strlen(tword) + 1];
-   strncpy(word, tword, strlen(tword) + 1);
-}
-
-
 WList* WList::whead = nullptr; // Initilizing static member variables of list
 
 /**
@@ -18,8 +10,9 @@ WList* WList::whead = nullptr; // Initilizing static member variables of list
 */
 WList::WList(const char* wword, const char* tword, WList* wnext)
 {
-   word = new char[strlen(wword) + 1];
-   strncpy(word, wword, strlen(wword) + 1);
+   size_t size = strlen(wword) + 1;
+   word = new char[size];
+   strncpy_s(word, size, wword, size);
 
    thead = new TList(tword, nullptr); // TList next is a nullpointer since this is the first entry for this word
 
