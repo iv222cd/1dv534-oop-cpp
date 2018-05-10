@@ -8,10 +8,30 @@ WList* WList::whead = nullptr; // Initilizing static member variables of list
 */
 WList::WList(const char* wword, const char* tword, WList* wnext) : word(wword)
 {
-   // TODO: Set new WList as head for now. Later, change to insert where it should be.
-   thead = new TList(tword, nullptr);
-   next = whead;
-   whead = this;
+   thead = new TList(tword, nullptr); // TList next is a nullpointer since this is the first entry for this word
+
+   // Insert this WList into the linked list.
+   next = wnext;
+
+   // Find the object who is pointing to next and repoint it to this.
+   if (wnext == whead)
+   {
+      whead = this; // If next object is head, just repont the head to this object.
+   }
+   else
+   {
+      WList* wp = whead;
+
+      while (wp)
+      {
+         if (wp->next == wnext)
+         {
+            wp->next = this; // Repoint
+            break;
+         }
+         wp = wp->next;
+      }
+   }
 }
 
 /**
@@ -46,12 +66,55 @@ WList::~WList()
 *********************************************************************/
 WList* WList::insert(const char* wword, const char* tword)
 {
-   WList* newList = nullptr;
-   // TODO, see if word already in list.
-   newList = new WList(wword, tword, whead);
-   return newList;
-}
+   bool wordInList = false; // flag if wword is in Wlist and later if tword is in TList.
 
+   // Check if wword is in WList.
+   WList* wp = whead;
+   while (wp)
+   {
+      if (strcmp(wp->word, wword) == 0)
+      {
+         wordInList = true;
+         break;
+      }
+      else if (strcmp(wp->word, wword) > 0)
+      {
+         break;
+      }
+      wp = wp->next;
+   }
+
+   if (wordInList)
+   {
+      // If wword in WList, check if tword in TList of this WList object.
+      wordInList = false;
+      const TList* tp = wp->thead;
+      while (tp)
+      {
+         if (strcmp(tp->getWord(), tword) == 0)
+         {
+            // The wword and tword already exist in the lexikon.
+            wp = nullptr;
+            wordInList = true;
+            break;
+         }
+         tp = tp->successor();
+      }
+      if (!wordInList)
+      {
+         // tword not in the TList for this WList object. Add it.
+         wp->thead = new TList(tword, wp->thead);
+         // TODO: Add the tword to TList in order.
+      }
+   }
+   else
+   {
+      // wword not in WList, add a new one.
+      wp = new WList(wword, tword, wp);
+   }
+
+   return wp;
+}
 
 void WList::killWlist()
 {
@@ -69,7 +132,6 @@ void WList::killWlist()
    }
 }
 
-
 void WList::showWlist()
 {
    std::cout << "Contents of Registry\n--------------------\n";
@@ -86,4 +148,20 @@ void WList::showWlist()
       std::cout << "\n";
       wp = wp->next;
    }
+}
+
+const TList* WList::translate(const char* wword)
+{
+   WList* wp = whead;
+   TList* tp = nullptr;
+   while (wp)
+   {
+      if (strcmp(wp->word, wword) == 0)
+      {
+         tp = wp->thead;
+         break;
+      }
+      wp = wp->next;
+   }
+   return tp;
 }

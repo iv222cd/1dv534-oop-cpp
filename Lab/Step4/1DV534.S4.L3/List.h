@@ -23,7 +23,7 @@ public:
    static bool remove(const char* wword, const char* tword) { return false; }
    static void killWlist();
    static void showWlist();
-   static const TList* translate(const char* wword) { return nullptr; }
+   static const TList* translate(const char* wword);
    static bool save(const char* filename) { return true; }
    static bool load(const char* filename) { return true; }
 private:
