@@ -67,17 +67,19 @@ WList::~WList()
 WList* WList::insert(const char* wword, const char* tword)
 {
    bool wordInList = false; // flag if wword is in Wlist and later if tword is in TList.
+   int compare;
 
    // Check if wword is in WList.
    WList* wp = whead;
    while (wp)
    {
-      if (strcmp(wp->word, wword) == 0)
+      compare = strcmp(wp->word, wword);
+      if (compare == 0)
       {
          wordInList = true;
          break;
       }
-      else if (strcmp(wp->word, wword) > 0)
+      else if (compare > 0)
       {
          break;
       }
@@ -88,23 +90,43 @@ WList* WList::insert(const char* wword, const char* tword)
    {
       // If wword in WList, check if tword in TList of this WList object.
       wordInList = false;
-      const TList* tp = wp->thead;
+      TList* tp = wp->thead;
+      TList* tpPrev = nullptr;
+
       while (tp)
       {
-         if (strcmp(tp->getWord(), tword) == 0)
+         compare = strcmp(tp->word, tword);
+         if (compare == 0)
          {
             // The wword and tword already exist in the lexikon.
-            wp = nullptr;
             wordInList = true;
             break;
          }
-         tp = tp->successor();
+         else if (compare > 0)
+         {
+            break;
+         }
+         tpPrev = tp;
+         tp = tp->next;
       }
-      if (!wordInList)
+
+      if (wordInList)
+      {
+         wp = nullptr;
+      }
+      else
       {
          // tword not in the TList for this WList object. Add it.
-         wp->thead = new TList(tword, wp->thead);
-         // TODO: Add the tword to TList in order.
+         tp = new TList(tword, tp);
+
+         if (tpPrev)
+         {
+            tpPrev->next = tp;
+         }
+         else
+         {
+            wp->thead = tp;
+         }
       }
    }
    else

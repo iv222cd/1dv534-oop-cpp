@@ -2,7 +2,7 @@
 #define LIST_H
 
 class TList {
-   //friend class WList;
+   friend class WList;
 public:
    TList(const char* tword, TList* tnext) : word(tword), next(tnext) {}
    virtual ~TList() {}
