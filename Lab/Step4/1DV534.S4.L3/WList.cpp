@@ -151,17 +151,21 @@ void WList::killWlist()
 
 void WList::showWlist()
 {
+   const WList* wp = whead;
+   const TList* tp;
+
    std::cout << "Contents of Registry\n";
    std::cout << "--------------------\n";
-   const WList* wp = whead;
+
    while (wp)
    {
       std::cout << wp->word << " :";
-      const TList* tp = wp->thead;
+      tp = wp->thead;
+
       while (tp)
       {
-         std::cout << FILE_SEPARATOR << tp->getWord();
-         tp = tp->successor();
+         std::cout << FILE_SEPARATOR << tp->word;
+         tp = tp->next;
       }
       std::cout << "\n";
       wp = wp->next;
@@ -185,9 +189,10 @@ const TList* WList::translate(const char* wword)
 bool WList::save(const char* filename)
 {
    bool status = false;
-
    std::fstream f;
+
    f.open(filename, std::fstream::out);
+
    if (f)
    {
       try
@@ -224,9 +229,8 @@ bool WList::load(const char* filename)
    bool status = false;
    const int BUFFER_SIZE = 256;
    char wBuffer[BUFFER_SIZE];
-   char* wword = wBuffer;
-   char* tword;
-   char* c;
+   const char* wword = wBuffer;
+   const char* tword;
 
    killWlist(); // Remove the old list.
 
@@ -240,11 +244,13 @@ bool WList::load(const char* filename)
          while (f.getline(wBuffer, BUFFER_SIZE))
          {
             tword = nullptr;
-            for (c = wBuffer; c < (wBuffer + BUFFER_SIZE) && (*c != '\0'); c++)
+
+            for (char* c = wBuffer; c < (wBuffer + BUFFER_SIZE) && (*c != '\0'); c++)
             {
                if (*c == FILE_SEPARATOR)
                {
                   *c = '\0';
+
                   if (tword)
                   {
                      insert(wword, tword);
@@ -280,7 +286,6 @@ bool WList::insertTword(const char* tword)
    // If wword in WList, check if tword in TList of this WList object.
    if (!findNode(tword, tpPrev, tp, thead))
    {
-      wordInserted = true;
       // tword not in the TList for this WList object. Add it.
       tp = new TList(tword, tp);
 
@@ -292,6 +297,7 @@ bool WList::insertTword(const char* tword)
       {
          thead = tp;
       }
+      wordInserted = true;
    }
 
    return wordInserted;

@@ -44,7 +44,7 @@ private:
 };
 
 /******************************************************************************
-* Private ¨template function members
+* Private template function members
 ******************************************************************************/
 
 template <class T>
