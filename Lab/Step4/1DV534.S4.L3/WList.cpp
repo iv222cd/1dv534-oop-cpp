@@ -1,6 +1,5 @@
 #include <iostream>
 #include <fstream>
-#include <sstream>
 #include "List.h"
 
 WList* WList::whead = nullptr; // Initilizing static member variables of list
