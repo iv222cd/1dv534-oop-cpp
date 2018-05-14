@@ -18,10 +18,7 @@
     <ClCompile Include="Lexikontest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="WList.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TList.cpp">
+    <ClCompile Include="List.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

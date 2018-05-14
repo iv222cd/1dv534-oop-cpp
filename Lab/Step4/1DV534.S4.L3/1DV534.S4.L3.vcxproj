@@ -148,8 +148,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Lexikontest.cpp" />
-    <ClCompile Include="TList.cpp" />
-    <ClCompile Include="WList.cpp" />
+    <ClCompile Include="List.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="List.h" />
