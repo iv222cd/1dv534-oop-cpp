@@ -1,6 +1,11 @@
 #ifndef LIST_H
 #define LIST_H
 
+/**
+* @brief Class template for storing char string words in a linked list node.
+* The class represents one node and manage memory for it's own word.
+* The class does not keep track of the list head and does not manage memory for other nodes.
+*/
 template <class ListType>
 class List {
 public:
@@ -18,6 +23,11 @@ protected:
    ListType* next;
 };
 
+/**
+* @brief Class for a simple liked list node.
+* Uses List template as base and ands some getters.
+* Friend of WList so WList objects can manage the list as a whole.
+*/
 class TList : public List<TList> {
    friend class WList;
 public:
@@ -27,6 +37,17 @@ public:
    const TList* successor() const { return next; }
 };
 
+/**
+* @brief Class for a linked list storing a dictionary.
+* The list contains a char string word and a ponter to a linked list
+* of char string words representing the translation.
+*
+* Each class object represents a node in the list and
+* static members of this class manages the list as a whole.
+* Each node manages it's own linked list representing the translation words.
+*
+* Uses List template as base for managing memory of each node word.
+*/
 class WList : public List<WList> {
 public:
    //----- instance methods
