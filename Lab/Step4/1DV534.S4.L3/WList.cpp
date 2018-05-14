@@ -12,7 +12,7 @@ WList* WList::whead = nullptr; // Initilizing static member variables of list
 /**
 * Constructor
 */
-WList::WList(const char* wword, const char* tword, WList* wnext) : List<WList*>(wword, wnext)
+WList::WList(const char* wword, const char* tword, WList* wnext) : List<WList>(wword, wnext)
 {
    thead = new TList(tword, nullptr); // TList next is a nullpointer since this is the first entry for this word
 

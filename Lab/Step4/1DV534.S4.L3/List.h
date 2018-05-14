@@ -1,11 +1,11 @@
 #ifndef LIST_H
 #define LIST_H
 
-template <class ListPtr>
+template <class ListType>
 class List {
 public:
-   template <class ListPtr>
-   List(const char* lword, ListPtr lnext) : next(lnext) {
+   template <class ListType>
+   List(const char* lword, ListType* lnext) : next(lnext) {
       size_t size = strlen(lword) + 1;
       word = new char[size];
       strncpy_s(word, size, lword, size);
@@ -15,19 +15,19 @@ public:
    }
 protected:
    char* word;
-   ListPtr next;
+   ListType* next;
 };
 
-class TList : public List<TList*> {
+class TList : public List<TList> {
    friend class WList;
 public:
-   TList(const char* word, TList* next) : List<TList*>(word, next) {}
+   TList(const char* word, TList* next) : List<TList>(word, next) {}
    ~TList() {}
    const char* getWord() const { return word; }
    const TList* successor() const { return next; }
 };
 
-class WList : public List<WList*> {
+class WList : public List<WList> {
 public:
    //----- instance methods
    WList(const char* wword, const char* tword, WList* wnext);
@@ -54,6 +54,5 @@ private:
    static WList* whead;
    TList* thead;
 };
-
 
 #endif /* LIST_H */
