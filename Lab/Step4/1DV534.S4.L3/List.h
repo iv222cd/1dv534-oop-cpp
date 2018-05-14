@@ -39,7 +39,7 @@ public:
 
 /**
 * @brief Class for a linked list storing a dictionary.
-* The list contains a char string word and a ponter to a linked list
+* A list node contains a char string word and a ponter to a linked list
 * of char string words representing the translation.
 *
 * Each class object represents a node in the list and
