@@ -5,6 +5,10 @@
 
 WList* WList::whead = nullptr; // Initilizing static member variables of list
 
+/******************************************************************************
+* Public function members
+******************************************************************************/
+
 /**
 * Constructor
 */
@@ -266,6 +270,54 @@ bool WList::load(const char* filename)
    }
 
    return status;
+}
+
+/*****************************************************************************
+* Private template function members
+******************************************************************************/
+
+template <class T>
+void WList::removeNode(T &prevNode, T &node, T &head)
+{
+   if (prevNode)
+   {
+      prevNode->next = node->next;
+   }
+   else
+   {
+      // Word is first in list.
+      head = node->next;
+   }
+   delete node;
+}
+
+template <class T>
+bool WList::findNode(const char * word, T &prevNode, T &node, T &head)
+{
+   bool wordInList = false;
+   int compare;
+
+   node = head;
+   prevNode = nullptr;
+
+   // If wword in WList, check if tword in TList of this WList object.
+   while (node)
+   {
+      compare = strcmp(node->word, word);
+      if (compare == 0)
+      {
+         // The wword and tword already exist in the lexikon.
+         wordInList = true;
+         break;
+      }
+      else if (compare > 0)
+      {
+         break;
+      }
+      prevNode = node;
+      node = node->next;
+   }
+   return wordInList;
 }
 
 /******************************************************************************
