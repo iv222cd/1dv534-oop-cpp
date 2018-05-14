@@ -1,19 +1,33 @@
 #ifndef LIST_H
 #define LIST_H
 
-class TList {
-   friend class WList;
+template <class ListPtr>
+class List {
 public:
-   TList(const char* tword, TList* tnext);
-   virtual ~TList() { delete word; }
-   const char* getWord() const { return word; }
-   const TList* successor() const { return next; }
-private:
+   template <class ListPtr>
+   List(const char* lword, ListPtr lnext) : next(lnext) {
+      size_t size = strlen(lword) + 1;
+      word = new char[size];
+      strncpy_s(word, size, lword, size);
+   }
+   ~List() {
+      delete word;
+   }
+protected:
    char* word;
-   TList* next;
+   ListPtr next;
 };
 
-class WList {
+class TList : public List<TList*> {
+   friend class WList;
+public:
+   TList(const char* word, TList* next) : List<TList*>(word, next) {}
+   ~TList() {}
+   const char* getWord() const { return word; }
+   const TList* successor() const { return next; }
+};
+
+class WList : public List<WList*> {
 public:
    //----- instance methods
    WList(const char* wword, const char* tword, WList* wnext);
@@ -38,9 +52,7 @@ private:
    bool insertTword(const char* tword);
    //----- class private member variables
    static WList* whead;
-   char* word;
    TList* thead;
-   WList* next;
 };
 
 /******************************************************************************

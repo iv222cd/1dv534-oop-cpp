@@ -8,12 +8,8 @@ WList* WList::whead = nullptr; // Initilizing static member variables of list
 /**
 * Constructor
 */
-WList::WList(const char* wword, const char* tword, WList* wnext)
+WList::WList(const char* wword, const char* tword, WList* wnext) : List<WList*>(wword, wnext)
 {
-   size_t size = strlen(wword) + 1;
-   word = new char[size];
-   strncpy_s(word, size, wword, size);
-
    thead = new TList(tword, nullptr); // TList next is a nullpointer since this is the first entry for this word
 
    // Insert this WList into the linked list.
@@ -45,7 +41,6 @@ WList::WList(const char* wword, const char* tword, WList* wnext)
 */
 WList::~WList()
 {
-   delete word;
    // Delete thread that belongs to this word.
    if (thead)
    {
