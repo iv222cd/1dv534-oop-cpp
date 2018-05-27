@@ -30,6 +30,7 @@
 //         2018-05-27   Replacing cin in Ingrid's testpart with a stringstream,
 //                      so less manual testing is required.
 //         2018-05-27   Replacing std::exception with the less generic std::overflow_error in tests.
+//         2018-05-27   Adding test on bad input format.
 /*************************************************************************/
 
 #include <iostream>
@@ -200,6 +201,14 @@ int Application::run()
    catch (const std::overflow_error)
    {
       // All is well. Test passed. Continue...
+   }
+
+   std::stringstream ss("x/y");
+   cout << endl << ss.str() << " >> Fraction -> stream.fail() = true" << endl;
+   ss >> f3;
+   if (!ss.fail())
+   {
+      throw TestFailException("Test Failed: Stream did not fail on bad input format.");
    }
 
    // ** End section by Ingrid Wiklund ****************
