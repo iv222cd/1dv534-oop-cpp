@@ -9,7 +9,7 @@
 * Using Euclid's algorithm.
 * @return GCD
 */
-inline int Fraction::gcd()
+int Fraction::gcd()
 {
    int a = _den > _num ? _den : _num; // Let a be the biggest of denominator and numerator
    int b = _den > _num ? _num : _den; // Let b be the smallest of denominator and numerator
@@ -36,7 +36,7 @@ inline int Fraction::gcd()
 /**
 * @brief Divide with GCD and make sure that the denominator is positive
 */
-inline void Fraction::reduce()
+void Fraction::reduce()
 {
    int _gcd = gcd();
 
